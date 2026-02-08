@@ -14,6 +14,16 @@
 
 - [点击下载](https://github.com/nidhogg1024/Ctool/releases)
 
+> **macOS 用户注意**：首次打开可能提示"已损坏，无法打开"，这是因为应用未经 Apple 签名。请在终端执行以下命令后重新打开：
+>
+> ```bash
+> # DMG 文件（下载后执行）
+> xattr -cr ~/Downloads/ctool_tauri_mac_arm64.dmg
+>
+> # 如果安装到 Applications 后仍提示，再执行
+> xattr -cr /Applications/ctool.app
+> ```
+
 ### 浏览器扩展
 
 - [Chrome 应用商店](https://chrome.google.com/webstore/detail/ipfcebkfhpkjeikaammlkcnalknjahmh)
