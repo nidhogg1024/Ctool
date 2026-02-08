@@ -1,4 +1,5 @@
 # 构建发布平台适配文件
+# 流程：push tag → 创建 draft release → 各 job 并行构建上传 → 最后自动发布
 name: release-ctool-adapter
 on:
     push:
@@ -7,8 +8,25 @@ on:
     workflow_dispatch:
 
 jobs:
+    # 先创建 draft release，后续 job 往这个 release 上传 assets
+    create-release:
+        runs-on: ubuntu-latest
+        outputs:
+            release_id: ${{ steps.create.outputs.id }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Create Draft Release
+              id: create
+              uses: softprops/action-gh-release@v2
+              with:
+                  draft: true
+                  generate_release_notes: true
+
     # 构建浏览器扩展 + Web
     browser-extensions:
+        needs: create-release
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
@@ -37,9 +55,9 @@ jobs:
               run: pnpm install
 
             - name: Build core
-              run: |
-                  export NODE_OPTIONS="--max_old_space_size=4096"
-                  pnpm run build
+              run: pnpm run build
+              env:
+                  NODE_OPTIONS: "--max_old_space_size=4096"
 
             - name: Release browser extensions
               run: |
@@ -57,15 +75,16 @@ jobs:
               with:
                   files: files=_release_files
 
-            - name: Upload Release To Github
+            - name: Upload Assets
               uses: softprops/action-gh-release@v2
               with:
-                  prerelease: true
+                  draft: true
                   files: |
                       ${{ steps.get_release_files.outputs.files }}
 
     # 构建 Tauri 桌面端（macOS + Windows）
     tauri-desktop:
+        needs: create-release
         strategy:
             fail-fast: false
             matrix:
@@ -127,6 +146,8 @@ jobs:
                   pnpm --filter ctool-adapter-tauri run platform-release
                   ls ./_release/
                   node release.cjs get
+              env:
+                  TAURI_TARGET: ${{ matrix.target }}
 
             - name: Get Release Files
               uses: edwardgeorge/file-outputs-action@main
@@ -134,9 +155,38 @@ jobs:
               with:
                   files: files=_release_files
 
-            - name: Upload Release To Github
+            - name: Upload Assets
               uses: softprops/action-gh-release@v2
               with:
-                  prerelease: true
+                  draft: true
                   files: |
                       ${{ steps.get_release_files.outputs.files }}
+
+    # 所有构建完成后，将 draft 发布为正式 release
+    publish-release:
+        needs: [browser-extensions, tauri-desktop]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Publish Release
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      // 查找当前 tag 对应的 draft release
+                      const tag = context.ref.replace('refs/tags/', '');
+                      const releases = await github.rest.repos.listReleases({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                      });
+                      const draft = releases.data.find(r => r.tag_name === tag && r.draft);
+                      if (!draft) {
+                          core.setFailed(`未找到 tag ${tag} 对应的 draft release`);
+                          return;
+                      }
+                      // 将 draft 改为正式发布
+                      await github.rest.repos.updateRelease({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          release_id: draft.id,
+                          draft: false,
+                      });
+                      core.info(`Release ${tag} 已发布: ${draft.html_url}`);
