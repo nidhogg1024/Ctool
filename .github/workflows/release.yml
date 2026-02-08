@@ -115,11 +115,12 @@ jobs:
                   workspaces: packages/ctool-adapter/tauri/src-tauri
 
             - name: Build core
-              run: |
-                  export NODE_OPTIONS="--max_old_space_size=4096"
-                  pnpm run build
+              run: pnpm run build
+              env:
+                  NODE_OPTIONS: "--max_old_space_size=4096"
 
             - name: Build Tauri desktop
+              shell: bash
               run: |
                   pnpm run initialize
                   node release.cjs init
