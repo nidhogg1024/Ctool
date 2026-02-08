@@ -12,12 +12,13 @@
         "platform-release": "pnpm run release"
     },
     "dependencies": {
-        "@tauri-apps/api": "^1.4.0",
+        "@tauri-apps/api": "^2.0.0",
+        "@tauri-apps/plugin-shell": "^2.0.0",
         "ctool-adapter-base": "workspace:*",
         "ctool-config": "workspace:*"
     },
     "devDependencies": {
-        "@tauri-apps/cli": "^1.4.0",
+        "@tauri-apps/cli": "^2.0.0",
         "@types/node": "catalog:",
         "tsup": "catalog:",
         "typescript": "catalog:"
