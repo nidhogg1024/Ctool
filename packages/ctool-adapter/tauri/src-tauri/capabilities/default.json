@@ -6,8 +6,5 @@
     "permissions": [
         "core:default",
         "shell:allow-open"
-    ],
-    "remote": {
-        "urls": ["https://ctool.dev/*"]
-    }
+    ]
 }

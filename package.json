@@ -1,6 +1,6 @@
 {
     "name": "ctool",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "type": "module",
     "description": "程序开发常用工具 chrome / edge / firefox / utools / windows / linux / mac",
     "homepage": "https://github.com/nidhogg1024/Ctool",
