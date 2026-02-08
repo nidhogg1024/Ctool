@@ -1,0 +1,53 @@
+# 编译核心文件 发布到 github page 用于测试
+name: build-ctool-core
+on:
+    push:
+        branches:
+            - "master"
+        paths:
+            - "packages/**"
+            - "package.json"
+            - "pnpm-lock.yaml"
+            - "pnpm-workspace.yaml"
+            - "release.cjs"
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Use Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
+              with:
+                  version: 10
+                  run_install: false
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v4
+              with:
+                  path: ~/.local/share/pnpm/store
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Build Core
+              run: |
+                  export NODE_OPTIONS="--max_old_space_size=4096"
+                  pnpm run build
+
+            - name: Deploy web to gh-pages
+              uses: peaceiris/actions-gh-pages@v4
+              with:
+                  deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+                  publish_dir: ./packages/ctool-core/dist

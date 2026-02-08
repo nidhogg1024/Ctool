@@ -1,0 +1,44 @@
+# 代码检查
+name: Check Ctool
+on:
+    pull_request:
+        branches:
+            - "master"
+        paths:
+            - "packages/**"
+            - "package.json"
+            - "pnpm-lock.yaml"
+            - "pnpm-workspace.yaml"
+            - "release.cjs"
+
+jobs:
+    check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Use Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
+              with:
+                  version: 10
+                  run_install: false
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v4
+              with:
+                  path: ~/.local/share/pnpm/store
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Check
+              run: pnpm run check
