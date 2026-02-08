@@ -1,50 +1,28 @@
-# 程序开发常用工具
+# Ctool - 程序开发常用工具
 
-使用过程中的任何问题或者需要新的工具欢迎提交`Issue`,新工具如果可以提供实现代码就完美了O(∩_∩)O
+> Fork from [baiy/Ctool](https://github.com/baiy/Ctool)，原项目自 2023 年停止维护，本仓库继续维护和更新。
+
+使用过程中的任何问题或者需要新的工具欢迎提交 [Issue](https://github.com/nidhogg1024/Ctool/issues)
 
 ## 先睹为快
 
-![](https://cdn.jsdelivr.net/gh/baiy/Ctool@master/images/v2.0.0.png)
+![](images/v2.0.0.png)
 
 ## 安装使用
 
-### 在线使用
+### 桌面客户端（macOS / Windows）
 
-<https://ctool.dev>
+- [点击下载](https://github.com/nidhogg1024/Ctool/releases)
 
-### Chrome 安装
+### 浏览器扩展
 
-- 在 [Chrome 应用商店](https://chrome.google.com/webstore/detail/ipfcebkfhpkjeikaammlkcnalknjahmh) 安装
-
-### 微软 Edge 安装
-
-- 在 [微软 Edge 应用商店](https://microsoftedge.microsoft.com/addons/detail/cihekagpnnadjjplgljkmkpcfiopfplc) 安装
-
-### 火狐 Firefox 安装
-
-- 在 [火狐 Firefox 应用商店](https://addons.mozilla.org/zh-CN/firefox/addon/ctool/) 安装
-
-### Utools 安装
-
-- [utools](https://u.tools/) 插件中心 搜索 `ctool`
-
-### Windows 客户端安装
-
-- 在 [Microsoft 应用商店](https://www.microsoft.com/store/apps/9P63J98XZ0M1) 安装
-
-### 其他桌面客户端安装
-
-- [点击下载](https://github.com/baiy/Ctool/releases)
-
-### aur
-
-```
-paru -S ctool-bin
-```
+- [Chrome 应用商店](https://chrome.google.com/webstore/detail/ipfcebkfhpkjeikaammlkcnalknjahmh)
+- [微软 Edge 应用商店](https://microsoftedge.microsoft.com/addons/detail/cihekagpnnadjjplgljkmkpcfiopfplc)
+- [火狐 Firefox 应用商店](https://addons.mozilla.org/zh-CN/firefox/addon/ctool/)
 
 ## 开发
 
-```
+```bash
 # 安装依赖
 pnpm install
 
@@ -54,24 +32,23 @@ pnpm run dev
 # 编译核心文件
 pnpm run build
 
-## 打包适配发布平台
-// 所有平台
-pnpm run release
-// chrome
-pnpm --filter ctool-adapter-chrome run platform-release
-// edge
-pnpm --filter ctool-adapter-edge run platform-release
-// tauri 无法交叉编译, 请在对应操作系统下运行
+# 打包桌面端（需要 Rust 环境，无法交叉编译，请在对应操作系统下运行）
 pnpm --filter ctool-adapter-tauri run platform-release
-// firefox
+
+# 打包浏览器扩展
+pnpm --filter ctool-adapter-chrome run platform-release
+pnpm --filter ctool-adapter-edge run platform-release
 pnpm --filter ctool-adapter-firefox run platform-release
-// utools
-pnpm --filter ctool-adapter-utools run platform-release
-// web
-pnpm --filter ctool-adapter-web run platform-release
 ```
 
-> 打包适配平台文件存放位置: /_release
+> 打包文件存放位置: `/_release`
+
+## 更新日志
+
+### v2.4.0+（本仓库维护）
+
+- 升级 Tauri v1 → v2，支持 macOS 26（Tahoe）
+- 移除 uTools 适配（如有需要可自行构建）
 
 ## 功能列表
 
@@ -111,3 +88,7 @@ pnpm --filter ctool-adapter-web run platform-release
 |Bcrypt |`加密`,`验证` |√|
 |IP网络计算器|`子网掩码各个进制表示换算,IP地址进制表示换算`  |√|
 |SQL参数填充|`Mybatis打印SQL的参数填充`|√|
+
+## 致谢
+
+感谢原作者 [baiy](https://github.com/baiy) 创建了这个优秀的工具集。

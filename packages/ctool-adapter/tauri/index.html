@@ -7,7 +7,8 @@
     <link rel="icon" href="./favicon.ico" type="image/x-ico">
     <meta name="X-UA-Compatible" content="IE=edge, chrome=1">
     <script>
-        window.__TAURI__.invoke("ctool_is_use_offline").then((result) => {
+        // Tauri v2: invoke 位于 window.__TAURI__.core 下
+        window.__TAURI__.core.invoke("ctool_is_use_offline").then((result) => {
             console.log(result)
             if (result) {
                 return window.location.href = "./tool.html"

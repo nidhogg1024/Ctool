@@ -3,9 +3,9 @@
     "version": "2.4.0",
     "type": "module",
     "description": "程序开发常用工具 chrome / edge / firefox / utools / windows / linux / mac",
-    "homepage": "https://ctool.dev",
-    "repository": "https://github.com/baiy/Ctool",
-    "author": "baiy",
+    "homepage": "https://github.com/nidhogg1024/Ctool",
+    "repository": "https://github.com/nidhogg1024/Ctool",
+    "author": "nidhogg1024",
     "license": "MIT",
     "scripts": {
         "initialize": "pnpm --filter ctool-config run build && pnpm --filter ctool-adapter-base run build && pnpm -r run adapter-build",
@@ -26,5 +26,11 @@
     "dependencies": {
         "ctool-config": "workspace:*",
         "http-proxy": "^1.18.1"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "esbuild",
+            "vue-demi"
+        ]
     }
 }
