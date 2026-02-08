@@ -1,0 +1,141 @@
+# 构建发布平台适配文件
+name: release-ctool-adapter
+on:
+    push:
+        tags:
+            - "v*.*.*"
+    workflow_dispatch:
+
+jobs:
+    # 构建浏览器扩展 + Web
+    browser-extensions:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Use Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
+              with:
+                  version: 10
+                  run_install: false
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v4
+              with:
+                  path: ~/.local/share/pnpm/store
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Build core
+              run: |
+                  export NODE_OPTIONS="--max_old_space_size=4096"
+                  pnpm run build
+
+            - name: Release browser extensions
+              run: |
+                  node release.cjs init
+                  pnpm --filter ctool-adapter-chrome run platform-release
+                  pnpm --filter ctool-adapter-edge run platform-release
+                  pnpm --filter ctool-adapter-firefox run platform-release
+                  pnpm --filter ctool-adapter-web run platform-release
+                  ls -lh ./_release/
+                  node release.cjs get
+
+            - name: Get Release Files
+              uses: edwardgeorge/file-outputs-action@main
+              id: get_release_files
+              with:
+                  files: files=_release_files
+
+            - name: Upload Release To Github
+              uses: softprops/action-gh-release@v2
+              with:
+                  prerelease: true
+                  files: |
+                      ${{ steps.get_release_files.outputs.files }}
+
+    # 构建 Tauri 桌面端（macOS + Windows）
+    tauri-desktop:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - platform: macos-latest
+                      target: aarch64-apple-darwin
+                    - platform: macos-13
+                      target: x86_64-apple-darwin
+                    - platform: windows-latest
+                      target: x86_64-pc-windows-msvc
+
+        runs-on: ${{ matrix.platform }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Use Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
+              with:
+                  version: 10
+                  run_install: false
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v4
+              with:
+                  path: ~/.local/share/pnpm/store
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Install Rust stable
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: ${{ matrix.target }}
+
+            - name: Rust cache
+              uses: Swatinem/rust-cache@v2
+              with:
+                  workspaces: packages/ctool-adapter/tauri/src-tauri
+
+            - name: Build core
+              run: |
+                  export NODE_OPTIONS="--max_old_space_size=4096"
+                  pnpm run build
+
+            - name: Build Tauri desktop
+              run: |
+                  pnpm run initialize
+                  node release.cjs init
+                  pnpm --filter ctool-adapter-tauri run platform-release
+                  ls ./_release/
+                  node release.cjs get
+
+            - name: Get Release Files
+              uses: edwardgeorge/file-outputs-action@main
+              id: get_release_files
+              with:
+                  files: files=_release_files
+
+            - name: Upload Release To Github
+              uses: softprops/action-gh-release@v2
+              with:
+                  prerelease: true
+                  files: |
+                      ${{ steps.get_release_files.outputs.files }}
