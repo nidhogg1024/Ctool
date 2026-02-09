@@ -53,7 +53,7 @@ import { ComponentSizeType } from "@/types";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { timezoneOptions } from "./util/timezone";
+import { timezoneOptions, resolveTimezone } from "./util/timezone";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -81,7 +81,7 @@ const action = useAction(
         {
             type: "",
             input: "",
-            timezone: [...new Set([dayjs.tz.guess(), ...defaultTimezoneLists])].slice(0, 7),
+            timezone: [...new Set([resolveTimezone(dayjs.tz.guess()), ...defaultTimezoneLists])].slice(0, 7),
         },
         { paste: false },
     ),

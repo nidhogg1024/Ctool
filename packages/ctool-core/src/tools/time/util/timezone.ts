@@ -436,6 +436,33 @@ const timezoneMap = [
     { name: "Pacific/Wallis", zh_CN: "瓦利斯" },
 ];
 
+// 现代时区名 -> 旧时区名的映射（dayjs.tz.guess() 可能返回现代名称）
+const timezoneAliases: Record<string, string> = {
+    "Asia/Kolkata": "Asia/Calcutta",
+    "Asia/Kathmandu": "Asia/Katmandu",
+    "Asia/Ho_Chi_Minh": "Asia/Saigon",
+    "Asia/Yangon": "Asia/Rangoon",
+    "Europe/Kyiv": "Europe/Kiev",
+    "Pacific/Chuuk": "Pacific/Truk",
+    "Pacific/Pohnpei": "Pacific/Ponape",
+    "America/Nuuk": "America/Godthab",
+    "Africa/Asmara": "Africa/Asmera",
+};
+
+// 将 dayjs.tz.guess() 返回的时区名映射到 timezoneMap 中已有的名称
+export const resolveTimezone = (tz: string): string => {
+    // 直接匹配
+    if (timezoneMap.some(item => item.name === tz)) {
+        return tz;
+    }
+    // 别名匹配
+    if (timezoneAliases[tz]) {
+        return timezoneAliases[tz];
+    }
+    // 兜底：上海
+    return "Asia/Shanghai";
+};
+
 const day = dayjs();
 
 export const timezoneOptions = timezoneMap

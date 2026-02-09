@@ -135,7 +135,7 @@ const getOptions = $computed(() => {
 
 const placeholderValue = $computed(() => {
     if (selected !== "__placeholder__") {
-        return getOptions.filter(item => item.value === selected)[0].label || props.placeholder;
+        return getOptions.find(item => item.value === selected)?.label || props.placeholder;
     }
     return props.placeholder;
 });

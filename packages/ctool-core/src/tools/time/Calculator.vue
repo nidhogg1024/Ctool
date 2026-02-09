@@ -95,7 +95,10 @@ const getRate = (value) => {
 }
 
 const poor = $computed(() => {
-    return dayjs(action.current.poor.input2).diff(dayjs(action.current.poor.input1), action.current.poor.unit as any)
+    // 使用浮点精度计算，保留两位小数
+    // 例如：15分钟 = 0.25小时，而非截断为0
+    const floatResult = dayjs(action.current.poor.input2).diff(dayjs(action.current.poor.input1), action.current.poor.unit as any, true)
+    return parseFloat(floatResult.toFixed(2))
 })
 
 const operation = $computed(() => {
@@ -107,8 +110,9 @@ const operation = $computed(() => {
         const type = action.current.operation.type === '+' ? 'add' : 'subtract'
         return dayjs(action.current.operation.input)[type](action.current.operation.length, action.current.operation.unit as any).format('YYYY-MM-DD HH:mm:ss')
     }
+    // 使用 valueOf() 保留毫秒精度，避免 unix() 截断
     return dayjs(
-        dayjs(action.current.operation.input).unix() * 1000
+        dayjs(action.current.operation.input).valueOf()
         + (rate * action.current.operation.length) * (action.current.operation.type === '+' ? 1 : -1)
     ).format('YYYY-MM-DD HH:mm:ss');
 })

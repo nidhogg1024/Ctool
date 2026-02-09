@@ -99,7 +99,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { onUnmounted, watch } from "vue";
 import { Format, transform, InputType } from "./util/timestamp";
-import { timezoneOptions } from "./util/timezone";
+import { timezoneOptions, resolveTimezone } from "./util/timezone";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -110,7 +110,7 @@ const action = useAction(
     await initialize(
         {
             input: "",
-            timezone: dayjs.tz.guess(),
+            timezone: resolveTimezone(dayjs.tz.guess()),
             format,
         },
         {
