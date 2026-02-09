@@ -186,6 +186,18 @@
     "chinese_units": "Chinese Units",
     "angle_units": "Angle Units",
     "radian_units": "Radian Units",
+    "bandwidth": "Bandwidth",
+    "bandwidth_bps": "Bits per second (bps)",
+    "bandwidth_kbps": "Kilobits per second (Kbps)",
+    "bandwidth_mbps": "Megabits per second (Mbps)",
+    "bandwidth_gbps": "Gigabits per second (Gbps)",
+    "bandwidth_tbps": "Terabits per second (Tbps)",
+    "bandwidth_bps_byte": "Bytes per second (B/s)",
+    "bandwidth_kbps_byte": "Kilobytes per second (KB/s)",
+    "bandwidth_mbps_byte": "Megabytes per second (MB/s)",
+    "bandwidth_gbps_byte": "Gigabytes per second (GB/s)",
+    "bandwidth_bit": "Bit Rate",
+    "bandwidth_byte": "Byte Rate",
     "all": "All"
 }
 

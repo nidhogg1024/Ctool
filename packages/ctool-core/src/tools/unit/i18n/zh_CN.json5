@@ -187,5 +187,17 @@
     "chinese_units": "市制",
     "angle_units": "角度制",
     "radian_units": "弧度制",
+    "bandwidth": "网络带宽",
+    "bandwidth_bps": "比特/秒 (bps)",
+    "bandwidth_kbps": "千比特/秒 (Kbps)",
+    "bandwidth_mbps": "兆比特/秒 (Mbps)",
+    "bandwidth_gbps": "吉比特/秒 (Gbps)",
+    "bandwidth_tbps": "太比特/秒 (Tbps)",
+    "bandwidth_bps_byte": "字节/秒 (B/s)",
+    "bandwidth_kbps_byte": "千字节/秒 (KB/s)",
+    "bandwidth_mbps_byte": "兆字节/秒 (MB/s)",
+    "bandwidth_gbps_byte": "吉字节/秒 (GB/s)",
+    "bandwidth_bit": "比特速率",
+    "bandwidth_byte": "字节速率",
     "all": "全部"
 }

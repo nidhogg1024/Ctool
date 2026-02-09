@@ -1250,6 +1250,78 @@ export const config: ConfigType[] = [
             },
         ],
     },
+    {
+        // 网络带宽（基于 SI 十进制，1 Kbps = 1000 bps）
+        key: "bandwidth",
+        main: "bps",
+        unit: [
+            {
+                key: "bps",
+                unit: "bps",
+                calc: `x`,
+                init: `x`,
+            },
+            {
+                key: "kbps",
+                unit: "Kbps",
+                calc: `x / 1000`,
+                init: `x * 1000`,
+            },
+            {
+                key: "mbps",
+                unit: "Mbps",
+                calc: `x / (10^6)`,
+                init: `x * (10^6)`,
+            },
+            {
+                key: "gbps",
+                unit: "Gbps",
+                calc: `x / (10^9)`,
+                init: `x * (10^9)`,
+            },
+            {
+                key: "tbps",
+                unit: "Tbps",
+                calc: `x / (10^12)`,
+                init: `x * (10^12)`,
+            },
+            {
+                key: "bps_byte",
+                unit: "B/s",
+                calc: `x / 8`,
+                init: `x * 8`,
+            },
+            {
+                key: "kbps_byte",
+                unit: "KB/s",
+                calc: `x / 8000`,
+                init: `x * 8000`,
+            },
+            {
+                key: "mbps_byte",
+                unit: "MB/s",
+                calc: `x / (8 * 10^6)`,
+                init: `x * (8 * 10^6)`,
+            },
+            {
+                key: "gbps_byte",
+                unit: "GB/s",
+                calc: `x / (8 * 10^9)`,
+                init: `x * (8 * 10^9)`,
+            },
+        ],
+        special: [],
+        group: [
+            {
+                key: "bandwidth_bit",
+                list: ["bps", "kbps", "mbps", "gbps", "tbps"],
+            },
+            {
+                key: "bandwidth_byte",
+                list: ["bps_byte", "kbps_byte", "mbps_byte", "gbps_byte"],
+            },
+        ],
+    },
 ];
 
 export const getGroupByUnit = (type: string, unit: string) => {
