@@ -6,7 +6,7 @@
             :lang="action.current.option.lang"
             :height="`${height}px`"
         >
-            <Select size="small" v-model="action.current.option.lang" :options="allLanguage" />
+            <Select size="small" v-model="action.current.option.lang" :options="allLanguage" filterable filterPlaceholder="Search language..." />
         </Diff>
     </HeightResize>
 </template>
