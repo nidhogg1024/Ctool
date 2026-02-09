@@ -2,11 +2,13 @@ import storage from "@/helper/storage"
 import {HistoryItemStructure} from "@/types"
 import event from "@/event"
 import {toolExists, getTool} from "@/config"
+import Message from "@/helper/message"
+import {$t} from "@/i18n"
 import dayjs from "dayjs"
 import {cloneDeep, isEqual} from "lodash";
 
-// 工具缓存数据过期时间(秒)
-const TOOL_DATA_EXPIRY: number = 3600 * 24 * 7
+// 工具缓存数据过期时间(秒) 0 表示不过期
+const TOOL_DATA_EXPIRY: number = 0
 // 最大历史条数
 const HISTORY_MAX_LENGTH: number = 50
 // 历史数据最大长度
@@ -51,6 +53,7 @@ class History<T = any> {
         const itemLength = JSON.stringify(item).length;
         if (itemLength > HISTORY_MAX_SIZE) {
             console.log(`skip data too big:${itemLength} > ${HISTORY_MAX_SIZE}`)
+            Message.info($t("main_history_save_too_large"))
             return;
         }
 

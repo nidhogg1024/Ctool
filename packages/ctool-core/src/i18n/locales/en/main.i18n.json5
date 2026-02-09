@@ -91,5 +91,6 @@
     "auto_fill_explain": "Prioritize the use of historical data within {0} seconds",
     "history_icon_badge_hidden": "Hide History Icon Badge",
     "content_clear": "Clear Input",
-    "setting_zoom": "UI Zoom"
+    "setting_zoom": "UI Zoom",
+    "history_save_too_large": "Data too large, not saved to history"
 }

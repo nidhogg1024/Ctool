@@ -109,6 +109,9 @@ class contextMenu {
 
     private handles: { [key in contextMenuType]?: menuHandle } = {};
 
+    // 标记编辑器是否已销毁，防止 setTimeout 回调访问已释放的资源
+    private _disposed = false;
+
     constructor(editor: monaco.editor.IStandaloneCodeEditor) {
         this.editor = editor;
         this.initMenu();
@@ -118,10 +121,18 @@ class contextMenu {
             this.removeDefaultMenu();
         });
         this.removeDefaultMenu();
+        // 监听编辑器销毁事件
+        this.editor.onDidDispose(() => {
+            this._disposed = true;
+        });
     }
 
     private removeDefaultMenu() {
         setTimeout(() => {
+            // 编辑器已销毁，跳过操作
+            if (this._disposed) {
+                return;
+            }
             // 移除多余右键菜单
             this.editor.createContextKey("editorHasDocumentFormattingProvider", false);
             // this.editor.createContextKey("editorHasDocumentSymbolProvider", false);

@@ -28,7 +28,6 @@ import { createTextInput, createTextOutput } from "@/components/text";
 import Text from "@/helper/text"
 import {rc4, Option} from "../cryptoJS"
 import { watch } from "vue";
-import Input from "@/components/text/input";
 
 const option: Option = {
     key: "",

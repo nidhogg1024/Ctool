@@ -91,5 +91,6 @@
     "auto_fill_explain": "优先使用 {0} 秒内历史数据",
     "history_icon_badge_hidden": "隐藏历史记录图标角标",
     "content_clear": "清空输入",
-    "setting_zoom": "界面缩放"
+    "setting_zoom": "界面缩放",
+    "history_save_too_large": "数据过大，未保存到历史记录"
 }
