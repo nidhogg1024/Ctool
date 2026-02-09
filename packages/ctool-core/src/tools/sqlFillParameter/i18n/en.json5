@@ -1,4 +1,5 @@
 {
     'parameter': 'Parameter',
     'parameter_too_little': 'No Enough Parameters',
+    'named_param_missing': 'Named parameter not found: {name}',
 }

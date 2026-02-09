@@ -1,4 +1,5 @@
 {
     'parameter': '参数',
     'parameter_too_little': '参数个数不足',
+    'named_param_missing': '未找到具名参数: {name}',
 }

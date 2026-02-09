@@ -2,24 +2,24 @@
     <HeightResize v-slot="{height}" ignore :reduce="5">
         <Align direction="vertical">
             <div v-row="`1-1`">
-                <Textarea
+                <Editor
                     v-model="action.current.input"
+                    lang="sql"
                     :height="height/2"
-                    :placeholder="`Sql:SELECT * FROM T WHERE id=? AND name = ?`"
-                    copy="Sql"
+                    :placeholder="`Sql: SELECT * FROM T WHERE id=? AND name=?`"
                 />
                 <Textarea
                     v-model="action.current.params"
                     :height="height/2"
-                    :placeholder="`${$t('sqlFillParameter_parameter')}:1(Integer),zhangshan(String)`"
+                    :placeholder="`${$t('sqlFillParameter_parameter')}:\n?模式: 1(Integer),zhangshan(String)\n具名模式: id=1(Integer),name=zhangshan(String)`"
                     :copy="$t('sqlFillParameter_parameter')"
                 />
             </div>
-            <Textarea
+            <Editor
                 :model-value="output"
-                copy
+                lang="sql"
                 :height="height/2"
-                :placeholder="`${$t('main_ui_output')}:SELECT * FROM T WHERE id=1 AND name='zhangshan'`"
+                :placeholder="`${$t('main_ui_output')}: SELECT * FROM T WHERE id=1 AND name='zhangshan'`"
             />
         </Align>
     </HeightResize>
@@ -101,49 +101,149 @@ const convertParam = (params: string) => {
     }
 }
 
+/**
+ * 根据参数类型格式化参数值
+ */
+const formatParamValue = (param: { value: string, type: string | null }) => {
+    switch (param.type) {
+        case TYPE_STR[0]: // String
+            return ' \'' + param.value + '\''
+        case TYPE_STR[1]: // Integer
+        case TYPE_STR[2]: // Long
+            return param.value
+        case TYPE_STR[3]: // Timestamp
+            return 'Timestamp \'' + param.value + '\''
+        default: // 其他类型直接拼接原始值
+            return param.value
+    }
+}
+
+/**
+ * 检测 SQL 是否使用具名参数（:name 或 #{name} 格式）
+ */
+const detectNamedParams = (sql: string): 'positional' | 'colon' | 'mybatis' => {
+    // 先检查 #{name} 格式（MyBatis 风格）
+    if (/#{(\w+)}/.test(sql)) {
+        return 'mybatis'
+    }
+    // 再检查 :name 格式（Spring JDBC / PostgreSQL 风格），排除 :: 类型转换
+    // 使用 (^|[^:]) 替代 lookbehind (?<!:) 以兼容旧版 Safari
+    if (/(^|[^:]):(\w+)/.test(sql)) {
+        return 'colon'
+    }
+    return 'positional'
+}
+
+/**
+ * 将参数字符串解析为具名参数 Map
+ * 格式：name=value(type),age=value(type)
+ */
+const convertNamedParam = (params: string): Map<string, { value: string, type: string | null }> => {
+    const result = new Map<string, { value: string, type: string | null }>()
+    if (!params) return result
+
+    // 按逗号分割，处理值中包含逗号的情况（与 convertParam 类似的合并策略）
+    let tempList = params.split(',', -1)
+    let paramStrList: string[] = []
+    let paramIndex = 0
+    let combining = false
+
+    tempList.forEach((x) => {
+        if (x.endsWith('null') && x.includes('=')) {
+            paramStrList.push(x)
+            paramIndex++
+        } else if (x.endsWith(')')) {
+            if (combining) {
+                paramStrList[paramIndex] += ',' + x
+                combining = false
+            } else {
+                paramStrList.push(x)
+            }
+            paramIndex++
+        } else {
+            let tempStr = paramStrList[paramIndex]
+            if (!tempStr) {
+                paramStrList.push(x)
+                combining = true
+            } else {
+                paramStrList[paramIndex] += ',' + x
+            }
+        }
+    })
+
+    paramStrList.forEach(item => {
+        const eqIndex = item.indexOf('=')
+        if (eqIndex < 0) return
+        const name = item.substring(0, eqIndex).trim()
+        const rest = item.substring(eqIndex + 1)
+
+        const valueEndIndex = rest.lastIndexOf('(')
+        if (valueEndIndex < 0) {
+            result.set(name, { value: rest.trim(), type: null })
+            return
+        }
+        let value = rest.substring(0, valueEndIndex).trim()
+        value = value.replaceAll('\'', '\\\'')
+        const typeEndIndex = rest.lastIndexOf(')')
+        const type = rest.substring(valueEndIndex + 1, typeEndIndex < 0 ? rest.length : typeEndIndex).trim()
+        result.set(name, { value, type })
+    })
+
+    return result
+}
+
 const fill = () => {
     if (!action.current.input || !action.current.params) {
         return ""
     }
-    // 解析参数
+
+    const paramStyle = detectNamedParams(action.current.input)
+
+    // 具名参数模式：:name 或 #{name}
+    if (paramStyle === 'colon' || paramStyle === 'mybatis') {
+        const paramMap = convertNamedParam(action.current.params)
+        let result = action.current.input
+
+        if (paramStyle === 'mybatis') {
+            // 替换 #{name} 占位符
+            result = result.replace(/#\{(\w+)\}/g, (_match, name) => {
+                const param = paramMap.get(name)
+                if (!param) {
+                    throw new Error($t('sqlFillParameter_named_param_missing').replace('{name}', name))
+                }
+                return formatParamValue(param)
+            })
+        } else {
+            // 替换 :name 占位符，排除 :: 类型转换
+            // 使用 (::?) 匹配替代 lookbehind (?<!:) 以兼容旧版 Safari
+            result = result.replace(/(::?)(\w+)/g, (_match, prefix, name) => {
+                // :: 是 PostgreSQL 类型转换语法，原样保留
+                if (prefix === '::') return _match
+                const param = paramMap.get(name)
+                if (!param) {
+                    throw new Error($t('sqlFillParameter_named_param_missing').replace('{name}', name))
+                }
+                return formatParamValue(param)
+            })
+        }
+
+        return result
+    }
+
+    // 位置参数模式（原有逻辑）：?
     let paramList = convertParam(action.current.params)
-    // 按字读取SQL，将?做替换
     let tempSqlStr = action.current.input
-    let resultStr = '' // 替换后的字符串
-    let paramIndex = 0 // 参数访问索引
-    let tempParamStr = '' // 用于存放参数字符串
+    let resultStr = ''
+    let paramIndex = 0
     for (let i = 0; i < tempSqlStr.length; i++) {
-        // 检查到？就进行参数替换，不考虑SQL本身的合法性，不做SQL的语法和词法分析
         let c = tempSqlStr.charAt(i)
         if (c === '?') {
-            // 需要检查参数列表的越界
             if (paramList.length <= paramIndex) {
                 throw new Error($t('sqlFillParameter_parameter_too_little'))
             }
-            let param = paramList[paramIndex]
-            switch (param.type) {
-                // String
-                case TYPE_STR[0]:
-                    tempParamStr = ' \'' + param.value + '\''
-                    break
-                // Integer
-                // Long
-                case TYPE_STR[1]:
-                case TYPE_STR[2]:
-                    tempParamStr = param.value
-                    break
-                // Timestamp
-                case TYPE_STR[3]:
-                    tempParamStr = 'Timestamp \'' + param.value + '\''
-                    break
-                // 其他类型直接拼接原始字符
-                default:
-                    tempParamStr = param.value
-            }
-            // 字符拼接
-            resultStr += tempParamStr
+            resultStr += formatParamValue(paramList[paramIndex])
             paramIndex++
-        } else { // 正常拼接
+        } else {
             resultStr += c
         }
     }
