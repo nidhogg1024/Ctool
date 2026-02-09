@@ -1,0 +1,5 @@
+{
+    "payload_placeholder": "请输入 Payload JSON，例如: {\"sub\":\"1234567890\",\"name\":\"test\",\"iat\":1516239022}",
+    "secret_placeholder": "Secret 密钥",
+    "output_placeholder": "生成的 JWT Token"
+}

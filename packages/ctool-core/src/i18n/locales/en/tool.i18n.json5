@@ -64,6 +64,8 @@
     "ascii": "ASCII",
     "variableConversion": "Variable Name",
     "jwt": "JWT",
+    "jwt_decoder": "Decoder",
+    "jwt_encoder": "Encoder",
     "hexString": "Hex/String",
     "hexString_stringToHex": "String => Hex",
     "hexString_hexToString": "Hex => String",

@@ -1,0 +1,5 @@
+{
+    "payload_placeholder": "Enter Payload JSON, e.g. {\"sub\":\"1234567890\",\"name\":\"test\",\"iat\":1516239022}",
+    "secret_placeholder": "Secret Key",
+    "output_placeholder": "Generated JWT Token"
+}

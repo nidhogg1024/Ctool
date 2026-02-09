@@ -128,7 +128,7 @@ export let _tools = {
         parent_directory: "",
     },
     jwt: {
-        feature: ["jwt"],
+        feature: ["decoder", "encoder"],
         parent_directory: "",
     },
     hexString: {
