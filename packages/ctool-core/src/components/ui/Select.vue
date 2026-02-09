@@ -10,18 +10,21 @@
         <details role="list" ref="details">
             <summary aria-haspopup="listbox" role="button" class="ctool-select-summary">{{ placeholderValue }}</summary>
             <ul role="listbox" class="ctool-select-option-hidden" v-if="!dialog">
-                <li v-if="filterable" class="ctool-select-search-item">
+                <li v-if="filterable" class="ctool-select-search-item" @click.stop>
                     <input
+                        ref="searchInput"
                         v-model="searchKeyword"
                         class="ctool-select-search-input"
                         :placeholder="filterPlaceholder"
-                        @click.stop
                     />
                 </li>
                 <li v-for="item in filteredOptions" :key="item.value">
                     <a @click="selected = item.value">
                         {{ item.label }}{{ item.description !== "" ? ` - ${item.description}` : "" }}</a
                     >
+                </li>
+                <li v-if="filterable && filteredOptions.length === 0" class="ctool-select-no-result">
+                    No results
                 </li>
             </ul>
         </details>
@@ -113,6 +116,7 @@ const props = defineProps({
     },
 });
 const container = $ref<HTMLElement | null>(null);
+const searchInput = $ref<HTMLInputElement | null>(null);
 let selectLeftWidth = $ref(0);
 let menuTextWidth = $ref(0);
 let menuPosition = $ref<Record<"top" | "right" | "left" | "bottom", string>>({
@@ -236,6 +240,10 @@ const toggle = () => {
             container.querySelector("ul")?.classList.remove("ctool-select-option-hidden");
             searchKeyword = ""; // 打开时清空搜索
             update();
+            // 自动聚焦搜索框
+            if (props.filterable) {
+                nextTick(() => searchInput?.focus());
+            }
         } else {
             container.querySelector("ul")?.classList.add("ctool-select-option-hidden");
         }
@@ -366,34 +374,55 @@ onUnmounted(() => {
 
 /* 搜索输入框样式 */
 .ctool-select-search-item {
-    padding: 0.3rem 0.5rem !important;
+    padding: 0.3rem 0.6rem 0.2rem !important;
     position: sticky;
     top: 0;
     background: var(--ctool-background-color);
     z-index: 1;
+    border-bottom: 1px solid var(--ctool-border-color);
+    margin-bottom: 0;
 }
 
 .ctool-select-search-input {
     width: 100%;
-    padding: 0.25rem 0.5rem;
-    border: 1px solid var(--ctool-border-color);
-    border-radius: 4px;
+    padding: 0.2rem 0;
+    border: none;
+    border-radius: 0;
     font-size: 0.8rem;
     outline: none;
-    background: var(--ctool-background-color);
+    background: transparent;
     color: var(--ctool-color-primary);
+    box-shadow: none;
+    margin: 0;
+}
+
+.ctool-select-search-input::placeholder {
+    color: var(--ctool-info-color);
+    opacity: 0.6;
+    font-size: 0.75rem;
 }
 
 .ctool-select-search-input:focus {
-    border-color: var(--ctool-primary);
+    border: none;
+    box-shadow: none;
 }
 
+/* 无搜索结果提示 */
+.ctool-select-no-result {
+    padding: 0.5rem 0.9rem !important;
+    color: var(--ctool-info-color);
+    font-size: 0.8rem;
+    text-align: center;
+    cursor: default;
+}
+
+/* dialog 模式搜索框 */
 .ctool-select-dialog-search {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.4rem 0.6rem;
     border: 1px solid var(--ctool-border-color);
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     outline: none;
     background: var(--ctool-background-color);
     color: var(--ctool-color-primary);

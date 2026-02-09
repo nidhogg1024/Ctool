@@ -27,6 +27,7 @@
                         />
                     </template>
                 </Input>
+                <Bool v-model="collapse" :label="$t(`diffs_collapse`)" size="small" border />
                 <Bool v-model="inline" :label="$t(`component_editor_inline`)" size="small" border />
                 <slot></slot>
             </Align>
@@ -93,6 +94,7 @@ const changes = ref<number>(0);
 const currentChange = ref<number>(1);
 
 const inline = ref(false);
+const collapse = ref(false);
 
 const updateEditorConfig = async () => {
     if (!editorView.value) {
@@ -106,6 +108,9 @@ const updateEditorConfig = async () => {
     
     editorView.value.updateOptions({
         renderSideBySide: !inline.value,
+        hideUnchangedRegions: {
+            enabled: collapse.value,
+        },
     });
     
     // 主题
@@ -131,6 +136,9 @@ const create = async (element: HTMLElement) => {
             scrollBeyondLastLine: false,
             renderSideBySide: !inline.value,
             enableSplitViewResizing: false,
+            hideUnchangedRegions: {
+                enabled: collapse.value,
+            },
             scrollbar: {
                 verticalScrollbarSize: 5,
             },
@@ -186,6 +194,21 @@ const location = (type: "prev" | "next") => {
     currentChange.value = current;
 };
 
+// 暴露格式化方法供父组件调用
+const beautifyBoth = async (formatter: (lang: string, code: string) => Promise<string>) => {
+    if (!editorView.value) return;
+    const origText = editorView.value.getOriginalEditor().getValue();
+    const modText = editorView.value.getModifiedEditor().getValue();
+    const [newOrig, newMod] = await Promise.all([
+        origText ? formatter(props.lang, origText) : Promise.resolve(origText),
+        modText ? formatter(props.lang, modText) : Promise.resolve(modText),
+    ]);
+    original.value = newOrig;
+    modified.value = newMod;
+};
+
+defineExpose({ beautifyBoth });
+
 onMounted(async () => {
     !props.disableClear && event.addListener("content_clear", () => updateEditor());
     await create(<HTMLElement>container.value);
@@ -235,6 +258,7 @@ watch(
             color: storeTheme.theme.raw,
             lang: props.lang,
             inline: inline.value,
+            collapse: collapse.value,
         };
     },
     () => updateEditorConfig(),
