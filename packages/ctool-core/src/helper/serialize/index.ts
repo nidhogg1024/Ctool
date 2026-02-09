@@ -101,7 +101,87 @@ class Serialize<T extends ContentType = ContentType> {
     }
 
     static formPhpArray<T extends ContentType = ContentType>(str: string) {
-        return Serialize.formCallback<T>(() => readerPhpArray(str));
+        // 预处理：将 PHP array() 语法转换为短数组语法 []
+        // 以兼容 php-array-reader 库（仅支持 [] 语法）
+        const preprocessed = Serialize.convertPhpArraySyntax(str);
+        return Serialize.formCallback<T>(() => readerPhpArray(preprocessed));
+    }
+
+    // 将 PHP array(...) 语法转换为 [...] 短数组语法
+    private static convertPhpArraySyntax(str: string): string {
+        let result = '';
+        let i = 0;
+        const len = str.length;
+        // 预编译正则，复用以提高性能
+        const arrayRegex = /^array\s*\(/i;
+
+        // 尝试在当前位置匹配 array( 关键字，使用有界切片避免 O(n) 子串创建
+        const tryMatchArray = (pos: number): number => {
+            const ch = str[pos];
+            if (ch !== 'a' && ch !== 'A') return 0;
+            // "array (" 最长约 20 字符（含空格），取有界子串匹配
+            const slice = str.substring(pos, pos + 20);
+            const m = slice.match(arrayRegex);
+            return m ? m[0].length : 0;
+        };
+
+        while (i < len) {
+            const matchLen = tryMatchArray(i);
+            if (matchLen > 0) {
+                result += '[';
+                i += matchLen;
+                // 找到匹配的右括号并替换为 ]
+                let depth = 1;
+                let inString: string | false = false;
+                let escaped = false;
+                while (i < len && depth > 0) {
+                    const ch = str[i];
+                    if (escaped) {
+                        result += ch;
+                        escaped = false;
+                        i++;
+                        continue;
+                    }
+                    if (ch === '\\' && inString) {
+                        escaped = true;
+                        result += ch;
+                        i++;
+                        continue;
+                    }
+                    if ((ch === '"' || ch === "'") && !inString) {
+                        inString = ch;
+                    } else if (ch === inString) {
+                        inString = false;
+                    }
+                    if (!inString) {
+                        // 递归处理嵌套 array(
+                        const innerLen = tryMatchArray(i);
+                        if (innerLen > 0) {
+                            result += '[';
+                            i += innerLen;
+                            depth++;
+                            continue;
+                        }
+                        if (ch === '(') {
+                            depth++;
+                        } else if (ch === ')') {
+                            depth--;
+                            if (depth === 0) {
+                                result += ']';
+                                i++;
+                                continue;
+                            }
+                        }
+                    }
+                    result += ch;
+                    i++;
+                }
+            } else {
+                result += str[i];
+                i++;
+            }
+        }
+        return result;
     }
 
     static formPhpSerialize<T extends ContentType = ContentType>(str: string) {
