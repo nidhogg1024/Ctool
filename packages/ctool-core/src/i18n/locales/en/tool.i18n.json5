@@ -98,5 +98,6 @@
     "base58": "Base58",
     "base58_encoder": "Encoder",
     "base58_decoder": "Decoder",
-    "mongoObjectId": "MongoDB ObjectId"
+    "mongoObjectId": "MongoDB ObjectId",
+    "numberCalc": "Number Statistics"
 }

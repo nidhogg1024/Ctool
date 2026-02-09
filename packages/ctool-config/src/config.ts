@@ -211,6 +211,10 @@ export let _tools = {
         feature: ["mongoObjectId"],
         parent_directory: "",
     },
+    numberCalc: {
+        feature: ["numberCalc"],
+        parent_directory: "",
+    },
 } as const;
 
 // 分类 配置
@@ -220,7 +224,7 @@ export const _categoryTool: Record<CategoryType, ToolType[]> = {
     encoder_decoder: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
     conversion: ["json", "pinyin", "radix", "serialize", "unit", "time", "ascii", "variableConversion", "hexString", "arm", "httpSnippet", "color", "urlParse", "dockerCompose", "zhNumber", "mongoObjectId"],
     generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "sqlFillParameter", "httpSnippet"],
-    other: ["ip", "code", "websocket", "unit", "text"],
+    other: ["ip", "code", "websocket", "unit", "text", "numberCalc"],
 };
 
 // 默认常用

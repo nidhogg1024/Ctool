@@ -1,0 +1,12 @@
+{
+    "input_placeholder": "Enter numbers, one per line or separated by spaces/commas\nExample:\n100\n200\n300\nOr: 100, 200, 300",
+    "result": "Statistics",
+    "count": "Count",
+    "sum": "Sum",
+    "avg": "Average",
+    "median": "Median",
+    "min": "Min",
+    "max": "Max",
+    "range": "Range",
+    "stddev": "Std Dev"
+}

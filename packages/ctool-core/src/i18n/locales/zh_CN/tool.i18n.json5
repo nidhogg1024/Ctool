@@ -108,5 +108,6 @@
     "base58": "Base58",
     "base58_encoder": "编码",
     "base58_decoder": "解码",
-    "mongoObjectId": "MongoDB ObjectId"
+    "mongoObjectId": "MongoDB ObjectId",
+    "numberCalc": "数字统计"
 }
