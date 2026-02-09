@@ -2,7 +2,7 @@
     <Align direction="vertical">
         <Card :title="$t(`main_category_common`)">
             <Align>
-                <Button type="dotted" :size="size" @click="selectTool(name)" v-for="name in setting.items.common">
+                <Button type="dotted" :size="size" @click="selectTool(name)" v-for="name in operate.getSmartCommon(setting.items.common)">
                     {{ $t(`tool_${name}`) }}
                 </Button>
             </Align>

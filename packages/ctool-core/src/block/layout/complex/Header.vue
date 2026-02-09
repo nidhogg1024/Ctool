@@ -70,7 +70,8 @@ const categoryTools = $computed(() => {
     if (categoryExists(selectedCategory)) {
         return getCategory(selectedCategory).tools.map(({name}) => name)
     }
-    return storeSetting.items.common
+    // 智能常用：置顶工具优先，按使用频率自动补充
+    return storeOperate.getSmartCommon(storeSetting.items.common)
 })
 
 const selectCategory = (name: string) => {
@@ -79,8 +80,9 @@ const selectCategory = (name: string) => {
     if (categoryExists(name)) {
         tool = storeOperate.getCategoryLastTool(name)
     } else {
+        const smartCommon = storeOperate.getSmartCommon(storeSetting.items.common)
         for (let feature of storeOperate.getRecently()) {
-            if (storeSetting.items.common.includes(feature.tool.name)) {
+            if (smartCommon.includes(feature.tool.name)) {
                 tool = feature.tool.name
                 break;
             }

@@ -49,7 +49,7 @@ const items = $computed(() => {
             ...(new Set(
                     [
                         ...operate.getRecently(),
-                        ...setting.items.common.map(name => {
+                        ...operate.getSmartCommon(setting.items.common).map(name => {
                             return getTool(name).firstFeature()
                         })
                     ]

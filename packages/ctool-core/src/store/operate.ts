@@ -5,6 +5,9 @@ import {getTool, ToolType, toolExists, categoryExists, tools, getCategory} from 
 import {useRouter} from "vue-router";
 import event from "@/event";
 
+// 智能常用：最大展示数量
+const SMART_COMMON_MAX = 15;
+
 interface Types {
     // 最后使用工具
     tool: string
@@ -18,6 +21,8 @@ interface Types {
     tool_last_feature: Record<string, string>
     // 最近访问功能列表
     recently: string[]
+    // 工具使用次数统计（用于智能常用排序）
+    usage_count: Record<string, number>
 }
 
 const defaultValue: Types = {
@@ -26,7 +31,8 @@ const defaultValue: Types = {
     feature: '',
     category_last_tool: {},
     tool_last_feature: {},
-    recently: []
+    recently: [],
+    usage_count: {}
 }
 
 export default defineStore(
@@ -91,6 +97,11 @@ export default defineStore(
             }
             recently.add(recentlyKey)
             items.recently = Array.from(recently).reverse()
+            // 使用次数统计
+            items.usage_count = {
+                ...items.usage_count,
+                [tool.name]: (items.usage_count[tool.name] || 0) + 1
+            }
             event.dispatch('tool_change')
             return true
         }
@@ -130,13 +141,43 @@ export default defineStore(
             return ""
         }
 
+        /**
+         * 智能常用工具列表
+         * 优先展示用户手动置顶的工具，再按使用频率自动补充
+         * @param pinned 用户手动置顶的工具列表（来自 setting.items.common）
+         */
+        const getSmartCommon = (pinned: ToolType[]): ToolType[] => {
+            // 没有使用数据时（新用户），直接返回置顶列表
+            if (Object.keys(items.usage_count).length === 0) {
+                return pinned.filter(t => toolExists(t))
+            }
+
+            // 置顶工具优先
+            const result: ToolType[] = pinned.filter(t => toolExists(t))
+            const pinnedSet = new Set(result)
+
+            // 按使用次数降序排列，补充未置顶的高频工具
+            const sorted = Object.entries(items.usage_count)
+                .filter(([tool]) => toolExists(tool) && !pinnedSet.has(tool as ToolType))
+                .sort((a, b) => b[1] - a[1])
+                .map(([tool]) => tool as ToolType)
+
+            for (const tool of sorted) {
+                if (result.length >= SMART_COMMON_MAX) break
+                result.push(tool)
+            }
+
+            return result
+        }
+
         return {
             items: items,
             redirectTool: redirectTool,
             getCategoryLastTool,
             getToolLastFeature: getToolLastFeature,
             access: access,
-            getRecently: getRecently
+            getRecently: getRecently,
+            getSmartCommon: getSmartCommon
         }
     },
     true

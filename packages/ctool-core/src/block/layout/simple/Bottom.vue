@@ -28,7 +28,7 @@ const storeOperate = useOperate()
 let openTools = $ref(false);
 
 const tools = $computed(() => {
-    return storeSetting.items.common.map(name => {
+    return storeOperate.getSmartCommon(storeSetting.items.common).map(name => {
         return getTool(name)
     })
 })
