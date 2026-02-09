@@ -1,0 +1,29 @@
+---
+description: Git 工作流规范，禁止直接推送和 force push 默认分支
+alwaysApply: true
+---
+
+# Git 工作流规范
+
+## 绝对禁止
+- **禁止直接推送到默认分支（master/main）**，所有改动必须通过分支 + PR 合入
+- **禁止 force push 默认分支（master/main）**，无论任何理由
+- 如果提交有误，通过新的 commit 修正（如 `git revert`），不要重写历史
+
+## 开发流程
+1. 从 master 创建功能分支：`git checkout -b feat/xxx` 或 `fix/xxx`
+2. 在功能分支上开发和提交
+3. 推送功能分支到远程：`git push -u origin feat/xxx`
+4. 创建 PR 请求合入 master，等待 review
+5. **绝不直接 `git push origin master`**
+
+## 提交规范
+- 每个 fix/feat 单独一个 commit，不要合并多个不相关的修改
+- 先拆好 commit 再 push，避免推送后需要 force push 补救
+- commit message 格式：`fix:` / `feat:` / `docs:` / `improve:` / `chore:` 开头
+- 关联原仓库 issue 时在 commit body 加 `Ref: https://github.com/baiy/Ctool/issues/xxx`
+
+## 分支保护
+- 不要临时关闭或修改分支保护规则来绕过限制
+- force push 保护、删除保护必须始终保持开启
+- master 分支必须要求 PR review 后才能合入

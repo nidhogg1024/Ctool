@@ -4,5 +4,6 @@
     "result": "Result {0}",
     "alphabet": "64 Alphabet",
     "reset": "Reset",
-    "alphabet_length_error": "The conversion alphabet must be 64 bits in length"
+    "alphabet_length_error": "The conversion alphabet must be 64 bits in length",
+    "invalid_input": "Invalid base-{0} input: {1}"
 }
