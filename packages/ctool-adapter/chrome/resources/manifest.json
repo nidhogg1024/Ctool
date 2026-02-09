@@ -2,9 +2,9 @@
     "name": "__MSG_main_manifest_name__",
     "description": "__MSG_main_manifest_description__",
     "version": "##version##",
-    "author": "wo@baiy.org",
+    "author": "nidhogg1024",
     "offline_enabled": true,
-    "homepage_url": "https://github.com/baiy/Ctool",
+    "homepage_url": "https://github.com/nidhogg1024/Ctool",
     "manifest_version": 3,
     "default_locale": "zh_CN",
     "action": {
