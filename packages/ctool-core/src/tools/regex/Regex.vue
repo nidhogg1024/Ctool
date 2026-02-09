@@ -43,6 +43,8 @@
                         v-model="action.current.is_ignore_case"
                         :label="$t('regex_ignore_case')"
                     />
+                    <Bool border :size="'small'" v-model="action.current.is_multiline" :label="$t('regex_multiline')" />
+                    <Bool border :size="'small'" v-model="action.current.is_dotall" :label="$t('regex_dotall')" />
                 </Align>
             </template>
         </Display>
@@ -67,6 +69,8 @@ const action = useAction(
             replace: "",
             is_global: true,
             is_ignore_case: true,
+            is_multiline: false,
+            is_dotall: false,
             is_delete: false,
         },
         { paste: false },
@@ -86,7 +90,8 @@ watch(
             const replace =
                 !current.is_delete && current.replace === "" ? false : current.is_delete ? "" : current.replace;
 
-            let reg = new RegExp(current.input, (current.is_ignore_case ? "i" : "") + (current.is_global ? "g" : ""));
+            let flags = (current.is_ignore_case ? "i" : "") + (current.is_global ? "g" : "") + (current.is_multiline ? "m" : "") + (current.is_dotall ? "s" : "");
+            let reg = new RegExp(current.input, flags);
             if (replace !== false) {
                 output = current.content.replace(reg, replace);
             } else {
