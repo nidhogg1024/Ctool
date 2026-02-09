@@ -30,6 +30,8 @@ interface Setting {
     fill_history_expire: number,
     // 历史记录角标隐藏
     history_icon_badge_hidden: boolean,
+    // 界面缩放比例（百分比，50-200，默认 100）
+    zoom: number,
 }
 
 const getSystemTheme = (): ThemeRawType => {
@@ -51,6 +53,7 @@ const defaultValue: Setting = {
     proxy_url: proxy.defaultProxyUrl,
     fill_history_expire: 3600,
     history_icon_badge_hidden: false,
+    zoom: 100,
 }
 
 const useSetting = defineStore('setting', () => {
@@ -73,6 +76,16 @@ const useSetting = defineStore('setting', () => {
         event.dispatch("theme_change", theme)
     })
 
+    // 缩放比例变化：通过调整根字体大小实现等比缩放（项目使用 rem 单位）
+    // 使用百分比设置，自动继承浏览器默认字体大小，不依赖硬编码的 16px
+    const applyZoom = (zoom: number) => {
+        const level = Math.max(50, Math.min(200, zoom));
+        document.documentElement.style.fontSize = `${level}%`;
+        // 触发 resize 重新计算布局
+        window.dispatchEvent(new Event('resize'));
+    }
+    watch(() => items.zoom, (zoom) => applyZoom(zoom))
+
     onMounted(() => {
         event.addListener('locale_change', async () => {
             await nextTick()
@@ -85,6 +98,10 @@ const useSetting = defineStore('setting', () => {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
             items.theme === 'auto' && event.dispatch('theme_change', 'system change')
         })
+        // 应用初始缩放比例
+        if (items.zoom !== 100) {
+            applyZoom(items.zoom);
+        }
     })
     return {
         items, save

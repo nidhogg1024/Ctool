@@ -99,6 +99,20 @@
                     <Button :size="'small'" @click="openUtoolsKeyword = !openUtoolsKeyword" :text="`${$t(`main_ui_keyword`)}${$t(`main_ui_config`)}`"/>
                 </div>
             </template>
+            <span>{{ $t('main_setting_zoom') }}</span>
+            <Align>
+                <Select
+                    :model-value="storeSetting.items.zoom"
+                    @change="(value)=>storeSetting.save('zoom',value)"
+                    :options="zoomOptions"
+                />
+                <Button
+                    v-if="storeSetting.items.zoom !== 100"
+                    :size="'small'"
+                    :text="$t('main_ui_reset')"
+                    @click="storeSetting.save('zoom', 100)"
+                />
+            </Align>
             <span>{{ $t('main_ui_other') }}</span>
             <div>
                 <Bool
@@ -146,6 +160,12 @@ const localeOptions = locales.map((item) => {
 })
 
 const {state: clipboardState} = useClipboardPermission()
+
+// 缩放比例选项
+const zoomOptions = [50, 60, 70, 75, 80, 85, 90, 95, 100, 110, 120, 125, 130, 140, 150, 175, 200].map(v => ({
+    value: v,
+    label: `${v}%`,
+}))
 </script>
 <style>
 .ctool-setting {
