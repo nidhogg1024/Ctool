@@ -8,7 +8,7 @@ import jsonMinify from "./jsonMinify";
 export const formatter = new (class extends Base<"json"> {
     async beautify(): Promise<string> {
         return format(this.code, {
-            parser: "json5",
+            parser: "json",
             plugins: [babel, estree],
             quoteProps: "preserve",
             trailingComma: "none",

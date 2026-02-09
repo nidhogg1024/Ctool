@@ -55,6 +55,7 @@ export default (json: string): string => {
             new_str[ns++] = tmp[0];
         }
     }
-    new_str[ns++] = rc;
-    return new_str.join("");
+    // 处理最后剩余内容，去除多余空白字符
+    new_str[ns++] = (rc || "").replace(/(\n|\r|\s)+/g, "");
+    return new_str.join("").trim();
 }

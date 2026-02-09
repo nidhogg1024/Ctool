@@ -17,6 +17,7 @@
     "desc": "Desc",
     "key_sort": "Key Sort",
     "repair": "JSON Repair",
+    "try_repair": "Try Repair",
     "json_path": "JSONPath",
     "jmes_path": "JMESPath",
     "line_info": "Length",

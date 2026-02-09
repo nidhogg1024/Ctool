@@ -17,6 +17,7 @@
     "desc": "降序",
     "key_sort": "键排序",
     "repair": "JSON 修复",
+    "try_repair": "尝试修复",
     "json_path": "JSONPath",
     "jmes_path": "JMESPath",
     "line_info": "长度",

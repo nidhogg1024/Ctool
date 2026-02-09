@@ -59,6 +59,7 @@
             >
                 <Align>
                     <Button @click="general.beautify()">{{ $t(`json_format`) }}</Button>
+                    <Button v-if="formatError" type="primary" @click="general.repair()">{{ $t(`json_try_repair`) }}</Button>
                     <Select
                         :model-value="action.current.option.tab"
                         @change="value => general.tabs(value)"
@@ -198,6 +199,8 @@ const action = useAction(
 );
 
 let toObjectOpen = $ref(false);
+// 格式化失败标志，用于显示"尝试修复"提示
+let formatError = $ref(false);
 
 const size: ComponentSizeType = "default";
 
@@ -222,11 +225,18 @@ const general = {
     },
     // 美化
     async beautify(code?: string, copy = true) {
-        action.current.input = await util.beautify(this.getInput(code), { tab: action.current.option.tab });
-        if (!copy) {
-            return action.save();
+        try {
+            action.current.input = await util.beautify(this.getInput(code), { tab: action.current.option.tab });
+            formatError = false;
+            if (!copy) {
+                return action.save();
+            }
+            action.success({ copy_text: action.current.input });
+        } catch (e) {
+            // 格式化失败，显示"尝试修复"提示
+            formatError = true;
+            throw e;
         }
-        action.success({ copy_text: action.current.input });
     },
     // 美化
     async compress() {
@@ -280,10 +290,25 @@ const general = {
     repair() {
         const code = this.getInput();
         if (code !== "") {
+            formatError = false;
+            // 先尝试移除转义后格式化（处理 {\"key\":\"value\"} 类输入）
+            if (code.includes('\\"')) {
+                try {
+                    const unescaped = util.clearEscape(code);
+                    JSON.parse(unescaped);
+                    this.beautify(unescaped);
+                    return;
+                } catch { /* 移除转义后仍不合法，走 jsonrepair 兜底 */ }
+            }
             this.beautify(jsonrepair(code));
         }
     },
 };
+
+// 输入变化时重置格式化错误提示
+watch(() => action.current.input, () => {
+    formatError = false;
+});
 
 // 来自
 watch(
