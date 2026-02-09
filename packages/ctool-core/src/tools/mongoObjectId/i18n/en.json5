@@ -1,0 +1,10 @@
+{
+    "input_placeholder": "Enter MongoDB ObjectId (24 hex characters)",
+    "result": "Parsed Result",
+    "timestamp": "Unix Timestamp",
+    "datetime": "Date Time",
+    "machine": "Machine ID",
+    "process": "Process ID",
+    "counter": "Counter",
+    "generate": "Generate ObjectId"
+}

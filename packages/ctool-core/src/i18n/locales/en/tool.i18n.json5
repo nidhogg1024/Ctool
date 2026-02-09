@@ -97,5 +97,6 @@
     "punycode_decoder": "Decoder",
     "base58": "Base58",
     "base58_encoder": "Encoder",
-    "base58_decoder": "Decoder"
+    "base58_decoder": "Decoder",
+    "mongoObjectId": "MongoDB ObjectId"
 }

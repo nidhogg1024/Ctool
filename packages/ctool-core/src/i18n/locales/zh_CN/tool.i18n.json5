@@ -107,5 +107,6 @@
     "punycode_decoder": "解码",
     "base58": "Base58",
     "base58_encoder": "编码",
-    "base58_decoder": "解码"
+    "base58_decoder": "解码",
+    "mongoObjectId": "MongoDB ObjectId"
 }

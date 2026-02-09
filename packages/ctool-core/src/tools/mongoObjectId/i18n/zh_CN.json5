@@ -1,0 +1,10 @@
+{
+    "input_placeholder": "输入 MongoDB ObjectId（24 位十六进制字符串）",
+    "result": "解析结果",
+    "timestamp": "Unix 时间戳",
+    "datetime": "日期时间",
+    "machine": "机器标识",
+    "process": "进程标识",
+    "counter": "计数器",
+    "generate": "生成 ObjectId"
+}
