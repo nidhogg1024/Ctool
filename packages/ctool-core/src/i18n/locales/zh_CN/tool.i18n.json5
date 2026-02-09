@@ -104,5 +104,8 @@
     "zhNumber": "中文数字转换",
     "punycode": "域名编码",
     "punycode_encoder": "编码",
-    "punycode_decoder": "解码"
+    "punycode_decoder": "解码",
+    "base58": "Base58",
+    "base58_encoder": "编码",
+    "base58_decoder": "解码"
 }

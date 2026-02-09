@@ -203,13 +203,17 @@ export let _tools = {
         feature: ["zhNumber"],
         parent_directory: "",
     },
+    base58: {
+        feature: ["encoder", "decoder"],
+        parent_directory: "",
+    },
 } as const;
 
 // 分类 配置
 export const _categoryTool: Record<CategoryType, ToolType[]> = {
     encryption: ["hash", "hmac", "aes", "des", "tripleDes", "rc4", "rabbit", "sm2", "sm4", "rsa", "sign", "base64", "bcrypt"],
     check: ["sign", "regex", "diffs", "crontab", "bcrypt", "dataValidation"],
-    encoder_decoder: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode"],
+    encoder_decoder: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
     conversion: ["json", "pinyin", "radix", "serialize", "unit", "time", "ascii", "variableConversion", "hexString", "arm", "httpSnippet", "color", "urlParse", "dockerCompose", "zhNumber"],
     generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "sqlFillParameter", "httpSnippet"],
     other: ["ip", "code", "websocket", "unit", "text"],
