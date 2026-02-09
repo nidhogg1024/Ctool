@@ -31,3 +31,4 @@ todo_list.md
 
 .vercel
 packages/ctool-adapter/tauri/src-tauri/gen/
+.cursor/
