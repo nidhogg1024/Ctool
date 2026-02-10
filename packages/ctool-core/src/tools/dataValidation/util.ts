@@ -24,7 +24,13 @@ export const lrc = (text: Text) => {
 
 export const crc = async (text: Text, type: CrcType) => {
     const handle = await import('crc');
-    return handle[type](text.toBuffer())
+    let value = handle[type](text.toBuffer())
+    // CRC16 Modbus：库返回的字节序与协议标准相反，需要交换高低字节
+    // 例：输入 "01 03 02 01 84"，库返回 0xB7B9，交换后为 0xB9B7（符合标准）
+    if (type === 'crc16modbus') {
+        value = ((value & 0xFF) << 8) | ((value >> 8) & 0xFF)
+    }
+    return value
 }
 
 export const result = (value: number, type: string) => {
