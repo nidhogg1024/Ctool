@@ -37,6 +37,13 @@
                     v-model="action.current.option.schema"
                     @success="() => action.save()"
                 />
+                <Transform
+                    v-if="action.current.expand_type === 'transform'"
+                    :height="height"
+                    :json="inputSerialize"
+                    v-model="action.current.option.transform"
+                    @success="() => action.save()"
+                />
             </div>
         </HeightResize>
         <Display position="top-right" class="ctool-page-option" style="margin-top: 5px">
@@ -55,6 +62,7 @@
                     { label: $t(`json_object`), name: `object` },
                     { label: $t(`json_from`), name: `from` },
                     { label: $t(`json_to`), name: `to` },
+                    { label: $t(`json_transform`), name: `transform` },
                 ]"
             >
                 <Align>
@@ -158,6 +166,7 @@ import { useAction, initialize } from "@/store/action";
 import { tabOptions, actionType, TabsType, pathLists } from "./define";
 import { createSerializeInput, createSerializeOutput } from "@/components/serialize";
 import Schema from "./Schema.vue";
+import Transform from "./Transform.vue";
 import { serializeInputEncoderLists, serializeOutputEncoderLists } from "@/types";
 import Path from "./Path.vue";
 import Serialize from "@/helper/serialize";
@@ -192,6 +201,9 @@ const action = useAction(
                 from: createSerializeInput("csv"),
                 to: createSerializeOutput("xml"),
                 to_object: getToObjectOption(""),
+                transform: {
+                    expression: "",
+                },
             },
         },
         { paste: false },
@@ -207,7 +219,7 @@ const size: ComponentSizeType = "default";
 // 布局
 const layoutStyle = $computed(() => {
     const css: StyleValue = {};
-    if (["from", "object", "to", "path", "json_schema"].includes(action.current.expand_type)) {
+    if (["from", "object", "to", "path", "json_schema", "transform"].includes(action.current.expand_type)) {
         css.display = "grid";
         css.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
         css.columnGap = "5px";
@@ -363,7 +375,7 @@ const setExpandType = value => {
 watch(
     () => action.current.tabs,
     tabs => {
-        setExpandType(["from", "to", "path"].includes(tabs) ? tabs : "");
+        setExpandType(["from", "to", "path", "transform"].includes(tabs) ? tabs : "");
     },
 );
 </script>

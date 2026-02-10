@@ -1,5 +1,6 @@
 import { SerializeInput, SerializeOutput } from "@/components/serialize";
 import { Option as toObjectOption } from "./toObject";
+import { TransformOptionType } from "./Transform.vue";
 //=======
 const tabsMap = [
     { label: $t("code_indent_width_null"), value: 0 },
@@ -27,6 +28,7 @@ export type SchemaOptionType = {
     option: Record<string, any>;
 };
 
+
 //=======
 export type actionType = {
     input: string;
@@ -42,5 +44,6 @@ export type actionType = {
         path: PathOptionType;
         schema: SchemaOptionType;
         to_object: toObjectOption;
+        transform: TransformOptionType;
     };
 };

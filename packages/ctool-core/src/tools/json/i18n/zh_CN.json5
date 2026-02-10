@@ -21,4 +21,8 @@
     "json_path": "JSONPath",
     "jmes_path": "JMESPath",
     "line_info": "长度",
+    // Transform（JS 表达式转换）
+    "transform": "转换",
+    "transform_placeholder": "输入 JS 表达式，如 _.groupBy(data, 'key')",
+    "transform_preset": "常用表达式",
 }

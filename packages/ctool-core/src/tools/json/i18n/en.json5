@@ -21,4 +21,8 @@
     "json_path": "JSONPath",
     "jmes_path": "JMESPath",
     "line_info": "Length",
+    // Transform (JS expression)
+    "transform": "Transform",
+    "transform_placeholder": "JS expression, e.g. _.groupBy(data, 'key')",
+    "transform_preset": "Presets",
 }
