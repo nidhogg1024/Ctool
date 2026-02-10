@@ -2707,6 +2707,12 @@
 				"json_line_info": {
 					"message": "长度"
 				},
+				"url_encode_mode_standard": {
+					"message": "标准编码"
+				},
+				"url_encode_mode_all": {
+					"message": "全字符编码"
+				},
 				"qrCode_generate_option_common": {
 					"message": "常用"
 				},
@@ -4513,6 +4519,9 @@
 				"ipcalc_mask_set_title": {
 					"message": "通过可用IP数量设置掩码"
 				},
+				"ipcalc_wildcard": {
+					"message": "反掩码"
+				},
 				"sqlFillParameter_parameter": {
 					"message": "参数"
 				},
@@ -5835,6 +5844,12 @@
 				},
 				"json_line_info": {
 					"message": "Length"
+				},
+				"url_encode_mode_standard": {
+					"message": "Standard"
+				},
+				"url_encode_mode_all": {
+					"message": "Encode All"
 				},
 				"qrCode_generate_option_common": {
 					"message": "Common"
@@ -7641,6 +7656,9 @@
 				},
 				"ipcalc_mask_set_title": {
 					"message": "Calculate mask by number of available IP"
+				},
+				"ipcalc_wildcard": {
+					"message": "Wildcard Mask"
 				},
 				"sqlFillParameter_parameter": {
 					"message": "Parameter"
