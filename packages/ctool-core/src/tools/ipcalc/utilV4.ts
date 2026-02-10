@@ -28,6 +28,52 @@ export const ipConvert = (ip: string, toRadix = 10, fromRadix = 10, filterPrefix
     }).join('.')
 }
 
+/**
+ * 通配符掩码（反掩码）转子网掩码
+ * 支持多种输入格式：点分十进制、整型、八进制、十六进制、二进制
+ * 例：0.0.63.255 → 255.255.192.0
+ */
+export const wildcardToMask = (wildcard: string): string => {
+    let wildcardStr = `${wildcard}`.trim()
+
+    // 支持二进制格式输入（如 0b00000000.0b00000000.0b00000000.0b11111111）
+    wildcardStr = tryBinaryToDecimal(wildcardStr)
+
+    // 点分格式（十进制/八进制/十六进制，与 IP/掩码输入格式一致）
+    if (wildcardStr.includes('.')) {
+        const parts = wildcardStr.split('.')
+        if (parts.length !== 4) {
+            throw new Error('Invalid wildcard mask format')
+        }
+        // 解析各段：支持十进制、0x 十六进制、0 开头八进制
+        const maskParts = parts.map(part => {
+            let num: number
+            const p = part.trim()
+            if (p.toLowerCase().startsWith('0x')) {
+                num = parseInt(p, 16)
+            } else if (p.length > 1 && p.startsWith('0') && !p.includes('8') && !p.includes('9')) {
+                num = parseInt(p, 8)
+            } else {
+                num = parseInt(p, 10)
+            }
+            if (isNaN(num) || num < 0 || num > 255) {
+                throw new Error('Invalid wildcard mask value')
+            }
+            return (~num & 0xFF).toString()
+        })
+        return maskParts.join('.')
+    }
+
+    // 整型格式（如 255 → long 值）
+    const longVal = parseInt(wildcardStr, 10)
+    if (!isNaN(longVal) && longVal >= 0 && longVal <= 0xFFFFFFFF) {
+        const inverted = (~longVal >>> 0)
+        return long2ip(inverted)
+    }
+
+    throw new Error('Invalid wildcard mask format')
+}
+
 export const getMaskBitByAvailable = (available: number) => {
     if (isNaN(available) || available > 0xfffffffe || available < 1) {
         throw new Error(`Available Size Invalid`)
