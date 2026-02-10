@@ -2707,6 +2707,15 @@
 				"json_line_info": {
 					"message": "长度"
 				},
+				"json_transform": {
+					"message": "转换"
+				},
+				"json_transform_placeholder": {
+					"message": "输入 JS 表达式，如 _.groupBy(data, 'key')"
+				},
+				"json_transform_preset": {
+					"message": "常用表达式"
+				},
 				"url_encode_mode_standard": {
 					"message": "标准编码"
 				},
@@ -5844,6 +5853,15 @@
 				},
 				"json_line_info": {
 					"message": "Length"
+				},
+				"json_transform": {
+					"message": "Transform"
+				},
+				"json_transform_placeholder": {
+					"message": "JS expression, e.g. _.groupBy(data, 'key')"
+				},
+				"json_transform_preset": {
+					"message": "Presets"
 				},
 				"url_encode_mode_standard": {
 					"message": "Standard"
