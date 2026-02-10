@@ -1,5 +1,5 @@
 # 构建发布平台适配文件
-# 流程：push tag → 创建 draft release → 各 job 并行构建上传 → 最后自动发布
+# 流程：push tag → 创建 draft release → 各 job 并行构建上传 → 手动到 GitHub Releases 发布
 name: release-ctool-adapter
 on:
     push:
@@ -166,32 +166,3 @@ jobs:
                   draft: true
                   files: |
                       ${{ steps.get_release_files.outputs.files }}
-
-    # 所有构建完成后，将 draft 发布为正式 release
-    publish-release:
-        needs: [browser-extensions, tauri-desktop]
-        runs-on: ubuntu-latest
-        steps:
-            - name: Publish Release
-              uses: actions/github-script@v7
-              with:
-                  script: |
-                      // 查找当前 tag 对应的 draft release
-                      const tag = context.ref.replace('refs/tags/', '');
-                      const releases = await github.rest.repos.listReleases({
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                      });
-                      const draft = releases.data.find(r => r.tag_name === tag && r.draft);
-                      if (!draft) {
-                          core.setFailed(`未找到 tag ${tag} 对应的 draft release`);
-                          return;
-                      }
-                      // 将 draft 改为正式发布
-                      await github.rest.repos.updateRelease({
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          release_id: draft.id,
-                          draft: false,
-                      });
-                      core.info(`Release ${tag} 已发布: ${draft.html_url}`);

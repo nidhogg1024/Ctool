@@ -131,7 +131,7 @@ const create = async (element: HTMLElement) => {
             lineNumbers: lineNumbers.value ? "on" : "off",
             wordWrap: lineWrapping.value ? "on" : "off",
             minimap: { enabled: false },
-            automaticLayout: false,
+            automaticLayout: true,
             originalEditable: true,
             scrollBeyondLastLine: false,
             renderSideBySide: !inline.value,
