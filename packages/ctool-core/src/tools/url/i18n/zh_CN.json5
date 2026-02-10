@@ -1,0 +1,5 @@
+{
+    // 编码模式
+    "encode_mode_standard": "标准编码",
+    "encode_mode_all": "全字符编码",
+}
