@@ -29,5 +29,6 @@
     network_info_first: "First IP",
     network_info_last: "Last IP",
     network_info_broadcast: "Broadcast Address",
-    mask_set_title: "Calculate mask by number of available IP"
+    mask_set_title: "Calculate mask by number of available IP",
+    wildcard: "Wildcard Mask"
 }

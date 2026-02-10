@@ -105,6 +105,15 @@ class Text {
         if (item === "") {
             return Text.empty();
         }
+        // 自动处理 URL 编码的 Base64（如从浏览器地址栏复制的参数）
+        // Base64 字符集为 A-Za-z0-9+/=，不包含 %，因此检测到 %XX 可安全解码
+        if (/%[0-9A-Fa-f]{2}/.test(item)) {
+            try {
+                item = decodeURIComponent(item);
+            } catch {
+                // URL 解码失败则保持原样，继续尝试 Base64 解码
+            }
+        }
         const buffer = Base64.toUint8Array(item);
         if (buffer.length < 1) {
             throw new Error("Base64 Decode Is Empty");

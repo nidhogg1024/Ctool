@@ -389,6 +389,8 @@ onUnmounted(() => {
     border: none;
     border-radius: 0;
     font-size: 0.8rem;
+    height: auto;
+    --form-element-spacing-vertical: 0.1rem;
     outline: none;
     background: transparent;
     color: var(--ctool-color-primary);

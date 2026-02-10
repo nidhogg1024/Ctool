@@ -5,7 +5,11 @@
                 <HelpTip @click="help = true" icon="info" :text="$t('ipcalc_format')"/>
             </template>
         </Input>
-        <Input size="large" :width="280" v-model="action.current.mask" :label="$t('ipcalc_mask')">
+        <Select size="large" v-model="action.current.maskMode" :options="[
+            {label: $t('ipcalc_mask'), value: 'mask'},
+            {label: $t('ipcalc_wildcard'), value: 'wildcard'},
+        ]"/>
+        <Input size="large" :width="220" v-model="action.current.mask">
             <template #append>
                 <Button @click="maskSetShow = true">
                     <Icon hover name="setting" :tooltip="$t('ipcalc_mask_set_title')"/>
@@ -78,6 +82,15 @@
                     <Item :title="$t(`ipcalc_mask_info_mask2`)" value="0b11111111.0b11111111.0b11111111.0b00000000" style="grid-column-start: 2;grid-column-end: 5;"/>
                 </div>
             </Card>
+            <Card :title="$t('ipcalc_wildcard')" padding="0">
+                <div style="display: grid;grid-template-columns: 8fr 8fr 10fr 10fr;">
+                    <Item :title="$t(`ipcalc_mask_info_mask`)" value="0.0.0.255"/>
+                    <Item :title="$t(`ipcalc_mask_info_long`)" value="255"/>
+                    <Item :title="$t(`ipcalc_mask_info_mask16`)" value="0x00.0x00.0x00.0xFF"/>
+                    <Item :title="$t(`ipcalc_mask_info_mask8`)" value="0000.0000.0000.0377"/>
+                    <Item :title="$t(`ipcalc_mask_info_mask2`)" value="0b00000000.0b00000000.0b00000000.0b11111111" style="grid-column-start: 2;grid-column-end: 5;"/>
+                </div>
+            </Card>
         </Align>
     </Modal>
     <ExtendPage v-model="showSubnet">
@@ -114,7 +127,7 @@
 
 <script lang="ts" setup>
 import {initialize, useAction} from "@/store/action";
-import ipcalc, {getMaskBitByAvailable} from "./utilV4";
+import ipcalc, {getMaskBitByAvailable, wildcardToMask} from "./utilV4";
 import {watch} from "vue";
 import Item from "./Item.vue";
 import Serialize from "@/helper/serialize";
@@ -123,6 +136,7 @@ import {createSerializeOutput} from "@/components/serialize";
 const action = useAction(await initialize({
     input: "192.168.0.1",
     mask: "24",
+    maskMode: "mask",
     subnetOption: createSerializeOutput("text")
 }, {
     paste: (input) => /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/.test(input)
@@ -151,11 +165,14 @@ watch(() => {
     return {
         input: action.current.input,
         mask: action.current.mask,
+        maskMode: action.current.maskMode,
     }
-}, ({input, mask}) => {
+}, ({input, mask, maskMode}) => {
     error = ""
     try {
-        calc = new ipcalc(input, mask)
+        // 通配符模式：将通配符掩码取反为子网掩码，空值默认 0.0.0.0（等效 /32）
+        const effectiveMask = maskMode === "wildcard" ? wildcardToMask(mask || "0.0.0.0") : mask
+        calc = new ipcalc(input, effectiveMask)
         action.save()
     } catch (e) {
         error = $error(e)

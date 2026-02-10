@@ -30,7 +30,7 @@
             </Tabs>
             <TextOutput
                 v-model="action.current.output"
-                :allow="['text']"
+                :allow="['text', 'hex']"
                 :content="output"
                 :height="large"
                 encoding

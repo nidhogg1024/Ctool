@@ -29,5 +29,6 @@
     network_info_first: "第一个IP",
     network_info_last: "最后一个IP",
     network_info_broadcast: "广播地址",
-    mask_set_title: "通过可用IP数量设置掩码"
+    mask_set_title: "通过可用IP数量设置掩码",
+    wildcard: "反掩码"
 }

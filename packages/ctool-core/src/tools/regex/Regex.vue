@@ -8,7 +8,7 @@
                         :size="'small'"
                         :options="getCommonExpression()"
                         :placeholder="$t('regex_common')"
-                        @select="value => (action.current.input = value)"
+                        @select="value => (action.current.input += value)"
                     />
                     <Button
                         :size="'small'"
