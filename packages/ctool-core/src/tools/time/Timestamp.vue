@@ -7,6 +7,7 @@
             :label="$t('time_timezone')"
             v-model="action.current.timezone"
             :options="timezoneOptions"
+            :filterable="true"
             @change="value => (action.current.timezone = value)"
         />
         <Display position="right-center">

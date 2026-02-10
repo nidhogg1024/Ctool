@@ -12,6 +12,7 @@
                         v-model="action.current.timezone[i]"
                         :options="timezoneOptions"
                         :size="'small'"
+                        :filterable="true"
                         :disabled="isValid && action.current.timezone[i] === action.current.type"
                     />
                     <Button
