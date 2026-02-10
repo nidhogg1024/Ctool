@@ -10,6 +10,10 @@
                 />
                 <template #extra>
                     <Align>
+                        <span style="font-size: 0.75rem; color: var(--ctool-info-color); white-space: nowrap;">
+                            <code>data</code> = JSON · <code>_</code> = lodash
+                        </span>
+                        <HelpTip link="https://lodash.com/docs/" />
                         <Dropdown
                             :size="'small'"
                             :options="presetExpressions"
