@@ -1,10 +1,16 @@
 {
-    input_placeholder: "Paste stack trace (Java / Python / JavaScript / Go)",
+    input_placeholder: "Paste stack trace or JSON log (Java / Python / Go / JS / C# / Ruby / PHP / Rust ...)",
     language: "Language",
     exception: "Exception",
     message: "Message",
     frames: "Stack Frames",
     frame_file: "File",
     frame_line: "Line",
-    frame_method: "Method"
+    frame_method: "Method",
+    at: "in",
+    line: "line",
+    show_all: "Show all frames",
+    hide_framework: "Business only",
+    show_n_frames: "Show {n} more frames",
+    hide_frames: "Hide frames"
 }
