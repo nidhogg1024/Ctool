@@ -1,0 +1,15 @@
+{
+    owner: "所有者",
+    group: "所属组",
+    others: "其他",
+    read: "读",
+    write: "写",
+    execute: "执行",
+    octal: "八进制",
+    symbolic: "符号表示",
+    command: "命令示例",
+    special: "特殊权限",
+    suid: "SUID",
+    sgid: "SGID",
+    sticky: "Sticky Bit"
+}

@@ -101,5 +101,7 @@
     "base58_encoder": "Encoder",
     "base58_decoder": "Decoder",
     "mongoObjectId": "MongoDB ObjectId",
-    "numberCalc": "Number Statistics"
+    "numberCalc": "Number Statistics",
+    "chmod": "Chmod Calculator",
+    "chmod_chmod_keywords": "permission,rwx,755,644,chmod"
 }

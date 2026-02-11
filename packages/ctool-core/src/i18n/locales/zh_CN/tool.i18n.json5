@@ -111,5 +111,7 @@
     "base58_encoder": "编码",
     "base58_decoder": "解码",
     "mongoObjectId": "MongoDB ObjectId",
-    "numberCalc": "数字统计"
+    "numberCalc": "数字统计",
+    "chmod": "Chmod 权限计算器",
+    "chmod_chmod_keywords": "权限,permission,rwx,755,644,chmod"
 }

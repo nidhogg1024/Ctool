@@ -215,6 +215,10 @@ export let _tools = {
         feature: ["numberCalc"],
         parent_directory: "",
     },
+    chmod: {
+        feature: ["chmod"],
+        parent_directory: "",
+    },
 } as const;
 
 // 分类 配置
@@ -223,7 +227,7 @@ export const _categoryTool: Record<CategoryType, ToolType[]> = {
     check: ["sign", "regex", "diffs", "crontab", "bcrypt", "dataValidation"],
     encoder_decoder: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
     conversion: ["json", "pinyin", "radix", "serialize", "unit", "time", "ascii", "variableConversion", "hexString", "arm", "httpSnippet", "color", "urlParse", "dockerCompose", "zhNumber", "mongoObjectId"],
-    generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "sqlFillParameter", "httpSnippet"],
+    generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "sqlFillParameter", "httpSnippet", "chmod"],
     other: ["ip", "code", "websocket", "unit", "text", "numberCalc"],
 };
 
