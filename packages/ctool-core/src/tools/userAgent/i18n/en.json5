@@ -1,0 +1,9 @@
+{
+    browser: "Browser",
+    engine: "Engine",
+    os: "OS",
+    device: "Device",
+    cpu: "CPU",
+    current: "Use Current Browser UA",
+    placeholder: "Paste User-Agent string"
+}

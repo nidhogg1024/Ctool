@@ -105,5 +105,7 @@
     "chmod": "Chmod Calculator",
     "chmod_chmod_keywords": "permission,rwx,755,644,chmod",
     "password": "Password Generator",
-    "password_password_keywords": "password,generator,random,secure"
+    "password_password_keywords": "password,generator,random,secure",
+    "userAgent": "User-Agent Parser",
+    "userAgent_userAgent_keywords": "UA,browser,user-agent,useragent,device"
 }

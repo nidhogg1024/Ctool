@@ -115,5 +115,7 @@
     "chmod": "Chmod 权限计算器",
     "chmod_chmod_keywords": "权限,permission,rwx,755,644,chmod",
     "password": "密码生成器",
-    "password_password_keywords": "密码,password,生成,generator,随机"
+    "password_password_keywords": "密码,password,生成,generator,随机",
+    "userAgent": "User-Agent 解析",
+    "userAgent_userAgent_keywords": "UA,浏览器,user-agent,useragent,设备"
 }

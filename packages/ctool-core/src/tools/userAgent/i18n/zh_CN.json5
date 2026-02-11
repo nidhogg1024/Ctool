@@ -1,0 +1,9 @@
+{
+    browser: "浏览器",
+    engine: "渲染引擎",
+    os: "操作系统",
+    device: "设备",
+    cpu: "CPU 架构",
+    current: "获取当前浏览器 UA",
+    placeholder: "粘贴 User-Agent 字符串"
+}
