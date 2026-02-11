@@ -111,5 +111,7 @@
     "jsonPath": "JSONPath",
     "jsonPath_jsonPath_keywords": "jsonpath,json,path,query,xpath,jmespath",
     "configConvert": "Config Converter",
-    "configConvert_configConvert_keywords": "json,yaml,toml,properties,convert,config"
+    "configConvert_configConvert_keywords": "json,yaml,toml,properties,convert,config",
+    "stacktrace": "Stacktrace Formatter",
+    "stacktrace_stacktrace_keywords": "stack,trace,exception,error,log,debug"
 }

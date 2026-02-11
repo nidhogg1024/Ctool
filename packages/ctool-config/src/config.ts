@@ -235,6 +235,10 @@ export let _tools = {
         feature: ["configConvert"],
         parent_directory: "",
     },
+    stacktrace: {
+        feature: ["stacktrace"],
+        parent_directory: "",
+    },
 } as const;
 
 // 分类 配置
@@ -244,7 +248,7 @@ export const _categoryTool: Record<CategoryType, ToolType[]> = {
     encoder_decoder: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
     conversion: ["json", "pinyin", "radix", "serialize", "unit", "time", "ascii", "variableConversion", "hexString", "arm", "httpSnippet", "color", "urlParse", "dockerCompose", "zhNumber", "mongoObjectId", "configConvert"],
     generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "sqlFillParameter", "httpSnippet", "chmod", "password"],
-    other: ["ip", "code", "websocket", "unit", "text", "numberCalc", "userAgent", "jsonPath"],
+    other: ["ip", "code", "websocket", "unit", "text", "numberCalc", "userAgent", "jsonPath", "stacktrace"],
 };
 
 // 默认常用

@@ -1,0 +1,10 @@
+{
+    input_placeholder: "粘贴堆栈信息（支持 Java / Python / JavaScript / Go）",
+    language: "语言",
+    exception: "异常类型",
+    message: "异常信息",
+    frames: "调用栈",
+    frame_file: "文件",
+    frame_line: "行号",
+    frame_method: "方法"
+}

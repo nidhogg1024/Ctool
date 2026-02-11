@@ -1,0 +1,10 @@
+{
+    input_placeholder: "Paste stack trace (Java / Python / JavaScript / Go)",
+    language: "Language",
+    exception: "Exception",
+    message: "Message",
+    frames: "Stack Frames",
+    frame_file: "File",
+    frame_line: "Line",
+    frame_method: "Method"
+}

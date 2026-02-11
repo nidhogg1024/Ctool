@@ -81,7 +81,7 @@ const stringify = (data: unknown, fmt: Format): string => {
     switch (fmt) {
         case "json": return JSON.stringify(data, null, 2);
         case "yaml": return yaml.dump(data, { indent: 2, lineWidth: -1 });
-        case "toml": return TOML.stringify(data as Record<string, unknown>);
+        case "toml": return TOML.stringify(data as any);
         case "properties": return stringifyProperties(data as Record<string, unknown>);
     }
 };

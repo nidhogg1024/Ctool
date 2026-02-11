@@ -121,5 +121,7 @@
     "jsonPath": "JSONPath",
     "jsonPath_jsonPath_keywords": "jsonpath,json,path,查询,xpath,jmespath",
     "configConvert": "配置格式互转",
-    "configConvert_configConvert_keywords": "json,yaml,toml,properties,转换,convert,配置"
+    "configConvert_configConvert_keywords": "json,yaml,toml,properties,转换,convert,配置",
+    "stacktrace": "Stacktrace 格式化",
+    "stacktrace_stacktrace_keywords": "堆栈,stack,trace,异常,exception,error,日志"
 }
