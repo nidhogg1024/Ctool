@@ -30,5 +30,18 @@
     network_info_last: "最后一个IP",
     network_info_broadcast: "广播地址",
     mask_set_title: "通过可用IP数量设置掩码",
-    wildcard: "反掩码"
+    wildcard: "反掩码",
+    wildcard_info: "反掩码信息",
+    wildcard_info_mask: "反掩码",
+    wildcard_info_long: "整型反掩码",
+    wildcard_info_mask2: "点分二进制反掩码",
+    wildcard_info_mask8: "点分八进制反掩码",
+    wildcard_info_mask16: "点分十六进制反掩码",
+    wildcard_match: "匹配信息",
+    wildcard_match_count: "匹配地址数",
+    wildcard_match_bits: "通配位数",
+    wildcard_match_first: "首个匹配",
+    wildcard_match_last: "末尾匹配",
+    wildcard_match_pattern: "匹配范围",
+    wildcard_noncontiguous: "非连续通配符"
 }
