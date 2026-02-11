@@ -1,0 +1,15 @@
+{
+    owner: "Owner",
+    group: "Group",
+    others: "Others",
+    read: "Read",
+    write: "Write",
+    execute: "Execute",
+    octal: "Octal",
+    symbolic: "Symbolic",
+    command: "Command",
+    special: "Special",
+    suid: "SUID",
+    sgid: "SGID",
+    sticky: "Sticky Bit"
+}

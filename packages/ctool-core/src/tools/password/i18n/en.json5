@@ -1,0 +1,15 @@
+{
+    length: "Length",
+    amount: "Amount",
+    uppercase: "Uppercase",
+    lowercase: "Lowercase",
+    digits: "Digits",
+    symbols: "Symbols",
+    exclude_ambiguous: "Exclude ambiguous (0Oo1lI)",
+    ensure_each_type: "At least 1 of each type",
+    strength: "Strength",
+    strength_weak: "Weak",
+    strength_medium: "Medium",
+    strength_strong: "Strong",
+    strength_very_strong: "Very Strong"
+}

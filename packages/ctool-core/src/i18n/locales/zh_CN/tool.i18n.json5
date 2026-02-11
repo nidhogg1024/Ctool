@@ -111,5 +111,15 @@
     "base58_encoder": "编码",
     "base58_decoder": "解码",
     "mongoObjectId": "MongoDB ObjectId",
-    "numberCalc": "数字统计"
+    "numberCalc": "数字统计",
+    "chmod": "Chmod 权限计算器",
+    "chmod_chmod_keywords": "权限,permission,rwx,755,644,chmod",
+    "password": "密码生成器",
+    "password_password_keywords": "密码,password,生成,generator,随机",
+    "userAgent": "User-Agent 解析",
+    "userAgent_userAgent_keywords": "UA,浏览器,user-agent,useragent,设备",
+    "configConvert": "配置格式互转",
+    "configConvert_configConvert_keywords": "json,yaml,toml,properties,转换,convert,配置",
+    "stacktrace": "Stacktrace 格式化",
+    "stacktrace_stacktrace_keywords": "堆栈,stack,trace,异常,exception,error,日志"
 }

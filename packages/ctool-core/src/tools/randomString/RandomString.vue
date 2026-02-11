@@ -71,6 +71,16 @@ const action = useAction(await initialize<{
 
 let baseSetting = $ref<{ base: string, show: boolean }>({base: action.current.base, show: false})
 
+/**
+ * 密码学安全的随机整数，替代 Math.random()
+ * 范围 [0, max)
+ */
+const secureRandomInt = (max: number): number => {
+    const array = new Uint32Array(1)
+    crypto.getRandomValues(array)
+    return array[0] % max
+}
+
 const generate = () => {
     let chars = `${action.current.base}`;
     let randomStringLists: string[] = [];
@@ -79,7 +89,7 @@ const generate = () => {
             randomString = "";
         for (let j = 0, k = action.current.length; j < k; j++) {
             if (_chars.length < 1) break;
-            let index = Math.floor(Math.random() * _chars.length);
+            let index = secureRandomInt(_chars.length);
             randomString += _chars[index];
         }
         randomStringLists.push(randomString);

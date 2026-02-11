@@ -2,26 +2,12 @@
     <div>
         <HeightResize v-slot="{ height }" :append="['.ctool-page-option']">
             <div :style="layoutStyle">
-                <SerializeInput
-                    v-if="action.current.expand_type === 'from'"
-                    :allow="[action.current.option.from.type]"
-                    :height="height"
-                    v-model="action.current.option.from"
-                />
                 <Editor
                     v-model="action.current.input"
                     :line-info="action.current.option.info.line"
                     :placeholder="`Json ${$t('main_ui_input')}`"
                     lang="json"
                     :height="`${height}px`"
-                />
-                <SerializeOutput
-                    v-if="action.current.expand_type === 'to'"
-                    :allow="[action.current.option.to.type]"
-                    :content="inputSerialize"
-                    :height="height"
-                    @success="() => action.save()"
-                    v-model="action.current.option.to"
                 />
                 <Path
                     v-if="action.current.expand_type === 'path'"
@@ -44,6 +30,13 @@
                     v-model="action.current.option.transform"
                     @success="() => action.save()"
                 />
+                <ToObject
+                    v-if="action.current.expand_type === 'object'"
+                    :height="height"
+                    :json="inputSerialize"
+                    v-model="action.current.option.to_object"
+                    @success="() => action.save()"
+                />
             </div>
         </HeightResize>
         <Display position="top-right" class="ctool-page-option" style="margin-top: 5px">
@@ -60,11 +53,11 @@
                     { label: $t(`json_common`), name: `common` },
                     { label: `Path`, name: `path` },
                     { label: $t(`json_object`), name: `object` },
-                    { label: $t(`json_from`), name: `from` },
-                    { label: $t(`json_to`), name: `to` },
+                    { label: $t(`json_go_convert`), name: `convert` },
                     { label: $t(`json_transform`), name: `transform` },
                 ]"
             >
+                <!-- 常用 -->
                 <Align>
                     <Button @click="general.beautify()">{{ $t(`json_format`) }}</Button>
                     <Button v-if="formatError" type="primary" @click="general.repair()">{{ $t(`json_try_repair`) }}</Button>
@@ -109,6 +102,7 @@
                     <span>|</span>
                     <Button @click="setExpandType('json_schema')">Schema</Button>
                 </Align>
+                <!-- Path -->
                 <Align>
                     <template v-for="item in pathLists">
                         <Button
@@ -119,8 +113,9 @@
                         />
                     </template>
                 </Align>
+                <!-- 转实体类：热门语言按钮 + 更多语言下拉 -->
                 <Align>
-                    <template v-for="item in toObjectLangLists.sort()">
+                    <template v-for="item in hotLangs">
                         <Button
                             :size="size"
                             :text="getDisplayName(item)"
@@ -128,35 +123,17 @@
                             @click="toggleObject(item)"
                         />
                     </template>
+                    <Dropdown
+                        :placeholder="$t('json_more_langs')"
+                        :options="moreLangOptions"
+                        @select="toggleObject"
+                    />
                 </Align>
-                <Align>
-                    <template v-for="item in serializeInputEncoderLists">
-                        <Button
-                            :size="size"
-                            v-if="item !== 'json'"
-                            :type="item === action.current.option.from.type ? 'primary' : 'general'"
-                            :text="getDisplayName(item)"
-                            @click="toggleFrom(item)"
-                        />
-                    </template>
-                </Align>
-                <Align>
-                    <template v-for="item in serializeOutputEncoderLists">
-                        <Button
-                            :size="size"
-                            v-if="item !== 'json'"
-                            :type="item === action.current.option.to.type ? 'primary' : 'general'"
-                            :text="getDisplayName(item)"
-                            @click="toggleTo(item)"
-                        />
-                    </template>
-                </Align>
+                <!-- 格式转换（占位，点击时直接跳转） -->
+                <Align />
             </Tabs>
         </Display>
     </div>
-    <ExtendPage v-model="toObjectOpen">
-        <ToObject v-model="action.current.option.to_object" :json="inputSerialize" @success="() => action.save()" />
-    </ExtendPage>
 </template>
 
 <script lang="ts" setup>
@@ -167,7 +144,6 @@ import { tabOptions, actionType, TabsType, pathLists } from "./define";
 import { createSerializeInput, createSerializeOutput } from "@/components/serialize";
 import Schema from "./Schema.vue";
 import Transform from "./Transform.vue";
-import { serializeInputEncoderLists, serializeOutputEncoderLists } from "@/types";
 import Path from "./Path.vue";
 import Serialize from "@/helper/serialize";
 import { typeLists as renameTypeLists, TypeLists as RenameType } from "@/helper/nameConvert";
@@ -177,6 +153,11 @@ import { jsonrepair } from "jsonrepair";
 import { ComponentSizeType } from "@/types";
 import ToObject from "./toObject/ToObject.vue";
 import { languages as toObjectLangLists, getOption as getToObjectOption } from "./toObject";
+import useOperate from "@/store/operate";
+import useTransfer from "@/store/transfer";
+
+const operate = useOperate();
+const transfer = useTransfer();
 
 const action = useAction(
     await initialize<actionType>(
@@ -210,16 +191,27 @@ const action = useAction(
     ),
 );
 
-let toObjectOpen = $ref(false);
 // 格式化失败标志，用于显示"尝试修复"提示
 let formatError = $ref(false);
 
 const size: ComponentSizeType = "default";
 
+// 转实体类：按语言热度分层展示
+// 热门语言直接按钮展示（参考 TIOBE / Stack Overflow 热度排序）
+const hotLangs = ['TypeScript', 'Python', 'C++', 'Java', 'C#', 'Go', 'Kotlin', 'Swift', 'Rust']
+    .filter(lang => toObjectLangLists.includes(lang));
+// 中频语言收进下拉
+const moreLangs = ['Dart', 'Ruby', 'PHP', 'JavaScript', 'Objective-C', 'Scala3', 'JSON Schema', 'ProtoBuf']
+    .filter(lang => toObjectLangLists.includes(lang));
+const moreLangOptions = moreLangs.map(item => ({
+    label: getDisplayName(item),
+    value: item,
+}));
+
 // 布局
 const layoutStyle = $computed(() => {
     const css: StyleValue = {};
-    if (["from", "object", "to", "path", "json_schema", "transform"].includes(action.current.expand_type)) {
+    if (["path", "json_schema", "transform", "object"].includes(action.current.expand_type)) {
         css.display = "grid";
         css.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
         css.columnGap = "5px";
@@ -250,7 +242,7 @@ const general = {
             throw e;
         }
     },
-    // 美化
+    // 压缩
     async compress() {
         action.current.input = await util.compress(this.getInput());
         action.success({ copy_text: action.current.input });
@@ -322,22 +314,6 @@ watch(() => action.current.input, () => {
     formatError = false;
 });
 
-// 来自
-watch(
-    () => action.current.option.from.serialization,
-    serialization => {
-        if (serialization.isEmpty() || action.current.expand_type !== "from") {
-            return;
-        }
-        if (serialization.isError()) {
-            action.current.input = serialization.error();
-            return;
-        }
-        general.beautify(serialization.toJson(), false);
-    },
-    { immediate: true, deep: true },
-);
-
 const inputSerialize: Serialize = $computed(() => {
     try {
         const code = action.current.input.trim();
@@ -353,14 +329,7 @@ const inputSerialize: Serialize = $computed(() => {
 // 切换
 const toggleObject = lang => {
     action.current.option.to_object.lang = lang;
-    toObjectOpen = true;
-};
-const toggleFrom = item => {
-    action.current.option.from.value = "";
-    action.current.option.from.type = item;
-};
-const toggleTo = item => {
-    action.current.option.to.type = item;
+    action.current.expand_type = 'object';
 };
 const togglePath = item => {
     action.current.option.path.type = item;
@@ -372,10 +341,30 @@ const setExpandType = value => {
     }
     action.current.expand_type = value;
 };
+
+// 带数据跳转到格式转换工具
+const goConfigConvert = () => {
+    const input = action.current.input.trim();
+    if (input) {
+        transfer.set(input, 'json');
+    }
+    operate.redirectTool("configConvert", "configConvert", "conversion");
+};
+
 watch(
     () => action.current.tabs,
     tabs => {
-        setExpandType(["from", "to", "path", "transform"].includes(tabs) ? tabs : "");
+        // 点击「格式转换」tab 时，带数据跳转到 configConvert
+        if (tabs === 'convert') {
+            goConfigConvert();
+            action.current.tabs = 'common';
+            return;
+        }
+        // 切换到「转实体类」时，自动选中默认语言（避免空语言报错）
+        if (tabs === 'object' && !action.current.option.to_object.lang) {
+            action.current.option.to_object.lang = hotLangs[0] || 'TypeScript';
+        }
+        setExpandType(["path", "object", "transform"].includes(tabs) ? tabs : "");
     },
 );
 </script>

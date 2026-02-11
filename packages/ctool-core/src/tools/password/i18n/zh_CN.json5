@@ -1,0 +1,15 @@
+{
+    length: "长度",
+    amount: "数量",
+    uppercase: "大写字母",
+    lowercase: "小写字母",
+    digits: "数字",
+    symbols: "符号",
+    exclude_ambiguous: "排除易混淆字符 (0Oo1lI)",
+    ensure_each_type: "每类字符至少1个",
+    strength: "强度",
+    strength_weak: "弱",
+    strength_medium: "中",
+    strength_strong: "强",
+    strength_very_strong: "很强"
+}

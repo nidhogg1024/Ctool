@@ -1,0 +1,16 @@
+{
+    input_placeholder: "粘贴堆栈信息或 JSON 日志（支持 Java / Python / Go / JS / C# / Ruby / PHP / Rust 等）",
+    language: "语言",
+    exception: "异常类型",
+    message: "异常信息",
+    frames: "调用栈",
+    frame_file: "文件",
+    frame_line: "行号",
+    frame_method: "方法",
+    at: "位置",
+    line: "行",
+    show_all: "显示全部帧",
+    hide_framework: "只看业务代码",
+    show_n_frames: "显示 {n} 个框架帧",
+    hide_frames: "收起框架帧"
+}

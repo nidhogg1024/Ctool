@@ -101,5 +101,15 @@
     "base58_encoder": "Encoder",
     "base58_decoder": "Decoder",
     "mongoObjectId": "MongoDB ObjectId",
-    "numberCalc": "Number Statistics"
+    "numberCalc": "Number Statistics",
+    "chmod": "Chmod Calculator",
+    "chmod_chmod_keywords": "permission,rwx,755,644,chmod",
+    "password": "Password Generator",
+    "password_password_keywords": "password,generator,random,secure",
+    "userAgent": "User-Agent Parser",
+    "userAgent_userAgent_keywords": "UA,browser,user-agent,useragent,device",
+    "configConvert": "Config Converter",
+    "configConvert_configConvert_keywords": "json,yaml,toml,properties,convert,config",
+    "stacktrace": "Stacktrace Formatter",
+    "stacktrace_stacktrace_keywords": "stack,trace,exception,error,log,debug"
 }

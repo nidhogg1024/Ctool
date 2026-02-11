@@ -1,5 +1,5 @@
 // 分类 定义
-const _categories = ["encryption", "conversion", "encoder_decoder", "check", "generate", "other"] as const;
+const _categories = ["crypto", "encoding", "data", "text", "network", "dev", "generate"] as const;
 
 // 工具 - 功能 - 父目录 定义
 export let _tools = {
@@ -215,16 +215,37 @@ export let _tools = {
         feature: ["numberCalc"],
         parent_directory: "",
     },
+    chmod: {
+        feature: ["chmod"],
+        parent_directory: "",
+    },
+    password: {
+        feature: ["password"],
+        parent_directory: "",
+    },
+    userAgent: {
+        feature: ["userAgent"],
+        parent_directory: "",
+    },
+    configConvert: {
+        feature: ["configConvert"],
+        parent_directory: "",
+    },
+    stacktrace: {
+        feature: ["stacktrace"],
+        parent_directory: "",
+    },
 } as const;
 
-// 分类 配置
+// 分类 配置（每个工具只出现在一个分类中）
 export const _categoryTool: Record<CategoryType, ToolType[]> = {
-    encryption: ["hash", "hmac", "aes", "des", "tripleDes", "rc4", "rabbit", "sm2", "sm4", "rsa", "sign", "base64", "bcrypt"],
-    check: ["sign", "regex", "diffs", "crontab", "bcrypt", "dataValidation"],
-    encoder_decoder: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
-    conversion: ["json", "pinyin", "radix", "serialize", "unit", "time", "ascii", "variableConversion", "hexString", "arm", "httpSnippet", "color", "urlParse", "dockerCompose", "zhNumber", "mongoObjectId"],
-    generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "sqlFillParameter", "httpSnippet"],
-    other: ["ip", "code", "websocket", "unit", "text", "numberCalc"],
+    crypto: ["hash", "hmac", "aes", "des", "tripleDes", "rc4", "rabbit", "sm2", "sm4", "rsa", "sign", "bcrypt", "password"],
+    encoding: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
+    data: ["json", "configConvert", "serialize", "radix", "ascii", "arm", "mongoObjectId"],
+    text: ["text", "pinyin", "variableConversion", "diffs", "regex", "zhNumber", "code"],
+    network: ["ip", "urlParse", "websocket", "httpSnippet", "userAgent", "dockerCompose"],
+    dev: ["crontab", "sqlFillParameter", "stacktrace", "chmod", "dataValidation", "color", "unit", "time"],
+    generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "numberCalc"],
 };
 
 // 默认常用
