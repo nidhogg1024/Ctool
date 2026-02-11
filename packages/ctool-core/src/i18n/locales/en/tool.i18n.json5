@@ -108,8 +108,6 @@
     "password_password_keywords": "password,generator,random,secure",
     "userAgent": "User-Agent Parser",
     "userAgent_userAgent_keywords": "UA,browser,user-agent,useragent,device",
-    "jsonPath": "JSONPath",
-    "jsonPath_jsonPath_keywords": "jsonpath,json,path,query,xpath,jmespath",
     "configConvert": "Config Converter",
     "configConvert_configConvert_keywords": "json,yaml,toml,properties,convert,config",
     "stacktrace": "Stacktrace Formatter",

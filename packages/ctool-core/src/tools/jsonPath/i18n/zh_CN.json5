@@ -1,7 +1,0 @@
-{
-    json_input: "JSON 数据",
-    expression: "JSONPath 表达式",
-    result: "匹配结果",
-    examples: "常用表达式",
-    placeholder: "输入 JSONPath 表达式，如 $.store.book[*].author"
-}

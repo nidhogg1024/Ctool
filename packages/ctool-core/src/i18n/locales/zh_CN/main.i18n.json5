@@ -1,12 +1,13 @@
 {
     // 分类
     "category_common": "常用",
-    "category_encryption": "加解密/签名",
-    "category_conversion": "转换",
-    "category_encoder_decoder": "编解码",
-    "category_check": "校验",
-    "category_generate": "生成",
-    "category_other": "其他",
+    "category_crypto": "加密/安全",
+    "category_encoding": "编解码",
+    "category_data": "数据处理",
+    "category_text": "文本工具",
+    "category_network": "网络/Web",
+    "category_dev": "开发辅助",
+    "category_generate": "生成器",
     // ui
     "ui_ok": "确认",
     "ui_error": "错误: {0}",

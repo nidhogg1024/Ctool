@@ -1,12 +1,13 @@
 {
     // category
     "category_common": "Common",
-    "category_encryption": "En/Decrypt/Sign",
-    "category_conversion": "Convert",
-    "category_encoder_decoder": "En/Decoder",
-    "category_check": "Validator",
+    "category_crypto": "Crypto",
+    "category_encoding": "Encoding",
+    "category_data": "Data",
+    "category_text": "Text",
+    "category_network": "Network",
+    "category_dev": "DevKit",
     "category_generate": "Generate",
-    "category_other": "Other",
     // ui
     "ui_ok": "Ok",
     "ui_error": "Error: {0}",
