@@ -42,6 +42,6 @@
     wildcard_match_bits: "Wildcard Bits",
     wildcard_match_first: "First Match",
     wildcard_match_last: "Last Match",
-    wildcard_match_pattern: "Match Pattern",
+    wildcard_match_pattern: "Match Range",
     wildcard_noncontiguous: "Non-contiguous"
 }

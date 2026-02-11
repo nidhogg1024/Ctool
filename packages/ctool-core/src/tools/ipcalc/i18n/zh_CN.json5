@@ -42,6 +42,6 @@
     wildcard_match_bits: "通配位数",
     wildcard_match_first: "首个匹配",
     wildcard_match_last: "末尾匹配",
-    wildcard_match_pattern: "匹配模式",
+    wildcard_match_pattern: "匹配范围",
     wildcard_noncontiguous: "非连续通配符"
 }
