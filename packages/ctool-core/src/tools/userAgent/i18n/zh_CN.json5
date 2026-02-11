@@ -5,5 +5,12 @@
     device: "设备",
     cpu: "CPU 架构",
     current: "获取当前浏览器 UA",
-    placeholder: "粘贴 User-Agent 字符串"
+    placeholder: "粘贴 User-Agent 字符串",
+    name: "名称",
+    version: "版本",
+    model: "型号",
+    type: "类型",
+    vendor: "厂商",
+    architecture: "架构",
+    desktop: "桌面端"
 }

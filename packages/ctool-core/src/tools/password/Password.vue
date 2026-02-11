@@ -101,20 +101,24 @@ const generate = () => {
 
 const output = computed(() => action.current.result.join("\n"));
 
-// 密码强度评估
+// 密码强度评估（基于信息熵）
+// 熵 = 长度 × log2(字符池大小)
+// < 28 位：弱 | 28~48：中 | 48~80：强 | >80：很强
 const strengthScore = computed(() => {
     const len = action.current.length;
-    let types = 0;
-    if (action.current.uppercase) types++;
-    if (action.current.lowercase) types++;
-    if (action.current.digits) types++;
-    if (action.current.symbols) types++;
-    if (types === 0) return 0;
-    // 简单评分：长度 + 字符类型多样性
-    let score = Math.min(len / 4, 5) + types * 1.5;
-    if (len >= 16) score += 2;
-    if (len >= 24) score += 1;
-    return Math.min(score, 10);
+    let poolSize = 0;
+    if (action.current.uppercase) poolSize += 26;
+    if (action.current.lowercase) poolSize += 26;
+    if (action.current.digits) poolSize += 10;
+    if (action.current.symbols) poolSize += SYMBOLS.length;
+    if (poolSize === 0) return 0;
+    if (action.current.excludeAmbiguous) poolSize = Math.max(poolSize - AMBIGUOUS.length, 1);
+    const entropy = len * Math.log2(poolSize);
+    // 映射到 0~10 的评分
+    if (entropy < 28) return Math.max(entropy / 28 * 2.5, 0.5);
+    if (entropy < 48) return 2.5 + (entropy - 28) / 20 * 2.5;
+    if (entropy < 80) return 5 + (entropy - 48) / 32 * 3;
+    return Math.min(8 + (entropy - 80) / 40 * 2, 10);
 });
 
 const strengthPercent = computed(() => strengthScore.value * 10);

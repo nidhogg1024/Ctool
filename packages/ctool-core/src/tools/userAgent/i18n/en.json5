@@ -5,5 +5,12 @@
     device: "Device",
     cpu: "CPU",
     current: "Use Current Browser UA",
-    placeholder: "Paste User-Agent string"
+    placeholder: "Paste User-Agent string",
+    name: "Name",
+    version: "Version",
+    model: "Model",
+    type: "Type",
+    vendor: "Vendor",
+    architecture: "Architecture",
+    desktop: "Desktop"
 }
