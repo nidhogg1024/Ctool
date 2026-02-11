@@ -1,0 +1,1 @@
+import{ag as r,I as t}from"./tool-B6I8EH92.js";const v=r("transfer",()=>{const a=t(""),s=t("json");return{data:a,sourceFormat:s,set:(e,o="json")=>{a.value=e,s.value=o},consume:()=>{const e={data:a.value,sourceFormat:s.value};return a.value="",s.value="json",e},hasData:()=>a.value!==""}},!1);export{v as u};

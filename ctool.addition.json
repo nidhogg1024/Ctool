@@ -1479,6 +1479,177 @@
 				"sztj",
 				"number statistics"
 			]
+		},
+		{
+			"name": "chmod",
+			"feature": "chmod",
+			"keyword": [
+				"chmod",
+				"Chmod 权限计算器",
+				"权限",
+				"permission",
+				"rwx",
+				"755",
+				"644",
+				"Chmod Calculator"
+			],
+			"search": [
+				"chmod",
+				"chmod 权限计算器",
+				"权限",
+				"permission",
+				"rwx",
+				"755",
+				"644",
+				"chmod quanxianjisuanqi",
+				"chmod qxjsq",
+				"quanxian",
+				"qx",
+				"chmod calculator"
+			]
+		},
+		{
+			"name": "password",
+			"feature": "password",
+			"keyword": [
+				"password",
+				"密码生成器",
+				"密码",
+				"生成",
+				"generator",
+				"随机",
+				"Password Generator",
+				"random",
+				"secure"
+			],
+			"search": [
+				"password",
+				"密码生成器",
+				"密码",
+				"生成",
+				"generator",
+				"随机",
+				"mimashengchengqi",
+				"mmscq",
+				"mima",
+				"mm",
+				"shengcheng",
+				"sc",
+				"suiji",
+				"sj",
+				"password generator",
+				"random",
+				"secure"
+			]
+		},
+		{
+			"name": "userAgent",
+			"feature": "userAgent",
+			"keyword": [
+				"userAgent",
+				"User-Agent 解析",
+				"UA",
+				"浏览器",
+				"user-agent",
+				"useragent",
+				"设备",
+				"User-Agent Parser",
+				"browser",
+				"device"
+			],
+			"search": [
+				"useragent",
+				"user-agent 解析",
+				"ua",
+				"浏览器",
+				"user-agent",
+				"设备",
+				"user-agent jiexi",
+				"user-agent jx",
+				"liulanqi",
+				"llq",
+				"shebei",
+				"sb",
+				"user-agent parser",
+				"browser",
+				"device"
+			]
+		},
+		{
+			"name": "configConvert",
+			"feature": "configConvert",
+			"keyword": [
+				"configConvert",
+				"配置格式互转",
+				"json",
+				"yaml",
+				"toml",
+				"properties",
+				"转换",
+				"convert",
+				"配置",
+				"Config Converter",
+				"config"
+			],
+			"search": [
+				"configconvert",
+				"配置格式互转",
+				"json",
+				"yaml",
+				"toml",
+				"properties",
+				"转换",
+				"convert",
+				"配置",
+				"peizhigeshihuzhuan",
+				"pzgshz",
+				"zhuanhuan",
+				"zh",
+				"peizhi",
+				"pz",
+				"config converter",
+				"config"
+			]
+		},
+		{
+			"name": "stacktrace",
+			"feature": "stacktrace",
+			"keyword": [
+				"stacktrace",
+				"Stacktrace 格式化",
+				"堆栈",
+				"stack",
+				"trace",
+				"异常",
+				"exception",
+				"error",
+				"日志",
+				"Stacktrace Formatter",
+				"log",
+				"debug"
+			],
+			"search": [
+				"stacktrace",
+				"stacktrace 格式化",
+				"堆栈",
+				"stack",
+				"trace",
+				"异常",
+				"exception",
+				"error",
+				"日志",
+				"stacktrace geshihua",
+				"stacktrace gsh",
+				"duizhan",
+				"dz",
+				"yichang",
+				"yc",
+				"rizhi",
+				"rz",
+				"stacktrace formatter",
+				"log",
+				"debug"
+			]
 		}
 	],
 	"i18n": {
@@ -1642,23 +1813,26 @@
 				"main_category_common": {
 					"message": "常用"
 				},
-				"main_category_encryption": {
-					"message": "加解密/签名"
+				"main_category_crypto": {
+					"message": "加密/安全"
 				},
-				"main_category_conversion": {
-					"message": "转换"
-				},
-				"main_category_encoder_decoder": {
+				"main_category_encoding": {
 					"message": "编解码"
 				},
-				"main_category_check": {
-					"message": "校验"
+				"main_category_data": {
+					"message": "数据处理"
+				},
+				"main_category_text": {
+					"message": "文本工具"
+				},
+				"main_category_network": {
+					"message": "网络/Web"
+				},
+				"main_category_dev": {
+					"message": "开发辅助"
 				},
 				"main_category_generate": {
-					"message": "生成"
-				},
-				"main_category_other": {
-					"message": "其他"
+					"message": "生成器"
 				},
 				"main_ui_ok": {
 					"message": "确认"
@@ -2242,6 +2416,36 @@
 				"tool_numberCalc": {
 					"message": "数字统计"
 				},
+				"tool_chmod": {
+					"message": "Chmod 权限计算器"
+				},
+				"tool_chmod_chmod_keywords": {
+					"message": "权限,permission,rwx,755,644,chmod"
+				},
+				"tool_password": {
+					"message": "密码生成器"
+				},
+				"tool_password_password_keywords": {
+					"message": "密码,password,生成,generator,随机"
+				},
+				"tool_userAgent": {
+					"message": "User-Agent 解析"
+				},
+				"tool_userAgent_userAgent_keywords": {
+					"message": "UA,浏览器,user-agent,useragent,设备"
+				},
+				"tool_configConvert": {
+					"message": "配置格式互转"
+				},
+				"tool_configConvert_configConvert_keywords": {
+					"message": "json,yaml,toml,properties,转换,convert,配置"
+				},
+				"tool_stacktrace": {
+					"message": "Stacktrace 格式化"
+				},
+				"tool_stacktrace_stacktrace_keywords": {
+					"message": "堆栈,stack,trace,异常,exception,error,日志"
+				},
 				"tool_hash_hash": {
 					"message": "哈希(hash)"
 				},
@@ -2551,6 +2755,21 @@
 				"tool_numberCalc_numberCalc_keywords": {
 					"message": ""
 				},
+				"tool_chmod_chmod": {
+					"message": "Chmod 权限计算器"
+				},
+				"tool_password_password": {
+					"message": "密码生成器"
+				},
+				"tool_userAgent_userAgent": {
+					"message": "User-Agent 解析"
+				},
+				"tool_configConvert_configConvert": {
+					"message": "配置格式互转"
+				},
+				"tool_stacktrace_stacktrace": {
+					"message": "Stacktrace 格式化"
+				},
 				"hash_uppercase": {
 					"message": "大写"
 				},
@@ -2650,6 +2869,9 @@
 				"json_common": {
 					"message": "常用"
 				},
+				"json_go_convert": {
+					"message": "格式转换"
+				},
 				"json_key_rename": {
 					"message": "键命名"
 				},
@@ -2676,6 +2898,15 @@
 				},
 				"json_object": {
 					"message": "转实体类"
+				},
+				"json_more_langs": {
+					"message": "更多语言"
+				},
+				"json_show_options": {
+					"message": "高级选项"
+				},
+				"json_hide_options": {
+					"message": "收起选项"
 				},
 				"json_path": {
 					"message": "Path"
@@ -4681,6 +4912,180 @@
 				},
 				"numberCalc_stddev": {
 					"message": "标准差"
+				},
+				"chmod_owner": {
+					"message": "所有者"
+				},
+				"chmod_group": {
+					"message": "所属组"
+				},
+				"chmod_others": {
+					"message": "其他"
+				},
+				"chmod_read": {
+					"message": "读"
+				},
+				"chmod_write": {
+					"message": "写"
+				},
+				"chmod_execute": {
+					"message": "执行"
+				},
+				"chmod_octal": {
+					"message": "八进制"
+				},
+				"chmod_symbolic": {
+					"message": "符号表示"
+				},
+				"chmod_command": {
+					"message": "命令示例"
+				},
+				"chmod_special": {
+					"message": "特殊权限"
+				},
+				"chmod_suid": {
+					"message": "SUID"
+				},
+				"chmod_sgid": {
+					"message": "SGID"
+				},
+				"chmod_sticky": {
+					"message": "Sticky Bit"
+				},
+				"password_length": {
+					"message": "长度"
+				},
+				"password_amount": {
+					"message": "数量"
+				},
+				"password_uppercase": {
+					"message": "大写字母"
+				},
+				"password_lowercase": {
+					"message": "小写字母"
+				},
+				"password_digits": {
+					"message": "数字"
+				},
+				"password_symbols": {
+					"message": "符号"
+				},
+				"password_exclude_ambiguous": {
+					"message": "排除易混淆字符 (0Oo1lI)"
+				},
+				"password_ensure_each_type": {
+					"message": "每类字符至少1个"
+				},
+				"password_strength": {
+					"message": "强度"
+				},
+				"password_strength_weak": {
+					"message": "弱"
+				},
+				"password_strength_medium": {
+					"message": "中"
+				},
+				"password_strength_strong": {
+					"message": "强"
+				},
+				"password_strength_very_strong": {
+					"message": "很强"
+				},
+				"userAgent_browser": {
+					"message": "浏览器"
+				},
+				"userAgent_engine": {
+					"message": "渲染引擎"
+				},
+				"userAgent_os": {
+					"message": "操作系统"
+				},
+				"userAgent_device": {
+					"message": "设备"
+				},
+				"userAgent_cpu": {
+					"message": "CPU 架构"
+				},
+				"userAgent_current": {
+					"message": "获取当前浏览器 UA"
+				},
+				"userAgent_placeholder": {
+					"message": "粘贴 User-Agent 字符串"
+				},
+				"userAgent_name": {
+					"message": "名称"
+				},
+				"userAgent_version": {
+					"message": "版本"
+				},
+				"userAgent_model": {
+					"message": "型号"
+				},
+				"userAgent_type": {
+					"message": "类型"
+				},
+				"userAgent_vendor": {
+					"message": "厂商"
+				},
+				"userAgent_architecture": {
+					"message": "架构"
+				},
+				"userAgent_desktop": {
+					"message": "桌面端"
+				},
+				"configConvert_source": {
+					"message": "源格式"
+				},
+				"configConvert_target": {
+					"message": "目标格式"
+				},
+				"configConvert_swap": {
+					"message": "交换方向"
+				},
+				"stacktrace_input_placeholder": {
+					"message": "粘贴堆栈信息或 JSON 日志（支持 Java / Python / Go / JS / C# / Ruby / PHP / Rust 等）"
+				},
+				"stacktrace_language": {
+					"message": "语言"
+				},
+				"stacktrace_exception": {
+					"message": "异常类型"
+				},
+				"stacktrace_message": {
+					"message": "异常信息"
+				},
+				"stacktrace_frames": {
+					"message": "调用栈"
+				},
+				"stacktrace_frame_file": {
+					"message": "文件"
+				},
+				"stacktrace_frame_line": {
+					"message": "行号"
+				},
+				"stacktrace_frame_method": {
+					"message": "方法"
+				},
+				"stacktrace_at": {
+					"message": "位置"
+				},
+				"stacktrace_line": {
+					"message": "行"
+				},
+				"stacktrace_show_all": {
+					"message": "显示全部帧"
+				},
+				"stacktrace_hide_framework": {
+					"message": "只看业务代码"
+				},
+				"stacktrace_show_n_frames": {
+					"message": "显示 {n} 个框架帧",
+					"placeholders": [
+						"n"
+					]
+				},
+				"stacktrace_hide_frames": {
+					"message": "收起框架帧"
 				}
 			},
 			"en": {
@@ -4828,23 +5233,26 @@
 				"main_category_common": {
 					"message": "Common"
 				},
-				"main_category_encryption": {
-					"message": "En/Decrypt/Sign"
+				"main_category_crypto": {
+					"message": "Crypto"
 				},
-				"main_category_conversion": {
-					"message": "Convert"
+				"main_category_encoding": {
+					"message": "Encoding"
 				},
-				"main_category_encoder_decoder": {
-					"message": "En/Decoder"
+				"main_category_data": {
+					"message": "Data"
 				},
-				"main_category_check": {
-					"message": "Validator"
+				"main_category_text": {
+					"message": "Text"
+				},
+				"main_category_network": {
+					"message": "Network"
+				},
+				"main_category_dev": {
+					"message": "DevKit"
 				},
 				"main_category_generate": {
 					"message": "Generate"
-				},
-				"main_category_other": {
-					"message": "Other"
 				},
 				"main_ui_ok": {
 					"message": "Ok"
@@ -5410,6 +5818,36 @@
 				"tool_numberCalc": {
 					"message": "Number Statistics"
 				},
+				"tool_chmod": {
+					"message": "Chmod Calculator"
+				},
+				"tool_chmod_chmod_keywords": {
+					"message": "permission,rwx,755,644,chmod"
+				},
+				"tool_password": {
+					"message": "Password Generator"
+				},
+				"tool_password_password_keywords": {
+					"message": "password,generator,random,secure"
+				},
+				"tool_userAgent": {
+					"message": "User-Agent Parser"
+				},
+				"tool_userAgent_userAgent_keywords": {
+					"message": "UA,browser,user-agent,useragent,device"
+				},
+				"tool_configConvert": {
+					"message": "Config Converter"
+				},
+				"tool_configConvert_configConvert_keywords": {
+					"message": "json,yaml,toml,properties,convert,config"
+				},
+				"tool_stacktrace": {
+					"message": "Stacktrace Formatter"
+				},
+				"tool_stacktrace_stacktrace_keywords": {
+					"message": "stack,trace,exception,error,log,debug"
+				},
 				"tool_hash_hash": {
 					"message": "Hash"
 				},
@@ -5737,6 +6175,21 @@
 				"tool_numberCalc_numberCalc_keywords": {
 					"message": ""
 				},
+				"tool_chmod_chmod": {
+					"message": "Chmod Calculator"
+				},
+				"tool_password_password": {
+					"message": "Password Generator"
+				},
+				"tool_userAgent_userAgent": {
+					"message": "User-Agent Parser"
+				},
+				"tool_configConvert_configConvert": {
+					"message": "Config Converter"
+				},
+				"tool_stacktrace_stacktrace": {
+					"message": "Stacktrace Formatter"
+				},
 				"hash_uppercase": {
 					"message": "Uppercase"
 				},
@@ -5836,6 +6289,9 @@
 				"json_to": {
 					"message": "To"
 				},
+				"json_go_convert": {
+					"message": "Convert"
+				},
 				"json_key_rename": {
 					"message": "Key Rename"
 				},
@@ -5862,6 +6318,15 @@
 				},
 				"json_object": {
 					"message": "To Object"
+				},
+				"json_more_langs": {
+					"message": "More"
+				},
+				"json_show_options": {
+					"message": "Options"
+				},
+				"json_hide_options": {
+					"message": "Hide"
 				},
 				"json_path": {
 					"message": "Path"
@@ -7867,6 +8332,180 @@
 				},
 				"numberCalc_stddev": {
 					"message": "Std Dev"
+				},
+				"chmod_owner": {
+					"message": "Owner"
+				},
+				"chmod_group": {
+					"message": "Group"
+				},
+				"chmod_others": {
+					"message": "Others"
+				},
+				"chmod_read": {
+					"message": "Read"
+				},
+				"chmod_write": {
+					"message": "Write"
+				},
+				"chmod_execute": {
+					"message": "Execute"
+				},
+				"chmod_octal": {
+					"message": "Octal"
+				},
+				"chmod_symbolic": {
+					"message": "Symbolic"
+				},
+				"chmod_command": {
+					"message": "Command"
+				},
+				"chmod_special": {
+					"message": "Special"
+				},
+				"chmod_suid": {
+					"message": "SUID"
+				},
+				"chmod_sgid": {
+					"message": "SGID"
+				},
+				"chmod_sticky": {
+					"message": "Sticky Bit"
+				},
+				"password_length": {
+					"message": "Length"
+				},
+				"password_amount": {
+					"message": "Amount"
+				},
+				"password_uppercase": {
+					"message": "Uppercase"
+				},
+				"password_lowercase": {
+					"message": "Lowercase"
+				},
+				"password_digits": {
+					"message": "Digits"
+				},
+				"password_symbols": {
+					"message": "Symbols"
+				},
+				"password_exclude_ambiguous": {
+					"message": "Exclude ambiguous (0Oo1lI)"
+				},
+				"password_ensure_each_type": {
+					"message": "At least 1 of each type"
+				},
+				"password_strength": {
+					"message": "Strength"
+				},
+				"password_strength_weak": {
+					"message": "Weak"
+				},
+				"password_strength_medium": {
+					"message": "Medium"
+				},
+				"password_strength_strong": {
+					"message": "Strong"
+				},
+				"password_strength_very_strong": {
+					"message": "Very Strong"
+				},
+				"userAgent_browser": {
+					"message": "Browser"
+				},
+				"userAgent_engine": {
+					"message": "Engine"
+				},
+				"userAgent_os": {
+					"message": "OS"
+				},
+				"userAgent_device": {
+					"message": "Device"
+				},
+				"userAgent_cpu": {
+					"message": "CPU"
+				},
+				"userAgent_current": {
+					"message": "Use Current Browser UA"
+				},
+				"userAgent_placeholder": {
+					"message": "Paste User-Agent string"
+				},
+				"userAgent_name": {
+					"message": "Name"
+				},
+				"userAgent_version": {
+					"message": "Version"
+				},
+				"userAgent_model": {
+					"message": "Model"
+				},
+				"userAgent_type": {
+					"message": "Type"
+				},
+				"userAgent_vendor": {
+					"message": "Vendor"
+				},
+				"userAgent_architecture": {
+					"message": "Architecture"
+				},
+				"userAgent_desktop": {
+					"message": "Desktop"
+				},
+				"configConvert_source": {
+					"message": "Source"
+				},
+				"configConvert_target": {
+					"message": "Target"
+				},
+				"configConvert_swap": {
+					"message": "Swap"
+				},
+				"stacktrace_input_placeholder": {
+					"message": "Paste stack trace or JSON log (Java / Python / Go / JS / C# / Ruby / PHP / Rust ...)"
+				},
+				"stacktrace_language": {
+					"message": "Language"
+				},
+				"stacktrace_exception": {
+					"message": "Exception"
+				},
+				"stacktrace_message": {
+					"message": "Message"
+				},
+				"stacktrace_frames": {
+					"message": "Stack Frames"
+				},
+				"stacktrace_frame_file": {
+					"message": "File"
+				},
+				"stacktrace_frame_line": {
+					"message": "Line"
+				},
+				"stacktrace_frame_method": {
+					"message": "Method"
+				},
+				"stacktrace_at": {
+					"message": "in"
+				},
+				"stacktrace_line": {
+					"message": "line"
+				},
+				"stacktrace_show_all": {
+					"message": "Show all frames"
+				},
+				"stacktrace_hide_framework": {
+					"message": "Business only"
+				},
+				"stacktrace_show_n_frames": {
+					"message": "Show {n} more frames",
+					"placeholders": [
+						"n"
+					]
+				},
+				"stacktrace_hide_frames": {
+					"message": "Hide frames"
 				}
 			}
 		}
