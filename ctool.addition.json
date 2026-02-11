@@ -4565,7 +4565,7 @@
 					"message": "末尾匹配"
 				},
 				"ipcalc_wildcard_match_pattern": {
-					"message": "匹配模式"
+					"message": "匹配范围"
 				},
 				"ipcalc_wildcard_noncontiguous": {
 					"message": "非连续通配符"
@@ -7751,7 +7751,7 @@
 					"message": "Last Match"
 				},
 				"ipcalc_wildcard_match_pattern": {
-					"message": "Match Pattern"
+					"message": "Match Range"
 				},
 				"ipcalc_wildcard_noncontiguous": {
 					"message": "Non-contiguous"
