@@ -103,5 +103,7 @@
     "mongoObjectId": "MongoDB ObjectId",
     "numberCalc": "Number Statistics",
     "chmod": "Chmod Calculator",
-    "chmod_chmod_keywords": "permission,rwx,755,644,chmod"
+    "chmod_chmod_keywords": "permission,rwx,755,644,chmod",
+    "password": "Password Generator",
+    "password_password_keywords": "password,generator,random,secure"
 }
