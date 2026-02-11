@@ -1,4 +1,5 @@
 {
     source: "源格式",
-    target: "目标格式"
+    target: "目标格式",
+    swap: "交换方向"
 }

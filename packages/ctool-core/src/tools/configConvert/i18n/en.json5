@@ -1,4 +1,5 @@
 {
     source: "Source",
-    target: "Target"
+    target: "Target",
+    swap: "Swap"
 }
