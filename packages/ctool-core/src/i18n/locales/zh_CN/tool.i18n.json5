@@ -119,5 +119,7 @@
     "userAgent": "User-Agent 解析",
     "userAgent_userAgent_keywords": "UA,浏览器,user-agent,useragent,设备",
     "jsonPath": "JSONPath",
-    "jsonPath_jsonPath_keywords": "jsonpath,json,path,查询,xpath,jmespath"
+    "jsonPath_jsonPath_keywords": "jsonpath,json,path,查询,xpath,jmespath",
+    "configConvert": "配置格式互转",
+    "configConvert_configConvert_keywords": "json,yaml,toml,properties,转换,convert,配置"
 }

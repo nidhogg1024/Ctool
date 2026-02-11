@@ -8,6 +8,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@iarna/toml": "^2.2.5",
         "@ltd/j-toml": "^1.38.0",
         "@monaco-editor/loader": "^1.4.0",
         "@prettier/plugin-php": "^0.22.0",
