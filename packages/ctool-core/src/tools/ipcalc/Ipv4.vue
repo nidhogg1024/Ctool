@@ -10,7 +10,7 @@
             {label: $t('ipcalc_wildcard'), value: 'wildcard'},
         ]"/>
         <Input size="large" :width="220" v-model="action.current.mask">
-            <template #append>
+            <template v-if="action.current.maskMode === 'mask'" #append>
                 <Button @click="maskSetShow = true">
                     <Icon hover name="setting" :tooltip="$t('ipcalc_mask_set_title')"/>
                 </Button>
@@ -21,7 +21,8 @@
         </Input>
         <HelpTip link="https://www.npmjs.com/package/netmask"/>
     </Align>
-    <Align direction="vertical" v-if="error === ''">
+    <!-- 连续通配符 或 掩码模式：显示标准结果 -->
+    <Align direction="vertical" v-if="error === '' && !nonContiguous">
         <Card :title="$t('ipcalc_ip_info')" padding="0">
             <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
                 <Item :title="$t(`ipcalc_ip_info_ip10`)" :value="calc.ipInfo().ip"/>
@@ -32,7 +33,7 @@
             </div>
             <template #extra>{{ action.current.input }}</template>
         </Card>
-        <Card :title="$t('ipcalc_mask_info')" padding="0">
+        <Card :title="action.current.maskMode === 'wildcard' ? $t('ipcalc_wildcard_info') : $t('ipcalc_mask_info')" padding="0">
             <div style="display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;">
                 <Item :title="$t(`ipcalc_mask`)" :value="calc.maskInfo().bit"/>
                 <Item :title="$t(`ipcalc_mask_info_mask`)" :value="calc.maskInfo().mask"/>
@@ -42,6 +43,16 @@
                 <Item :title="$t(`ipcalc_mask_info_mask16`)" :value="calc.maskInfo().mask16"/>
                 <Item :title="$t(`ipcalc_mask_info_mask2`)" :value="calc.maskInfo().mask2" style="grid-column-start: 3;grid-column-end: 5;"/>
             </div>
+            <!-- 反掩码模式额外显示反掩码格式 -->
+            <template v-if="action.current.maskMode === 'wildcard'">
+                <div style="border-top: 1px solid var(--ctool-border-color);display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;">
+                    <Item :title="$t(`ipcalc_wildcard_info_mask`)" :value="wildcardDetail.mask"/>
+                    <Item :title="$t(`ipcalc_wildcard_info_long`)" :value="wildcardDetail.long"/>
+                    <Item :title="$t(`ipcalc_wildcard_info_mask8`)" :value="wildcardDetail.mask8"/>
+                    <Item :title="$t(`ipcalc_wildcard_info_mask16`)" :value="wildcardDetail.mask16"/>
+                    <Item :title="$t(`ipcalc_wildcard_info_mask2`)" :value="wildcardDetail.mask2" style="grid-column-start: 2;grid-column-end: 5;"/>
+                </div>
+            </template>
             <template #extra>{{ action.current.mask }}</template>
         </Card>
         <Card :title="$t('ipcalc_network_info')" padding="0">
@@ -56,6 +67,38 @@
             <template #extra>
                 <Button type="primary" size="small" :text="$t(`ipcalc_subnet`)" @click="showSubnet = true"/>
             </template>
+        </Card>
+    </Align>
+    <!-- 非连续通配符：专用结果面板 -->
+    <Align direction="vertical" v-if="error === '' && nonContiguous">
+        <Card :title="$t('ipcalc_ip_info')" padding="0">
+            <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
+                <Item :title="$t(`ipcalc_ip_info_ip10`)" :value="wildcardCalc.ipInfo().ip"/>
+                <Item :title="$t(`ipcalc_ip_info_long`)" :value="wildcardCalc.ipInfo().long"/>
+                <Item :title="$t(`ipcalc_ip_info_ip8`)" :value="wildcardCalc.ipInfo().ip8"/>
+                <Item :title="$t(`ipcalc_ip_info_ip16`)" :value="wildcardCalc.ipInfo().ip16"/>
+                <Item :title="$t(`ipcalc_ip_info_ip2`)" :value="wildcardCalc.ipInfo().ip2" style="grid-column-start: 2;grid-column-end: 4;"/>
+            </div>
+            <template #extra>{{ action.current.input }}</template>
+        </Card>
+        <Card :title="`${$t('ipcalc_wildcard_info')} (${$t('ipcalc_wildcard_noncontiguous')})`" padding="0">
+            <div style="display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;">
+                <Item :title="$t(`ipcalc_wildcard_info_mask`)" :value="wildcardDetail.mask"/>
+                <Item :title="$t(`ipcalc_wildcard_info_long`)" :value="wildcardDetail.long"/>
+                <Item :title="$t(`ipcalc_wildcard_info_mask8`)" :value="wildcardDetail.mask8"/>
+                <Item :title="$t(`ipcalc_wildcard_info_mask16`)" :value="wildcardDetail.mask16"/>
+                <Item :title="$t(`ipcalc_wildcard_info_mask2`)" :value="wildcardDetail.mask2" style="grid-column-start: 2;grid-column-end: 5;"/>
+            </div>
+            <template #extra>{{ action.current.mask }}</template>
+        </Card>
+        <Card :title="$t('ipcalc_wildcard_match')" padding="0">
+            <div style="display: grid;grid-template-columns: 1fr 1fr 1fr;">
+                <Item :title="$t(`ipcalc_wildcard_match_count`)" :value="wildcardCalc.matchCount()"/>
+                <Item :title="$t(`ipcalc_wildcard_match_bits`)" :value="wildcardCalc.wildcardBits()"/>
+                <Item :title="$t(`ipcalc_wildcard_match_pattern`)" :value="wildcardCalc.matchPattern()"/>
+                <Item :title="$t(`ipcalc_wildcard_match_first`)" :value="wildcardCalc.firstMatch()"/>
+                <Item :title="$t(`ipcalc_wildcard_match_last`)" :value="wildcardCalc.lastMatch()"/>
+            </div>
         </Card>
     </Align>
     <HeightResize :append="['.ctool-page-option']" v-if="error !== ''">
@@ -127,7 +170,7 @@
 
 <script lang="ts" setup>
 import {initialize, useAction} from "@/store/action";
-import ipcalc, {getMaskBitByAvailable, wildcardToMask} from "./utilV4";
+import ipcalc, {getMaskBitByAvailable, wildcardToMask, isContiguousWildcard, getWildcardInfo, WildcardCalc} from "./utilV4";
 import {watch} from "vue";
 import Item from "./Item.vue";
 import Serialize from "@/helper/serialize";
@@ -148,6 +191,10 @@ let maskAvailable = $ref(254)
 let error = $ref("")
 let calc = $ref(new ipcalc())
 let showSubnet = $ref(false)
+// 非连续通配符相关状态
+let nonContiguous = $ref(false)
+let wildcardCalc = $ref(new WildcardCalc("0.0.0.0", "0.0.0.0"))
+let wildcardDetail = $ref(getWildcardInfo("0.0.0.0"))
 
 const subnet = $computed(() => {
     const lists: string[] = []
@@ -169,10 +216,24 @@ watch(() => {
     }
 }, ({input, mask, maskMode}) => {
     error = ""
+    nonContiguous = false
     try {
-        // 通配符模式：将通配符掩码取反为子网掩码，空值默认 0.0.0.0（等效 /32）
-        const effectiveMask = maskMode === "wildcard" ? wildcardToMask(mask || "0.0.0.0") : mask
-        calc = new ipcalc(input, effectiveMask)
+        if (maskMode === "wildcard") {
+            const effectiveWildcard = mask || "0.0.0.0"
+            // 获取反掩码各种格式信息
+            wildcardDetail = getWildcardInfo(effectiveWildcard)
+            if (!isContiguousWildcard(effectiveWildcard)) {
+                // 非连续通配符：使用专用计算器
+                nonContiguous = true
+                wildcardCalc = new WildcardCalc(input, effectiveWildcard)
+            } else {
+                // 连续通配符：转为子网掩码走标准逻辑
+                const effectiveMask = wildcardToMask(effectiveWildcard)
+                calc = new ipcalc(input, effectiveMask)
+            }
+        } else {
+            calc = new ipcalc(input, mask)
+        }
         action.save()
     } catch (e) {
         error = $error(e)

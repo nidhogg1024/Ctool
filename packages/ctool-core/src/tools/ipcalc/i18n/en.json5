@@ -30,5 +30,18 @@
     network_info_last: "Last IP",
     network_info_broadcast: "Broadcast Address",
     mask_set_title: "Calculate mask by number of available IP",
-    wildcard: "Wildcard Mask"
+    wildcard: "Wildcard Mask",
+    wildcard_info: "Wildcard Detail",
+    wildcard_info_mask: "Wildcard Mask",
+    wildcard_info_long: "Long Wildcard",
+    wildcard_info_mask2: "Binary Wildcard",
+    wildcard_info_mask8: "Octal Wildcard",
+    wildcard_info_mask16: "Hex Wildcard",
+    wildcard_match: "Match Detail",
+    wildcard_match_count: "Match Count",
+    wildcard_match_bits: "Wildcard Bits",
+    wildcard_match_first: "First Match",
+    wildcard_match_last: "Last Match",
+    wildcard_match_pattern: "Match Pattern",
+    wildcard_noncontiguous: "Non-contiguous"
 }
