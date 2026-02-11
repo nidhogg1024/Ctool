@@ -160,7 +160,7 @@
 
 <script lang="ts" setup>
 import {initialize, useAction} from "@/store/action";
-import ipcalc, {getMaskBitByAvailable, wildcardToMask, isContiguousWildcard, getWildcardInfo, WildcardCalc} from "./utilV4";
+import ipcalc, {getMaskBitByAvailable, isContiguousWildcard, getWildcardInfo, WildcardCalc} from "./utilV4";
 import {watch} from "vue";
 import Item from "./Item.vue";
 import Serialize from "@/helper/serialize";
