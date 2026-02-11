@@ -107,5 +107,7 @@
     "password": "Password Generator",
     "password_password_keywords": "password,generator,random,secure",
     "userAgent": "User-Agent Parser",
-    "userAgent_userAgent_keywords": "UA,browser,user-agent,useragent,device"
+    "userAgent_userAgent_keywords": "UA,browser,user-agent,useragent,device",
+    "jsonPath": "JSONPath",
+    "jsonPath_jsonPath_keywords": "jsonpath,json,path,query,xpath,jmespath"
 }

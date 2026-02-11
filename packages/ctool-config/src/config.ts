@@ -227,6 +227,10 @@ export let _tools = {
         feature: ["userAgent"],
         parent_directory: "",
     },
+    jsonPath: {
+        feature: ["jsonPath"],
+        parent_directory: "",
+    },
 } as const;
 
 // 分类 配置
@@ -236,7 +240,7 @@ export const _categoryTool: Record<CategoryType, ToolType[]> = {
     encoder_decoder: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
     conversion: ["json", "pinyin", "radix", "serialize", "unit", "time", "ascii", "variableConversion", "hexString", "arm", "httpSnippet", "color", "urlParse", "dockerCompose", "zhNumber", "mongoObjectId"],
     generate: ["qrCode", "barcode", "randomString", "uuid", "binary", "ipcalc", "sqlFillParameter", "httpSnippet", "chmod", "password"],
-    other: ["ip", "code", "websocket", "unit", "text", "numberCalc", "userAgent"],
+    other: ["ip", "code", "websocket", "unit", "text", "numberCalc", "userAgent", "jsonPath"],
 };
 
 // 默认常用

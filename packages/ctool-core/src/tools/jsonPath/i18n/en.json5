@@ -1,0 +1,7 @@
+{
+    json_input: "JSON Data",
+    expression: "JSONPath Expression",
+    result: "Match Result",
+    examples: "Examples",
+    placeholder: "Enter JSONPath expression, e.g. $.store.book[*].author"
+}

@@ -117,5 +117,7 @@
     "password": "密码生成器",
     "password_password_keywords": "密码,password,生成,generator,随机",
     "userAgent": "User-Agent 解析",
-    "userAgent_userAgent_keywords": "UA,浏览器,user-agent,useragent,设备"
+    "userAgent_userAgent_keywords": "UA,浏览器,user-agent,useragent,设备",
+    "jsonPath": "JSONPath",
+    "jsonPath_jsonPath_keywords": "jsonpath,json,path,查询,xpath,jmespath"
 }
