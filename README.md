@@ -1,14 +1,50 @@
-# Ctool - 程序开发常用工具
+# Ctool - 程序开发常用工具（增强版）
 
-> Fork from [baiy/Ctool](https://github.com/baiy/Ctool)，原项目自 2023 年停止维护，本仓库继续维护和更新。
+基于 [baiy/Ctool](https://github.com/baiy/Ctool) 的增强维护版本，持续修复社区反馈的问题并添加新功能。
 
-使用过程中的任何问题或者需要新的工具欢迎提交 [Issue](https://github.com/nidhogg1024/Ctool/issues)
+原项目近一年更新极少（2025 年仅 2 次 commit），100+ issue 处于无人处理状态。本仓库积极响应社区需求，保持活跃更新。
+
+**在线体验**：https://nidhogg1024.github.io/Ctool/
+
+使用过程中的任何问题或需要新工具，欢迎提交 [Issue](https://github.com/nidhogg1024/Ctool/issues)
+
+## 相比原版的增强
+
+### 新功能
+- **JSON Transform** — 用 JavaScript + lodash 表达式对 JSON 数据做变换（groupBy、sortBy、filter 等）
+- **IPv4 反掩码输入** — 支持直接输入通配符掩码（反掩码），自动转换为子网掩码计算
+- **URL 全字符编码** — 对所有字符（含未保留字符）进行百分号编码
+- **Base58 编码/解码** — 新增 Base58 工具
+- **多行数字统计** — 多行数字求和、平均值等
+- **界面缩放设置** — 适配不同显示器和浏览器缩放
+- **网络带宽换算** — 单位换算新增网络带宽类别
+- **SQL 具名参数填充** — 支持 `:name` 风格的具名参数
+
+### Bug 修复
+- CRC16 Modbus 校验结果字节序错误
+- 正则表达式「常用」选择覆盖而非追加
+- Base64 解码不兼容 URL 编码的输入
+- JSON 压缩多出空格、转义格式化出错
+- 解密工具缺少 Hex 输出格式
+- 时间戳/时区页面崩溃、日期计算精度问题
+- 进制转换大写十六进制输入失败
+- PHP array() 语法转 JSON 不支持
+
+### 改进
+- 时区选择器支持搜索过滤
+- 文本对比语言选择可搜索
+- Select 组件搜索框高度优化
+- 升级 Tauri v1 → v2，支持 macOS 26（Tahoe）
 
 ## 先睹为快
 
 ![](images/v2.0.0.png)
 
 ## 安装使用
+
+### 在线版
+
+https://nidhogg1024.github.io/Ctool/
 
 ### 桌面客户端（macOS / Windows）
 
@@ -26,9 +62,13 @@
 
 ### 浏览器扩展
 
+原版扩展商店链接（由原作者维护，不含增强功能）：
+
 - [Chrome 应用商店](https://chrome.google.com/webstore/detail/ipfcebkfhpkjeikaammlkcnalknjahmh)
 - [微软 Edge 应用商店](https://microsoftedge.microsoft.com/addons/detail/cihekagpnnadjjplgljkmkpcfiopfplc)
 - [火狐 Firefox 应用商店](https://addons.mozilla.org/zh-CN/firefox/addon/ctool/)
+
+> 增强版浏览器扩展可从 [Releases](https://github.com/nidhogg1024/Ctool/releases) 下载 zip 文件手动加载
 
 ## 开发
 
@@ -55,10 +95,7 @@ pnpm --filter ctool-adapter-firefox run platform-release
 
 ## 更新日志
 
-### v2.4.0+（本仓库维护）
-
-- 升级 Tauri v1 → v2，支持 macOS 26（Tahoe）
-- 移除 uTools 适配（如有需要可自行构建）
+详见 [Releases](https://github.com/nidhogg1024/Ctool/releases)
 
 ## 功能列表
 

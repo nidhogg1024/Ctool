@@ -4531,6 +4531,45 @@
 				"ipcalc_wildcard": {
 					"message": "反掩码"
 				},
+				"ipcalc_wildcard_info": {
+					"message": "反掩码信息"
+				},
+				"ipcalc_wildcard_info_mask": {
+					"message": "反掩码"
+				},
+				"ipcalc_wildcard_info_long": {
+					"message": "整型反掩码"
+				},
+				"ipcalc_wildcard_info_mask2": {
+					"message": "点分二进制反掩码"
+				},
+				"ipcalc_wildcard_info_mask8": {
+					"message": "点分八进制反掩码"
+				},
+				"ipcalc_wildcard_info_mask16": {
+					"message": "点分十六进制反掩码"
+				},
+				"ipcalc_wildcard_match": {
+					"message": "匹配信息"
+				},
+				"ipcalc_wildcard_match_count": {
+					"message": "匹配地址数"
+				},
+				"ipcalc_wildcard_match_bits": {
+					"message": "通配位数"
+				},
+				"ipcalc_wildcard_match_first": {
+					"message": "首个匹配"
+				},
+				"ipcalc_wildcard_match_last": {
+					"message": "末尾匹配"
+				},
+				"ipcalc_wildcard_match_pattern": {
+					"message": "匹配模式"
+				},
+				"ipcalc_wildcard_noncontiguous": {
+					"message": "非连续通配符"
+				},
 				"sqlFillParameter_parameter": {
 					"message": "参数"
 				},
@@ -7677,6 +7716,45 @@
 				},
 				"ipcalc_wildcard": {
 					"message": "Wildcard Mask"
+				},
+				"ipcalc_wildcard_info": {
+					"message": "Wildcard Detail"
+				},
+				"ipcalc_wildcard_info_mask": {
+					"message": "Wildcard Mask"
+				},
+				"ipcalc_wildcard_info_long": {
+					"message": "Long Wildcard"
+				},
+				"ipcalc_wildcard_info_mask2": {
+					"message": "Binary Wildcard"
+				},
+				"ipcalc_wildcard_info_mask8": {
+					"message": "Octal Wildcard"
+				},
+				"ipcalc_wildcard_info_mask16": {
+					"message": "Hex Wildcard"
+				},
+				"ipcalc_wildcard_match": {
+					"message": "Match Detail"
+				},
+				"ipcalc_wildcard_match_count": {
+					"message": "Match Count"
+				},
+				"ipcalc_wildcard_match_bits": {
+					"message": "Wildcard Bits"
+				},
+				"ipcalc_wildcard_match_first": {
+					"message": "First Match"
+				},
+				"ipcalc_wildcard_match_last": {
+					"message": "Last Match"
+				},
+				"ipcalc_wildcard_match_pattern": {
+					"message": "Match Pattern"
+				},
+				"ipcalc_wildcard_noncontiguous": {
+					"message": "Non-contiguous"
 				},
 				"sqlFillParameter_parameter": {
 					"message": "Parameter"
