@@ -141,6 +141,16 @@ watch(() => {
     display: inline-flex;
     align-items: center;
     padding-left: 5px;
+    /* 分类标签超出时横向可滚动（uTools 等固定宽度环境需要） */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-shrink: 1;
+    min-width: 0;
+}
+.ctool-header-top-left::-webkit-scrollbar {
+    display: none;
 }
 
 .ctool-header-top-right {
@@ -149,13 +159,14 @@ watch(() => {
 }
 
 .ctool-header-category {
-    font-size: 14px;
+    font-size: 13px;
     display: inline-flex;
     height: 100%;
     align-items: center;
-    padding: 0 .85rem;
+    padding: 0 .5rem;
     cursor: pointer;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 [data-locale="en"] .ctool-header-category{
     padding: 0 .3rem;
@@ -222,19 +233,6 @@ watch(() => {
     .ctool-header-top {
         height: 42px;
         padding: 0 8px;
-    }
-
-    /* 分类标签区域：横向可滚动，不截断 */
-    .ctool-header-top-left {
-        overflow-x: auto;
-        overflow-y: hidden;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        flex-shrink: 1;
-        min-width: 0;
-    }
-    .ctool-header-top-left::-webkit-scrollbar {
-        display: none;
     }
 
     .ctool-header-category {
