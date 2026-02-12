@@ -8,6 +8,9 @@
     </Tooltip>
 </template>
 <script lang="ts">
+export default {
+    inheritAttrs: false,
+};
 </script>
 <script setup lang="ts">
 import {load, IconType} from "@/helper/icon"
@@ -50,10 +53,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{ (e: 'click'): void }>()
-
-export default {
-    inheritAttrs: false
-}
 
 let IconComponent: any = $ref(null)
 

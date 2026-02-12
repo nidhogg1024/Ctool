@@ -48,6 +48,9 @@
     </template>
 </template>
 <script lang="ts">
+export default {
+    inheritAttrs: false,
+};
 </script>
 <script setup lang="ts">
 // 悬浮显示组件
@@ -93,10 +96,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{ (e: "click"): void }>();
-
-export default {
-    inheritAttrs: false,
-};
 
 const slots = useSlots();
 const extra = $ref<HTMLElement | null>(null);

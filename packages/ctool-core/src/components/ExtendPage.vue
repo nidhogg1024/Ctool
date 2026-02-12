@@ -18,6 +18,9 @@
 <script lang="ts">
 import Event from "@/event";
 
+export default {
+    inheritAttrs: false,
+};
 </script>
 <script setup lang="ts">
 // 扩展页面 用于临时内容展示
@@ -50,10 +53,6 @@ document.addEventListener('keydown', e => {
         Event.dispatch('extend_page_close')
     }
 });
-
-export default {
-    inheritAttrs: false
-}
 
 let closeI18n = $ref($t(`main_ui_close`));
 event.addListener("locale_change", () => {

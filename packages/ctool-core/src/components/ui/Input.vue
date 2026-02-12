@@ -37,6 +37,9 @@
     </div>
 </template>
 <script lang="ts">
+export default {
+    inheritAttrs: false,
+};
 </script>
 <script setup lang="ts">
 import { onMounted, onUnmounted, onUpdated, PropType, StyleValue } from "vue";
@@ -91,10 +94,6 @@ const emit = defineEmits<{
     (e: "load", value: HTMLInputElement): void;
     (e: "change", value: string): void;
 }>();
-
-export default {
-    inheritAttrs: false,
-};
 
 const container = $ref<HTMLInputElement | null>(null);
 const inputLeft = $ref<HTMLElement | null>(null);

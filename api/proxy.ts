@@ -28,7 +28,7 @@ export default function (request: VercelRequest | IncomingMessage, response: Ver
         target: `${protocol}//${hostname}${port ? `:${port}` : ""}`,
         changeOrigin: true
     });
-    proxy.on('error', function (e) {
+    proxy.on('error', (e) => {
         console.log(e)
     });
 

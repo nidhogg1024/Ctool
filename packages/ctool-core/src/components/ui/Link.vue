@@ -6,6 +6,9 @@
     </Tooltip>
 </template>
 <script lang="ts">
+export default {
+    inheritAttrs: false
+}
 </script>
 <script setup lang="ts">
 import {openUrl} from "@/helper/helper"
@@ -27,10 +30,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{ (e: 'click'): void }>()
-
-export default {
-    inheritAttrs: false
-}
 
 const click = () => {
     if (props.href !== "") {
