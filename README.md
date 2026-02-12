@@ -58,7 +58,17 @@ https://nidhogg1024.github.io/Ctool/
 
 - [点击下载](https://github.com/nidhogg1024/Ctool/releases)
 
-> **macOS 用户注意**：首次打开时系统可能提示"无法验证开发者"，这是因为应用未经 Apple 付费签名（已做 ad-hoc 签名）。只需 **右键点击应用图标 → 选择"打开"**，在弹窗中点击"打开"即可，后续使用不再提示。
+> **macOS 用户注意**：首次打开可能提示"已损坏，无法打开"，这是因为应用未经 Apple 付费签名。请在终端执行以下命令后重新打开：
+>
+> ```bash
+> # 对下载的 DMG 文件执行
+> xattr -cr ~/Downloads/ctool_tauri_mac_arm64.dmg
+>
+> # 如果安装到 Applications 后仍提示，再执行
+> xattr -cr /Applications/ctool.app
+> ```
+>
+> 或者：双击打开被拦截后，前往 **系统设置 → 隐私与安全性 → 安全性**，点击"仍要打开"。
 
 ### 浏览器扩展
 
