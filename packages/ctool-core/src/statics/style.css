@@ -1,4 +1,5 @@
 @import "./pico.css";
+@import "./responsive.css";
 
 [data-theme="light"] {
     --ctool-color-primary-theme: #515a6e;

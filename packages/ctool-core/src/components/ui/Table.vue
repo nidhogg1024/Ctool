@@ -29,8 +29,7 @@
                         </Align>
                     </td>
                 </template>
-
-            </tr>
+</tr>
             </tbody>
         </table>
     </div>
@@ -66,7 +65,7 @@ const props = defineProps({
 })
 
 const style = $computed(() => {
-    let css: StyleValue = {}
+    const css: StyleValue = {}
     if (css.height) {
         css.height = sizeConvert(props.height)
     }

@@ -13,7 +13,7 @@ export default class {
     private readonly platformRuntime: PlatformRuntime;
 
     constructor() {
-        for (let platform of platforms) {
+        for (const platform of platforms) {
             if (platform.is()) {
                 this.platformRuntime = platform;
                 return;

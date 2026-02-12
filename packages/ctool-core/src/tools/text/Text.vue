@@ -110,9 +110,9 @@
         <Tabs model-value="stat"
               :lists="[{label:$t('text_stat'),name:`stat`},{label:$t('text_stat_explain'),name:`explain`}]" padding="0">
             <Table :columns="[
-                {  title: $t('text_item'), key: 'name1', width: 170},
+                { title: $t('text_item'), key: 'name1', width: 170},
                 { title: $t('text_value'), key: 'value1'},
-                {  title: $t('text_item'), key: 'name2', width: 170},
+                { title: $t('text_item'), key: 'name2', width: 170},
                 { title: $t('text_value'), key: 'value2'}
             ]"
                    :lists="[
@@ -192,8 +192,8 @@ const action = useAction(await initialize({
 const size: ComponentSizeType = "small";
 
 let replaceShow = $ref(false);
-let statMore = $ref(false);
-let escapeShow = $ref(false);
+const statMore = $ref(false);
+const escapeShow = $ref(false);
 
 const replace = () => {
     if (action.current.replace.regular) {

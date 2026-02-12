@@ -3,8 +3,8 @@
 const WebSocket = require("ws")
 const wss = new WebSocket.WebSocketServer({ port: 23451 });
 
-wss.on('connection', function connection(ws) {
-    ws.on('message', function message(data) {
+wss.on('connection', (ws) => {
+    ws.on('message', (data) => {
         ws.send(`Server: ${data}`)
     });
 

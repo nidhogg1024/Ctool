@@ -15,7 +15,7 @@ export const formatter = new (class extends Base<"javascript"> {
     }
 
     async compress(): Promise<string> {
-        let result = UglifyJS.minify(this.code, {
+        const result = UglifyJS.minify(this.code, {
             keep_fnames: true,
             compress: false,
             mangle: false,

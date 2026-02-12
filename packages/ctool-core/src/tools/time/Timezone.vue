@@ -36,11 +36,11 @@
             <Display
                 v-for="item in timezoneOptions"
                 position="right-center"
-                :text="item['label']"
-                :type="item['value'] === action.current.type ? `danger` : `general`"
-                @click="() => $copy(convert(action.current.input, action.current.type, item['value']))"
+                :text="item.label"
+                :type="item.value === action.current.type ? `danger` : `general`"
+                @click="() => $copy(convert(action.current.input, action.current.type, item.value))"
             >
-                <Input :model-value="convert(action.current.input, action.current.type, item['value'])" :size="size" />
+                <Input :model-value="convert(action.current.input, action.current.type, item.value)" :size="size" />
             </Display>
         </Align>
     </ExtendPage>
@@ -87,7 +87,7 @@ const action = useAction(
         { paste: false },
     ),
 );
-let isMore = $ref(false);
+const isMore = $ref(false);
 
 const getHandle = (target: string) => {
     if (!action.current.type || action.current.input.trim() === "") {

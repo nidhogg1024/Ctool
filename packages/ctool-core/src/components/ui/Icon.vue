@@ -9,15 +9,14 @@
 </template>
 <script lang="ts">
 export default {
-    inheritAttrs: false
-}
+    inheritAttrs: false,
+};
 </script>
 <script setup lang="ts">
 import {load, IconType} from "@/helper/icon"
 import {computed, PropType, StyleValue, watch} from "vue";
 import {isNumber} from "lodash";
 import Tooltip from "./Tooltip.vue";
-
 const props = defineProps({
     name: {
         type: String as PropType<IconType>,
@@ -53,6 +52,8 @@ const props = defineProps({
     },
 })
 
+const emit = defineEmits<{ (e: 'click'): void }>()
+
 let IconComponent: any = $ref(null)
 
 watch(() => props.name, async (name) => {
@@ -71,7 +72,7 @@ const style = computed(() => {
 })
 
 const classes = computed(() => {
-    let lists: string[] = ["ctool-icon"];
+    const lists: string[] = ["ctool-icon"];
     if (props.reverse) {
         lists.push('ctool-icon-reverse')
     }
@@ -83,8 +84,6 @@ const classes = computed(() => {
     }
     return lists
 })
-
-const emit = defineEmits<{ (e: 'click'): void }>()
 
 const click = () => {
     emit('click')

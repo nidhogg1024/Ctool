@@ -130,7 +130,7 @@
         <Card :title="`${action.current.input} ${$t('ipcalc_subnet')}`" padding="0">
             <HeightResize v-slot="{height}" :reduce="35">
                 <SerializeOutput
-                    disabledBorder
+                    disabled-border
                     v-model="action.current.subnetOption"
                     :allow="['json','xml','yaml','toml','php_array','properties','text']"
                     :content="subnet"
@@ -175,12 +175,12 @@ const action = useAction(await initialize({
     paste: (input) => /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/.test(input)
 }))
 
-let help = $ref(false)
+const help = $ref(false)
 let maskSetShow = $ref(false)
-let maskAvailable = $ref(254)
+const maskAvailable = $ref(254)
 let error = $ref("")
 let calc = $ref(new ipcalc())
-let showSubnet = $ref(false)
+const showSubnet = $ref(false)
 // 非连续通配符相关状态
 let nonContiguous = $ref(false)
 let wildcardCalc = $ref(new WildcardCalc("0.0.0.0", "0.0.0.0"))

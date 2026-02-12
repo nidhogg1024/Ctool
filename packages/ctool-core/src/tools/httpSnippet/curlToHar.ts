@@ -57,7 +57,7 @@ const buildR = (args: Arguments) => {
     const cookies: { name: string, value: string }[] = []
     const postData: Record<string, any> = {}
 
-    for (let key of Object.keys(args)) {
+    for (const key of Object.keys(args)) {
         if (['_', '__'].includes(key)) {
             continue;
         }

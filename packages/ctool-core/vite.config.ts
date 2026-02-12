@@ -48,6 +48,16 @@ export default defineConfig({
                 index: resolve(__dirname, "index.html"),
                 tool: resolve(__dirname, "tool.html"),
             },
+            output: {
+                // 将大依赖拆分为独立 chunk，按需加载
+                manualChunks: {
+                    "vendor-monaco": ["monaco-editor", "@monaco-editor/loader"],
+                    "vendor-prettier": ["prettier"],
+                    "vendor-crypto": ["crypto-js", "jsrsasign", "sm-crypto"],
+                    "vendor-lodash": ["lodash"],
+                    "vendor-mathjs": ["mathjs"],
+                },
+            },
         },
         reportCompressedSize: false,
         chunkSizeWarningLimit: 5000,

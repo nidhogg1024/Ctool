@@ -13,8 +13,8 @@ const getChar = (char: string, option: Record<string, any> = {}) => {
     return [...(new Set(result))]
 }
 const getString = (str: string, option: Record<string, any> = {}) => {
-    let multipleFlag = "multiple_flag" in option && option['multiple_flag']
-    let result: string[] = []
+    const multipleFlag = "multiple_flag" in option && option['multiple_flag']
+    const result: string[] = []
     let temp = "";
     for (let i = 0; i < str.length; i++) {
         if (/[^\u4E00-\u9FA5]/.test(str[i])) {

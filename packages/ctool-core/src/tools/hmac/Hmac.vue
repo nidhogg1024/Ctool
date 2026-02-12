@@ -54,7 +54,7 @@ const isAllowMultiple = $computed(() => {
 })
 
 const result = $computed(() => {
-    let r: Record<methodType, string> = {
+    const r: Record<methodType, string> = {
         md5: "",
         sha1: "",
         sha256: "",
@@ -67,7 +67,7 @@ const result = $computed(() => {
     }
 
     let isError = false
-    for (let type of methods) {
+    for (const type of methods) {
         try {
             if (action.current.input.text.isError()) {
                 throw new Error(`input:${action.current.input.text.toString()}`)

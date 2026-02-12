@@ -13,7 +13,7 @@ const regExpQuote = function(str: string) {
 // GBK字符集实际长度计算
 const getGbkStrLength = (str: string) => {
     let realLength = 0;
-    let len = str.length;
+    const len = str.length;
     let charCode = -1;
     for (let i = 0; i < len; i++) {
         charCode = str.charCodeAt(i);
@@ -108,14 +108,14 @@ export default class {
 
     // 词首大写
     upperStart() {
-        return this.text.replace(/\b\w/g, function(str) {
+        return this.text.replace(/\b\w/g, (str) => {
             return str.toUpperCase();
         });
     }
 
     // 词首小写
     lowerStart() {
-        return this.text.replace(/\b\w/g, function(str) {
+        return this.text.replace(/\b\w/g, (str) => {
             return str.toLowerCase();
         });
     }
@@ -131,7 +131,7 @@ export default class {
     // 替换
     replace({ search = [], replace = [] }: Record<string, any> = {}) {
         let text = this.text;
-        for (let i in search) {
+        for (const i in search) {
             if (search[i]) {
                 text = text.replace(new RegExp(regExpQuote(search[i]), "g"), (i in replace ? replace[i] : ""));
             }
@@ -209,7 +209,7 @@ export default class {
         const zh = ["“", "”", "‘", "’", "。", "，", "；", "：", "？", "！", "……", "—", "～", "（", "）", "《", "》"];
         const en = ["\"", "\"", "'", "'", ".", ",", ";", ":", "?", "!", "…", "-", "~", "(", ")", "<", ">"];
         let text = this.text;
-        for (let i in zh) {
+        for (const i in zh) {
             text = text.replace(
                 new RegExp(regExpQuote(type === "zh" ? en[i] : zh[i]), "g"),
                 type === "zh" ? zh[i] : en[i],
@@ -222,7 +222,7 @@ export default class {
     // 转义
     escape({ lists = [] }: { lists: EscapeCharsType[] } | Record<string, any>) {
         let text = this.text;
-        for (let item of lists) {
+        for (const item of lists) {
             if (item in escapeChars) {
                 text = text.replaceAll(escapeChars[item].string, escapeChars[item].char);
             }
@@ -233,7 +233,7 @@ export default class {
     // 反转义
     unescape({ lists = [] }: { lists: EscapeCharsType[] } | Record<string, any>) {
         let text = this.text;
-        for (let item of lists) {
+        for (const item of lists) {
             if (item in escapeChars) {
                 text = text.replaceAll(escapeChars[item].char, escapeChars[item].string);
             }
@@ -243,22 +243,22 @@ export default class {
 
     // 命名
     rename({ type = "lowerSnakeCase" }) {
-        return this.text.replace(/\b[\w\-_]+\b/g, function(str) {
+        return this.text.replace(/\b[\w\-]+\b/g, (str) => {
             return nameConvent(str, type as RenameType);
         });
     }
 
     // 统计
     stat() {
-        let content = this.text.replace(/\r?\n/g, "\n");
+        const content = this.text.replace(/\r?\n/g, "\n");
 
-        let zh_word = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
-        let zh_punctuation = (content.match(/[\u3002\uff1f\uff01\uff0c\u3001\uff1b\uff1a\u201c\u201d\u2018\u2019\uff08\uff09\u300a\u300b\u3008\u3009\u3010\u3011\u300e\u300f\u300c\u300d\ufe43\ufe44\u3014\u3015\u2026\u2014\uff5e\ufe4f\uffe5]/g) || []).length;
-        let int_string = (content.match(/[0-9]/g) || []).length;
-        let en_string = (content.match(/[A-Za-z]/g) || []).length;
-        let int_word = (content.match(/\b\d+\b/g) || []).length;
-        let en_word = (content.match(/\b\w+\b/g) || []).length - int_word;
-        let en_punctuation = (content.match(/[~`!@#$%^&*()\-_+=|\\[\]{};:"',<.>/?]/g) || []).length;
+        const zh_word = (content.match(/[\u4E00-\u9FA5]/g) || []).length;
+        const zh_punctuation = (content.match(/[\u3002\uFF1F\uFF01\uFF0C\u3001\uFF1B\uFF1A\u201C\u201D\u2018\u2019\uFF08\uFF09\u300A\u300B\u3008\u3009\u3010\u3011\u300E\u300F\u300C\u300D\uFE43\uFE44\u3014\u3015\u2026\u2014\uFF5E\uFE4F\uFFE5]/g) || []).length;
+        const int_string = (content.match(/\d/g) || []).length;
+        const en_string = (content.match(/[A-Z]/gi) || []).length;
+        const int_word = (content.match(/\b\d+\b/g) || []).length;
+        const en_word = (content.match(/\b\w+\b/g) || []).length - int_word;
+        const en_punctuation = (content.match(/[~`!@#$%^&*()\-_+=|\\[\]{};:"',<.>/?]/g) || []).length;
 
         return {
             // 字节数(utf8)

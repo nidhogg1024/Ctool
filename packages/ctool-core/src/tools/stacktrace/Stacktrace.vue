@@ -87,7 +87,8 @@
 <script lang="ts" setup>
 import { initialize, useAction } from "@/store/action";
 import { reactive, watch } from "vue";
-import { parseStackTrace, preprocessInput, type ParsedStack, type StackFrame, type LogMeta } from "./parser";
+import { parseStackTrace, preprocessInput    } from "./parser";
+import type {ParsedStack, StackFrame, LogMeta} from "./parser";
 
 interface IndexedFrame { idx: number; frame: StackFrame }
 interface FrameGroup { type: 'business' | 'framework'; frames: IndexedFrame[]; expanded: boolean }

@@ -2,7 +2,7 @@
     <div style="display: inline-flex;">
         <Input
             size="small"
-            :width="150"
+            :width="searchWidth"
             :placeholder="$t(`main_search_placeholder`)"
             v-model="input"
             @load="load"
@@ -22,7 +22,8 @@
                 @click="select(index)"
                 :key="`${item.tool}-${item.feature}`"
                 @mouseover="selectIndex = index"
-            >{{ item.label }}
+            >
+{{ item.label }}
             </li>
         </ul>
     </div>
@@ -32,12 +33,20 @@ import {toolKeywords} from "@/buildDataTemp";
 import {getTool, FeatureInterface} from "@/config";
 import useOperate from "@/store/operate";
 import useSetting from "@/store/setting";
-import {watch} from "vue";
+import {watch, onUnmounted} from "vue";
 
 const setting = useSetting()
 const operate = useOperate()
-let container = $ref<HTMLElement | null>(null);
+const container = $ref<HTMLElement | null>(null);
 let input = $ref("")
+
+// 响应式搜索框宽度
+let searchWidth = $ref(window.innerWidth <= 480 ? 90 : window.innerWidth <= 768 ? 120 : 150)
+const updateSearchWidth = () => {
+    searchWidth = window.innerWidth <= 480 ? 90 : window.innerWidth <= 768 ? 120 : 150
+}
+window.addEventListener("resize", updateSearchWidth)
+onUnmounted(() => window.removeEventListener("resize", updateSearchWidth))
 let inputElement = $ref<HTMLInputElement | null>(null);
 let isInput = $ref(false);
 let selectIndex = $ref(0)
@@ -163,5 +172,23 @@ watch(() => input, () => selectIndex = 0, {immediate: true})
 
 .ctool-search-block li.ctool-search-active {
     background-color: var(--dropdown-hover-background-color);
+}
+
+/* ===== 小屏适配 ===== */
+@media (max-width: 768px) {
+    .ctool-search-block {
+        width: 140px;
+        font-size: 0.8rem;
+    }
+    .ctool-search-block li {
+        line-height: 2.2rem;
+        padding-left: 8px;
+    }
+}
+@media (max-width: 480px) {
+    .ctool-search-block {
+        width: 120px;
+        font-size: 0.75rem;
+    }
 }
 </style>

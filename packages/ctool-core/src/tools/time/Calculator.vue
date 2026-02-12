@@ -86,7 +86,7 @@ const unit = [
 ]
 
 const getRate = (value) => {
-    for (let item of unit) {
+    for (const item of unit) {
         if (item.value === value) {
             return item.rate
         }
@@ -105,7 +105,7 @@ const operation = $computed(() => {
     if (!action.current.operation.length) {
         return "";
     }
-    let rate = getRate(action.current.operation.unit)
+    const rate = getRate(action.current.operation.unit)
     if (rate === 0) {
         const type = action.current.operation.type === '+' ? 'add' : 'subtract'
         return dayjs(action.current.operation.input)[type](action.current.operation.length, action.current.operation.unit as any).format('YYYY-MM-DD HH:mm:ss')
@@ -118,7 +118,7 @@ const operation = $computed(() => {
 })
 
 const analyze = $computed(() => {
-    let input = dayjs(action.current.analyze.input)
+    const input = dayjs(action.current.analyze.input)
     const year = input.year();
     const quarter = input.quarter();
     if (action.current.analyze.type === "quarter") {

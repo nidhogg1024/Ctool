@@ -25,7 +25,7 @@
                     v-model="state.send_content"
                     :float-text="$t('websocket_send')"
                     :float-position="'top-right'"
-                    @clickFloatText="send"
+                    @click-float-text="send"
                     :placeholder="`${$t(`main_ui_input`)}${$t('websocket_send_content')}`"
                 />
             <Card :title="$t(`websocket_log_content`)" :height="height" class="ctool-websocket-logs">
@@ -68,13 +68,13 @@ const action = useAction(await initialize({
     keepScroll: true,
     protocols: "",
 }, {
-    paste: (str) => /^ws/.test(str)
+    paste: (str) => str.startsWith('ws')
 }))
 
 let retry = $ref(false)
 let retryTimes = 0
 let reconnecting = false
-let retryTimer: any = undefined
+let retryTimer: any
 
 const state = $ref<{
     status: "close" | "open" | "connecting",
@@ -107,7 +107,7 @@ const connect = () => {
     action.save()
     log($t('websocket_connect_start', [action.current.input]))
     try {
-        let websocket = new WebSocket(action.current.input, action.current.protocols !== '' ? action.current.protocols.split(',') : undefined);
+        const websocket = new WebSocket(action.current.input, action.current.protocols !== '' ? action.current.protocols.split(',') : undefined);
         console.log(websocket)
         websocket.addEventListener('open', (event) => {
             console.log(event)

@@ -11,7 +11,6 @@ export default {
 import Select from "./Select.vue";
 import { SelectOption, SelectValue } from "@/types";
 import { PropType } from "vue";
-
 const props = defineProps({
     options: {
         type: Array as PropType<SelectOption>,

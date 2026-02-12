@@ -1,0 +1,33 @@
+/**
+ * Web 版响应式适配 —— 全局样式
+ * 组件级适配在各 Vue 组件的 <style scoped> 中
+ */
+
+/* ===== 小屏适配（≤768px） ===== */
+@media (max-width: 768px) {
+    /* 根容器：不溢出 */
+    #ctool {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 100vh;
+    }
+
+    /* 全局布局：移动端安全区域 */
+    .ctool-global {
+        height: 100dvh;
+    }
+
+    /* 内容区：允许垂直滚动（v-row 垂直堆叠后内容会超出视口） */
+    .ctool-content {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+}
+
+/* ===== 极小屏（≤480px） ===== */
+@media (max-width: 480px) {
+    #ctool {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}

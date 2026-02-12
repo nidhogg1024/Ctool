@@ -38,8 +38,7 @@
 
 <script lang="ts" setup>
 import {PropType, watch} from "vue";
-import {isObject} from "lodash";
-import _ from "lodash";
+import _, {isObject} from "lodash";
 import formatter from "../code/formatter";
 import Serialize from "@/helper/serialize";
 

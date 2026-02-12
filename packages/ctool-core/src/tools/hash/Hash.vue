@@ -74,7 +74,7 @@ const isAllowMultiple = $computed(() => {
 })
 
 const result = $computed(() => {
-    let r = {
+    const r = {
         md5: "",
         sha1: "",
         sha256: "",
@@ -83,7 +83,7 @@ const result = $computed(() => {
     }
     if (!action.current.input.text.isEmpty()) {
         let isError = false
-        for (let type of methods) {
+        for (const type of methods) {
             try {
                 if (action.current.input.text.isError()) {
                     throw new Error(action.current.input.text.toString())

@@ -1,5 +1,5 @@
 <template>
-    <Card :title="`${$t('main_history')} - ${$t('tool_'+storeOperate.items.tool)}`" height="100%" padding="0">
+    <Card :title="`${$t('main_history')} - ${$t(`tool_${storeOperate.items.tool}`)}`" height="100%" padding="0">
         <Table
             v-if="length > 0"
             :columns="[

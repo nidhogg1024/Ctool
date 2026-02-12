@@ -20,7 +20,7 @@ class storage implements StorageInterface {
     }
 
     clear() {
-        for (let key of this.getAllKey()) {
+        for (const key of this.getAllKey()) {
             this.remove(key)
         }
     }

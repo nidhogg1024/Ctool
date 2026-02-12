@@ -34,7 +34,7 @@ const event = {
     },
     addListener(name: Event | Event[], listener: Listener) {
         if (isArray(name)) {
-            for (let item of name) {
+            for (const item of name) {
                 this.addListener(item, listener)
             }
             return;
@@ -43,7 +43,7 @@ const event = {
     },
     removeListener(name: Event | Event[], listener: Listener) {
         if (isArray(name)) {
-            for (let item of name) {
+            for (const item of name) {
                 this.removeListener(item, listener)
             }
             return;
@@ -54,21 +54,21 @@ const event = {
 
 // 获取操作区域高度
 const getMainOperateHeight = () => {
-    let el = document.querySelector<HTMLElement>('.ctool-main-tool')
+    const el = document.querySelector<HTMLElement>('.ctool-main-tool')
     if (!el) {
         return window.innerHeight;
     }
-    let styles = window.getComputedStyle(el);
+    const styles = window.getComputedStyle(el);
     return Math.ceil(el.clientHeight - (parseFloat(styles['paddingTop']) + parseFloat(styles['paddingBottom'])));
 }
 
 export let mainToolHeight = getMainOperateHeight()
-export const heightResizeDispatch = throttle(function () {
+export const heightResizeDispatch = throttle(() => {
     event.dispatch('window_height_resize')
     componentResizeDispatch()
 }, 500)
 
-export const componentResizeDispatch = throttle(function () {
+export const componentResizeDispatch = throttle(() => {
     event.dispatch('component_resize')
 }, 500)
 

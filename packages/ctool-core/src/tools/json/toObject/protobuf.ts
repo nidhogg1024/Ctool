@@ -9,7 +9,7 @@ const googleAny = "google.protobuf.Any";
 const googleTimestamp = "google.protobuf.Timestamp";
 
 
-const isBigInt = (value: unknown): value is BigInt => {
+const isBigInt = (value: unknown): value is bigint => {
     return typeof value === 'bigint';
 }
 
@@ -434,7 +434,7 @@ function mergePrimitiveType(a: ProtoPrimitiveType, b: ProtoPrimitiveType): Proto
     return complexProtoType;
 }
 
-function numberType(value: number | BigInt): string {
+function numberType(value: number | bigint): string {
     if (isBigInt(value)) {
         return "int64";
     }

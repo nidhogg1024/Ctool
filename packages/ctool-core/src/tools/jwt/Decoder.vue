@@ -40,7 +40,7 @@ const outputSerialize: Serialize = $computed(() => {
         return Serialize.empty();
     }
     try {
-        let data: Record<string, any> = {};
+        const data: Record<string, any> = {};
         if (action.current.header) {
             data.header = jwtDecode(action.current.input, { header: true });
         }

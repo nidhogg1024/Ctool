@@ -28,7 +28,7 @@ type UtoolsFeature = {
     cmds: (string | CustomCmd)[]
 }
 
-let utoolsFeature: Record<string, any>[] = [{
+const utoolsFeature: Record<string, any>[] = [{
     "code": "ctool",
     "explain": "程序开发常用工具",
     "cmds": ['ctool', '程序开发常用工具']

@@ -8,7 +8,7 @@ export default {
     defaultProxyUrl: "https://ctool.dev/api/proxy",
     is(url: string) {
         if (url !== "") {
-            for (let domain of domains) {
+            for (const domain of domains) {
                 if (url.includes(domain)) {
                     return true;
                 }

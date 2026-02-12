@@ -19,7 +19,7 @@ const props = defineProps({
 })
 const setting = useSetting()
 const instance = getCurrentInstance();
-let tooltip: TippyInstance | undefined = undefined;
+let tooltip: TippyInstance | undefined;
 
 onMounted(() => {
     if (!instance?.vnode.el?.nextElementSibling) {

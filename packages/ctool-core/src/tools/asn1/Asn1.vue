@@ -10,7 +10,7 @@
             
             <Editor v-model="action.current.output"
                     :lang="action.current.language"
-                    disableLineNumbers
+                    disable-line-numbers
                     :height="large"
                     :placeholder="$t(`asn1_output_result`)"
                     :onchange="format()"

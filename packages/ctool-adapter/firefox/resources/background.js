@@ -41,7 +41,7 @@ browser.commands.onCommand.addListener((command) => {
             panel.open()
             break;
         default:
-            return;
+            
     }
 })
 

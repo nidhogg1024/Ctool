@@ -8,7 +8,7 @@ const operate = useOperate()
 
 // 获取跳转参数 优先级: 最近使用 / 分类最近 / 分类第一个 / 常用第一个 / 工具第一个
 const init = () => {
-    let redirect = {
+    const redirect = {
         tool: operate.items.tool || "",
         category: operate.items.category || "",
         feature: operate.items.feature || ""

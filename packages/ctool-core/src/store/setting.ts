@@ -109,7 +109,7 @@ const useSetting = defineStore('setting', () => {
 })
 
 export const useTheme = defineStore('theme', () => {
-    let theme = $ref<{ raw: ThemeRawType, config: ThemeType }>({raw: 'light', config: 'auto'})
+    const theme = $ref<{ raw: ThemeRawType, config: ThemeType }>({raw: 'light', config: 'auto'})
     const storeSetting = useSetting()
 
     const update = () => {

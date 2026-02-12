@@ -43,7 +43,7 @@ class fileSystem {
 
     // 写入文件
     writeFile(file: string, content: string = "") {
-        let dir = dirname(file)
+        const dir = dirname(file)
         if (!this.isDir(dir)) {
             throw new Error(`${dir} dir not found`)
         }

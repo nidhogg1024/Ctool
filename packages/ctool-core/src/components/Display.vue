@@ -5,8 +5,7 @@
             <div :style="extraStyle" style="display: inline-flex">
                 <span
                     ref="extra"
-                    :class="[
-                        `ctool-display-extra`,
+                    class="ctool-display-extra" :class="[
                         `ctool-display-extra-${position}`,
                         position.includes('right') ? 'ctool-display-extra-right' : '',
                         position.includes('left') ? 'ctool-display-extra-left' : '',
@@ -57,8 +56,6 @@ export default {
 // 悬浮显示组件
 import { PropType, onUpdated, onMounted, StyleValue, useSlots } from "vue";
 import { ButtonType, DisplayPosition } from "@/types";
-
-const slots = useSlots();
 const props = defineProps({
     position: {
         type: String as PropType<DisplayPosition>,
@@ -100,7 +97,8 @@ const props = defineProps({
 
 const emit = defineEmits<{ (e: "click"): void }>();
 
-let extra = $ref<HTMLElement | null>(null);
+const slots = useSlots();
+const extra = $ref<HTMLElement | null>(null);
 let extraWidth = $ref(0);
 let extraHeight = $ref(0);
 

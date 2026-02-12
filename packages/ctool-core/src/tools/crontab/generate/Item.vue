@@ -49,7 +49,7 @@ const emit = defineEmits<{ (e: 'update:modelValue', value: string): void }>()
 
 let optionType = $ref<OptionType>(props.type === "second" ? "ignore" : "any")
 
-let optionValue = $ref<OptionValue>({
+const optionValue = $ref<OptionValue>({
     any: "*",
     scope: {
         start: 2,
@@ -126,7 +126,7 @@ watch(() => {
         return emit("update:modelValue", `${value.scope.start}-${value.scope.end}`)
     }
     if (type === "interval") {
-        let start = value.interval.start.trim()
+        const start = value.interval.start.trim()
         return emit("update:modelValue", `${["0", "*", ""].includes(start) ? "*" : value.interval.start}/${value.interval.step}`)
     }
     if (type === "list" && value.list.length > 0) {

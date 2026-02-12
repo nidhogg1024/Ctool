@@ -106,7 +106,7 @@ class Convent {
         }
         let temp = "";
         for (let i = 0; i < this.str.length; i++) {
-            let c = this.str.substring(i, i + 1);
+            const c = this.str.substring(i, i + 1);
             if (isUpperCase(this.str.substring(i, i + 1))) {
                 temp = temp + '_';
             }
@@ -122,7 +122,7 @@ class Convent {
     }
 
     private convert() {
-        let methods = [
+        const methods = [
             spaceCaseToPascalCaseSpace,
             pascalCaseSpaceToKebabCase,
             kebabCaseToUpperSnakeCase,
@@ -131,7 +131,7 @@ class Convent {
             camelCaseToLowerSnakeCase,
             lowerSnakeCaseToSpaceCase,
         ];
-        let current = methods.indexOf(getMethodName(this.str));
+        const current = methods.indexOf(getMethodName(this.str));
         let executeMethods;
         if (current === 0) {
             executeMethods = methods;

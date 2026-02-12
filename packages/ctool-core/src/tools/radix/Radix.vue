@@ -59,7 +59,7 @@ const base: SelectOption = $computed(() => {
     })
 })
 
-let isMore = $ref(false)
+const isMore = $ref(false)
 let alphabet = $ref(action.current.alphabet || defaultAlphabet)
 const resetAlphabet = () => {
     alphabet = defaultAlphabet
@@ -70,7 +70,7 @@ watch(() => alphabet, (value) => {
 })
 
 const isValid = $computed(() => {
-    return /^[\-0-9]+$/.test(getHandle(10)) && /^[\-0-1]+$/.test(getHandle(2))
+    return /^[\-0-9]+$/.test(getHandle(10)) && /^[\-01]+$/.test(getHandle(2))
 })
 
 const getHandle = (target: number) => {

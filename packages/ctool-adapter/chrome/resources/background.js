@@ -42,7 +42,7 @@ chrome.commands.onCommand.addListener((command) => {
 
             break;
         default:
-            return;
+            
     }
 })
 

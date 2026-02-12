@@ -72,7 +72,7 @@ const action = useAction(await initialize({
         if (str.length > 30) {
             return false
         }
-        for (let c of str.split("")) {
+        for (const c of str.split("")) {
             if (c.charCodeAt(0) < 0 || c.charCodeAt(0) > 127) {
                 return false
             }
@@ -86,7 +86,7 @@ const showText = $computed(() => {
 })
 
 let valid = $ref(false)
-let container = $ref<HTMLCanvasElement | null>(null);
+const container = $ref<HTMLCanvasElement | null>(null);
 
 watch(() => {
     return {

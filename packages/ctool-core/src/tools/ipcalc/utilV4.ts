@@ -19,7 +19,7 @@ export const ipConvert = (ip: string, toRadix = 10, fromRadix = 10, filterPrefix
             item = item.substring(filterPrefix.length)
         }
         // 移除补零
-        item = item.replace(/\b(0+)/gi, "") || "0"
+        item = item.replace(/\b(0+)/g, "") || "0"
         if (toRadix === fromRadix) {
             return `${item}`;
         }
@@ -57,7 +57,7 @@ const parseWildcardToLong = (wildcard: string): number => {
             } else if (/^[01]{8}$/.test(p)) {
                 // 纯 8 位二进制（无前缀）：00111111
                 num = parseInt(p, 2)
-            } else if (/^[0-9a-fA-F]+$/.test(p) && /[a-fA-F]/.test(p)) {
+            } else if (/^[0-9a-f]+$/i.test(p) && /[a-f]/i.test(p)) {
                 // 含十六进制字母的无前缀十六进制：3F、FF
                 num = parseInt(p, 16)
             } else if (p.length > 1 && p.startsWith('0') && !p.includes('8') && !p.includes('9')) {
@@ -152,7 +152,7 @@ export class WildcardCalc {
 
     // 匹配地址总数
     matchCount(): number {
-        return Math.pow(2, this.wildcardBits())
+        return 2**this.wildcardBits()
     }
 
     // 固定位模板（IP 与通配符掩码的 AND 取反结果，即 IP 中固定位的值）
@@ -206,11 +206,11 @@ export class WildcardCalc {
 }
 
 export const getMaskBitByAvailable = (available: number) => {
-    if (isNaN(available) || available > 0xfffffffe || available < 1) {
+    if (isNaN(available) || available > 0xFFFFFFFE || available < 1) {
         throw new Error(`Available Size Invalid`)
     }
     let bitSize = parseInt(`${Math.log(available) / Math.log(2)}`) + 1;
-    if ((Math.pow(2, bitSize) - available) < 2) {
+    if ((2**bitSize - available) < 2) {
         bitSize += 1;
     }
     return 32 - bitSize

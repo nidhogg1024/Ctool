@@ -93,13 +93,13 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits<{ (e: 'update:modelValue', modelValue: SerializeInput): void }>()
+
 const typeLists = $computed(() => {
     return serializeInputEncoderLists.filter((item) => {
         return props.allow.includes(item)
     });
 })
-
-const emit = defineEmits<{ (e: 'update:modelValue', modelValue: SerializeInput): void }>()
 
 let current = $ref(toRaw(props.modelValue))
 
@@ -191,7 +191,7 @@ watch(() => {
 }, {deep: true})
 
 const style = $computed(() => {
-    let css: StyleValue = {}
+    const css: StyleValue = {}
     if (props.height) {
         css.height = sizeConvert(props.height)
     }

@@ -27,7 +27,7 @@ const generateManifestFile = (config) => {
 }
 
 const manifestShortcuts = () => {
-    let lists: {
+    const lists: {
         name: string,
         short_name: string,
         description: string,

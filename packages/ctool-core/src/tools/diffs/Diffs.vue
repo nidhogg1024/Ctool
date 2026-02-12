@@ -8,7 +8,7 @@
             :height="`${height}px`"
         >
             <Button v-if="canBeautify" size="small" :text="$t(`code_beautify`)" @click="beautify" />
-            <Select size="small" v-model="action.current.option.lang" :options="allLanguage" filterable filterPlaceholder="Search language..." />
+            <Select size="small" v-model="action.current.option.lang" :options="allLanguage" filterable filter-placeholder="Search language..." />
         </Diff>
     </HeightResize>
 </template>

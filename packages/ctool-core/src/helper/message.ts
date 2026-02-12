@@ -14,7 +14,7 @@ const containers = new Map<HTMLElement, {
 }>();
 
 const closeAll = () => {
-    for (let instance of containers.keys()) {
+    for (const instance of containers.keys()) {
         destroy(instance)
     }
 }

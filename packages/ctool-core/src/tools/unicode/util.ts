@@ -21,19 +21,19 @@ export default {
 
         switch (type) {
             case "unicode_point_default":
-                return str.replace(/\\[Uu]{1}[0-9a-fA-F]{4}/g, item => {
+                return str.replace(/\\U[0-9a-f]{4}/gi, item => {
                     return errorListener(item, () =>
                         String.fromCodePoint(parseInt(`0x${item.toLowerCase().replace("\\u", "")}`)),
                     );
                 });
             case "unicode_point_wide":
-                return str.replace(/\\[Uu]{1}[0-9a-fA-F]{1,6}/g, item => {
+                return str.replace(/\\U[0-9a-f]{1,6}/gi, item => {
                     return errorListener(item, () =>
                         String.fromCodePoint(parseInt(`0x${item.toLowerCase().replace("\\u", "")}`)),
                     );
                 });
             case "unicode_point_wide_brace":
-                return str.replace(/\\[Uu]{1}{[0-9a-fA-F]{1,6}}/g, item => {
+                return str.replace(/\\U\{[0-9a-f]{1,6}\}/gi, item => {
                     return errorListener(item, () =>
                         String.fromCodePoint(
                             parseInt(`0x${item.toLowerCase().replace("\\u", "").replace("{", "").replace("}", "")}`),
@@ -47,7 +47,7 @@ export default {
                     );
                 });
             case "html_entity_10":
-                return str.replace(/&#[0-9]+;/g, item => {
+                return str.replace(/&#\d+;/g, item => {
                     return errorListener(item, () =>
                         String.fromCodePoint(parseInt(`${item.replace("&#", "").replace(";", "")}`)),
                     );
@@ -59,7 +59,7 @@ export default {
                     );
                 });
             case "css_entity":
-                return str.replace(/\\[0-9a-fA-F]{1,6}/g, item => {
+                return str.replace(/\\[0-9a-f]{1,6}/gi, item => {
                     return errorListener(item, () =>
                         String.fromCodePoint(parseInt(`0x${item.replace("\\", "").toLowerCase()}`)),
                     );
@@ -68,17 +68,17 @@ export default {
         throw new Error("decode type error");
     },
     encode(str: string, type: TypeLists = "unicode_point_default", ignore_ascii = false) {
-        let code: string[] = [];
-        for (let s of str) {
-            let decimalStr = s.codePointAt(0)?.toString(10) || "";
-            let hexStr = s.codePointAt(0)?.toString(16) || "";
+        const code: string[] = [];
+        for (const s of str) {
+            const decimalStr = s.codePointAt(0)?.toString(10) || "";
+            const hexStr = s.codePointAt(0)?.toString(16) || "";
             if (hexStr.length < 3 && ignore_ascii) {
                 // 忽略ascii字符
                 code.push(s);
                 continue;
             }
             // 补零
-            let hexRepairStr = this.repair(hexStr);
+            const hexRepairStr = this.repair(hexStr);
             switch (type) {
                 case "unicode_point_default":
                     if (hexStr.length > 4) {
@@ -113,7 +113,7 @@ export default {
         return code.join("");
     },
     charToUtf16(str: string) {
-        let arr: string[] = [];
+        const arr: string[] = [];
         for (let i = 0; i < str.length; i++) {
             arr[i] = this.repair(str.charCodeAt(i).toString(16));
         }

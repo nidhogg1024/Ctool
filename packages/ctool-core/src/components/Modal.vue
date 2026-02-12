@@ -60,9 +60,9 @@ const props = defineProps({
     }
 })
 
-const container = $ref<HTMLDialogElement | null>(null)
-
 const emit = defineEmits<{ (e: 'update:modelValue', modelValue: boolean): void, (e: 'ok'): void, (e: 'cancel'): void, (e: 'close'): void }>()
+
+const container = $ref<HTMLDialogElement | null>(null)
 
 let show = $computed({
     get: () => props.modelValue,
@@ -86,7 +86,7 @@ const open = () => {
 }
 
 const style = $computed(() => {
-    let css: StyleValue = {}
+    const css: StyleValue = {}
     css['--ctool-modal-margin'] = props.padding
     return css
 })

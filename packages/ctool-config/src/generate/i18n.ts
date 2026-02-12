@@ -11,8 +11,8 @@ const localLists: LocalListsStructure[] = [
 ]
 
 const placeholder = (message: string) => {
-    let placeholders: string[] = [];
-    const result = message.match(new RegExp('{.+?}', 'g'));
+    const placeholders: string[] = [];
+    const result = message.match(new RegExp('\\{.+?\\}', 'g'));
     if (result !== null) {
         result.forEach((item) => {
             item = item.replace('{', '').replace('}', '')
@@ -29,18 +29,18 @@ const getLocale = (code: string) => {
     if (!fileCoreSrc.isDir(globalLocaleDir)) {
         throw new Error(`无法获取全局语言包`)
     }
-    let locale: { [_k: string]: LocaleStructure } = {}
+    const locale: { [_k: string]: LocaleStructure } = {}
 
     // 全局语言包
     fileCoreSrc.readdir(globalLocaleDir, '.i18n.json5').forEach((file) => {
-        let type = file.replace('.i18n.json5', '');
-        let config = JSON5.parse(fileCoreSrc.readFile(`${globalLocaleDir}/${file}`));
+        const type = file.replace('.i18n.json5', '');
+        const config = JSON5.parse(fileCoreSrc.readFile(`${globalLocaleDir}/${file}`));
         // 写入区域
         if (type === "main") {
             locale[`${type}_locale`] = {message: code}
         }
-        Object.keys(config).forEach(function (key) {
-            let placeholders = placeholder(config[key])
+        Object.keys(config).forEach((key) => {
+            const placeholders = placeholder(config[key])
             locale[`${type}_${key}`] = {
                 message: config[key],
             }
@@ -68,9 +68,9 @@ const getLocale = (code: string) => {
         if (!fileCoreSrc.isFile(toolLocaleFile)) {
             return
         }
-        let config = JSON5.parse(fileCoreSrc.readFile(toolLocaleFile));
+        const config = JSON5.parse(fileCoreSrc.readFile(toolLocaleFile));
         Object.keys(config).forEach((key) => {
-            let placeholders = placeholder(config[key])
+            const placeholders = placeholder(config[key])
             locale[`${tool.name}_${key}`] = {
                 message: config[key],
             }
@@ -84,7 +84,7 @@ const getLocale = (code: string) => {
 
 const getAllLocales = () => {
     // 所有语言包
-    let locales: AllLocaleStructure = {
+    const locales: AllLocaleStructure = {
         lists: localLists,
         detail: {
             zh_CN: {},
@@ -95,7 +95,7 @@ const getAllLocales = () => {
         if (code === "_default") {
             return;
         }
-        let locale = getLocale(code)
+        const locale = getLocale(code)
         if (locale !== null) {
             locales['detail'][code] = locale;
         }

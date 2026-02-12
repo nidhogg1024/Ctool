@@ -13,7 +13,7 @@
                 <Select
                     :model-value="storeSetting.items.theme"
                     @change="(value)=>storeSetting.save('theme',value)"
-                    :options="themes.map((item)=>{return {value:item,label:$t('main_display_mode_'+item)}})"
+                    :options="themes.map((item)=>{return {value:item,label:$t(`main_display_mode_${item}`)}})"
                 />
             </div>
             <span>{{ $t('main_setting_language') }}</span>
@@ -29,7 +29,7 @@
                 <Select
                     :model-value="storeSetting.items.layout"
                     @change="(value)=>storeSetting.save('layout',value)"
-                    :options="['complex','simple'].map((item)=>{return {value:item,label:$t('main_setting_layout_'+item)}})"
+                    :options="['complex','simple'].map((item)=>{return {value:item,label:$t(`main_setting_layout_${item}`)}})"
                 />
             </div>
             <span style="grid-row-start: span 3">{{ $t('main_ui_clipboard') }}</span>
@@ -150,8 +150,8 @@ import Button from "@/components/ui/Button.vue";
 import InputNumber from "@/components/ui/InputNumber.vue";
 
 const storeSetting = useSetting()
-let openUtoolsKeyword = $ref(false)
-let openCommon = $ref(false)
+const openUtoolsKeyword = $ref(false)
+const openCommon = $ref(false)
 
 const lastUpdate = dayjs.unix(buildTimestamp).format('YYYY-MM-DD HH:mm:ss')
 

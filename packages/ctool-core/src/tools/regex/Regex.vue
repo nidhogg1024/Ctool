@@ -78,7 +78,7 @@ const action = useAction(
 );
 
 let output = $ref("");
-let showReference = $ref(false);
+const showReference = $ref(false);
 watch(
     () => action.current,
     current => {
@@ -90,12 +90,12 @@ watch(
             const replace =
                 !current.is_delete && current.replace === "" ? false : current.is_delete ? "" : current.replace;
 
-            let flags = (current.is_ignore_case ? "i" : "") + (current.is_global ? "g" : "") + (current.is_multiline ? "m" : "") + (current.is_dotall ? "s" : "");
-            let reg = new RegExp(current.input, flags);
+            const flags = (current.is_ignore_case ? "i" : "") + (current.is_global ? "g" : "") + (current.is_multiline ? "m" : "") + (current.is_dotall ? "s" : "");
+            const reg = new RegExp(current.input, flags);
             if (replace !== false) {
                 output = current.content.replace(reg, replace);
             } else {
-                let arr = current.content.match(reg);
+                const arr = current.content.match(reg);
                 let string = "";
                 if (arr) {
                     string += `${$t("regex_output_count", [arr.length])}`;

@@ -5,7 +5,7 @@ import { allLocales } from "./i18n";
 
 type Item = { name: ToolType; feature: FeatureType; keyword: string[]; search: string[] };
 export const buildKeywords = () => {
-    let keywords: Item[] = [];
+    const keywords: Item[] = [];
     tools.forEach(tool => {
         tool.features.forEach(feature => {
             const keywordItem: Item = {
@@ -36,7 +36,7 @@ export const buildKeywords = () => {
                 // 获取拼音
                 if (code === "zh_CN") {
                     items.forEach(item => {
-                        if (/[\u4e00-\u9fa5]/.test(item)) {
+                        if (/[\u4E00-\u9FA5]/.test(item)) {
                             keywordItem.search.push(
                                 pinyin(item, { toneType: "none", type: "array", v: true }).join(""),
                             ); // 全拼

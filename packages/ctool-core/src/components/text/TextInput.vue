@@ -12,7 +12,7 @@
         </template>
         <Card v-else style="height: 100%">
             <Align direction="vertical" horizontal="center" vertical="center">
-                <UploadFile v-model="current.value" buttonType="text" :type="upload" />
+                <UploadFile v-model="current.value" button-type="text" :type="upload" />
                 <div
                     style="
                         font-size: 0.75rem;
@@ -125,13 +125,13 @@ const props = defineProps({
     },
 });
 
+const emit = defineEmits<{ (e: "update:modelValue", modelValue: TextInput): void }>();
+
 const typeLists = $computed(() => {
     return textInputEncoderLists.filter(item => {
         return ![...(props.upload === "none" ? ["upload"] : [])].includes(item) && props.allow.includes(item);
     });
 });
-
-const emit = defineEmits<{ (e: "update:modelValue", modelValue: TextInput): void }>();
 
 let current = $ref(toRaw(props.modelValue));
 
@@ -208,7 +208,7 @@ watch(
 );
 
 const style = $computed(() => {
-    let css: StyleValue = {};
+    const css: StyleValue = {};
     if (props.height) {
         css.height = sizeConvert(props.height);
     }

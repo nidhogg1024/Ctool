@@ -14,7 +14,6 @@ export default {
 import {openUrl} from "@/helper/helper"
 import {PropType} from "vue";
 import {LinkType} from "@/types";
-
 const props = defineProps({
     href: {
         type: String,

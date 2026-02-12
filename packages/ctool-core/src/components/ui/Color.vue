@@ -36,10 +36,9 @@ const props = defineProps({
     },
 })
 
+const emit = defineEmits<{ (e: 'update:modelValue', value: string): void }>()
 const inputLeft = $ref<HTMLElement | null>(null)
 let inputLeftWidth = $ref(0)
-
-const emit = defineEmits<{ (e: 'update:modelValue', value: string): void }>()
 
 const current = $computed({
     get: () => props.modelValue,
@@ -47,7 +46,7 @@ const current = $computed({
 })
 
 const style = $computed(() => {
-    let css: StyleValue = {}
+    const css: StyleValue = {}
     if (inputLeftWidth) {
         css['--ctool-color-left-padding'] = `${inputLeftWidth}px`
     }

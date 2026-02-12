@@ -12,9 +12,9 @@ const compress = async (code: string) => {
 }
 const rename = (code: any, type: RenameType) => {
     if (isPlainObject(code) || isArray(code)) {
-        for (let i in code) {
+        for (const i in code) {
             if (isPlainObject(code)) {
-                let temp = code[i]
+                const temp = code[i]
                 delete code[i]
                 code[nameConvent(i, type)] = rename(temp, type)
             } else {
@@ -40,8 +40,8 @@ const zh2unicode = (content: string) => {
     if (content !== "") {
         let newStr = ''
         for (let i = 0; i < content.length; i++) {
-            let str = content.charAt(i)
-            newStr += /[\u4e00-\u9fa5]/.test(str) ? '\\u' + str.charCodeAt(0).toString(16) : str
+            const str = content.charAt(i)
+            newStr += /[\u4E00-\u9FA5]/.test(str) ? '\\u' + str.charCodeAt(0).toString(16) : str
         }
         return newStr
     }

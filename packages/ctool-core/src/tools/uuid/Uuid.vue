@@ -59,7 +59,7 @@ const action = useAction(await initialize<{
 }));
 
 const handle = () => {
-    let result: string[] = [];
+    const result: string[] = [];
     for (let i = 0, l = action.current.amount; i < l; i++) {
         result.push(!action.current.ulid ? uuidV4() : ulid());
     }

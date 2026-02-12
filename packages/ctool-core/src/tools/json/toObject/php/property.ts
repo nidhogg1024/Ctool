@@ -22,7 +22,7 @@ export const buildProperties = (properties, {visibility, typedProperties}) => {
 
 const subtype = (type, value, key) => {
     if (isScalarType(type) || isEmpty(value)) return null;
-    let subKey = key;
+    const subKey = key;
     if (type === "array") {
         return guessType(
             value.length > 0 ? value[0] : null,
@@ -36,7 +36,7 @@ const subtype = (type, value, key) => {
 }
 
 export const getPropertyInfo = (key, value) => {
-    let type = guessType(value, key);
+    const type = guessType(value, key);
     return {
         name: camelCase(key),
         type: type,

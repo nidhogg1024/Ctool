@@ -7,14 +7,14 @@ import {indent} from "./utils";
 function getClassInfo(json, className, _config, deps) {
     const keys = Object.keys(json);
     const properties = keys.map((key) => {
-        let info = getPropertyInfo(key, json[key]);
+        const info = getPropertyInfo(key, json[key]);
         if (
             isScalarType(info.type) ||
             isScalarType(info.subtype) ||
             info.subtype === null
         )
             return info;
-        let depName = info.type === "array" ? info.subtype : info.type;
+        const depName = info.type === "array" ? info.subtype : info.type;
         if (!deps.has(depName)) {
             deps.add({
                 className: depName,
@@ -52,7 +52,7 @@ function buildFromArray(properties, {typedMethods}, className) {
     const propertiesCount = properties.length;
     properties.forEach((property, i) => {
         let content = "";
-        let isLast = i >= propertiesCount - 1;
+        const isLast = i >= propertiesCount - 1;
         if (isScalarType(property.type) || isScalarType(property.subtype)) {
             content = `$data["${property.originalName}"]${isLast ? "" : ","}`;
             result += indent(content + "\n", 3);
@@ -88,7 +88,7 @@ function buildToArray(properties, {typedMethods}) {
     const propertiesCount = properties.length;
     properties.forEach((property, i) => {
         let content = "";
-        let isLast = i >= propertiesCount - 1;
+        const isLast = i >= propertiesCount - 1;
         if (isScalarType(property.type) || isScalarType(property.subtype)) {
             content = `"${property.originalName}"=>$this->${property.name}${
                 isLast ? "" : ","
@@ -134,7 +134,7 @@ export default (config, deps, json, guessedName = null) => {
         config,
         deps
     );
-    let classContent =
+    const classContent =
         buildProperties(properties, config) +
         buildConstructor(properties, config) +
         buildGetters(properties, config) +

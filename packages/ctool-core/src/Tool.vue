@@ -56,7 +56,7 @@ const globalErrorMessage = (err: any) => {
 };
 
 // Uncaught Promise Error
-window.addEventListener("unhandledrejection", function(event) {
+window.addEventListener("unhandledrejection", (event) => {
     event.preventDefault();
     globalErrorMessage(event.reason);
 });

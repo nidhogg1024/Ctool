@@ -3,6 +3,8 @@
     "private": true,
     "scripts": {
         "check": "vue-tsc -b",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "dev": "pnpm run check && vite --host",
         "build": "pnpm run check && vite build",
         "preview": "vite preview"
@@ -115,14 +117,15 @@
         "@types/uuid": "^10.0.0",
         "@types/valid-data-url": "^2.0.0",
         "@types/ws": "^8.5.4",
-        "@vitejs/plugin-vue": "catalog:",
+        "@vitejs/plugin-vue": "^5.2.4",
         "@vue-macros/reactivity-transform": "^1.0.0",
         "@vue/runtime-core": "catalog:",
         "text-decoding": "^1.0.0",
         "typescript": "catalog:",
-        "vite": "catalog:",
+        "vite": "^6.4.1",
         "vite-plugin-html-config": "^2.0.2",
-        "vite-plugin-node-polyfills": "^0.22.0",
-        "vue-tsc": "catalog:"
+        "vite-plugin-node-polyfills": "catalog:",
+        "vitest": "^4.0.18",
+        "vue-tsc": "^3.2.4"
     }
 }

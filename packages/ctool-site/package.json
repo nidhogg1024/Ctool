@@ -14,13 +14,13 @@
     },
     "devDependencies": {
         "@types/node": "catalog:",
-        "@vitejs/plugin-vue": "catalog:",
+        "@vitejs/plugin-vue": "^5.2.4",
         "typescript": "catalog:",
-        "vite": "catalog:",
+        "vite": "^6.4.1",
         "vite-plugin-html-config": "^2.0.2",
-        "vite-plugin-pwa": "^0.20.5",
+        "vite-plugin-pwa": "catalog:",
         "vite-svg-loader": "^4.0.0",
-        "vue-tsc": "catalog:",
+        "vue-tsc": "^3.2.4",
         "workbox-build": "^7.1.1",
         "workbox-window": "^7.1.0"
     }

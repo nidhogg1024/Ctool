@@ -117,7 +117,7 @@ export default <T = any>(tool: string, feature: string = "") => {
         !toolExists(tool)
         || !getTool(tool).existFeature(feature)
     ) {
-        errorInstance = errorInstance ? errorInstance : new History('error')
+        errorInstance = errorInstance || new History('error')
         return errorInstance
     }
     return History.repository<T>(`${tool}_${feature}`)
