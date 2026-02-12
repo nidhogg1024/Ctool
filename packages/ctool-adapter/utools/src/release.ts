@@ -2,7 +2,7 @@ import {copyCoreDist, release, replaceFileContent, version, getAdditionData} fro
 import {tools, ToolInterface, FeatureInterface, AllLocaleStructure} from "ctool-config";
 import {CustomCmd, customCmds} from "./config";
 import {join} from "path";
-import {cpSync, mkdirSync, rmSync} from "fs";
+import {cpSync, mkdirSync, rmSync, readFileSync, writeFileSync} from "fs";
 
 const tempPath = join(__dirname, '../_temp')
 rmSync(tempPath, {recursive: true, force: true});
@@ -54,6 +54,22 @@ tools.forEach(tool => {
     // 写入版本号
     replaceFileContent(join(tempPath, 'plugin.json'), '##version##', version())
     replaceFileContent(join(tempPath, 'plugin.json'), '"##features##"', JSON.stringify(utoolsFeature))
+
+    // 去除 HTML 中的 crossorigin 属性（uTools 使用 file:// 协议，crossorigin 会导致 CORS 白屏）
+    for (const htmlFile of ['tool.html', 'index.html']) {
+        const htmlPath = join(tempPath, htmlFile)
+        try {
+            const html = readFileSync(htmlPath, 'utf-8')
+            writeFileSync(htmlPath, html.replace(/ crossorigin/g, ''), 'utf-8')
+        } catch {}
+    }
+
+    // 移除 development 字段（仅开发时使用，发布产物不需要）
+    const pluginJsonPath = join(tempPath, 'plugin.json')
+    const pluginJson = JSON.parse(readFileSync(pluginJsonPath, 'utf-8'))
+    delete pluginJson.development
+    writeFileSync(pluginJsonPath, JSON.stringify(pluginJson, null, 4), 'utf-8')
+
     // 发布
     console.info(`utools: ${await release(tempPath, 'utools')}`)
     // 移除临时目录
