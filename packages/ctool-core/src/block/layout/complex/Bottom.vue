@@ -88,4 +88,18 @@ onUnmounted(() => {
     right: -4px;
     top: -4px;
 }
+
+/* ===== 小屏适配 ===== */
+@media (max-width: 768px) {
+    .ctool-bottom {
+        height: 40px;
+        padding: 0 8px;
+    }
+}
+@media (max-width: 480px) {
+    .ctool-bottom {
+        height: 38px;
+        padding: 0 4px;
+    }
+}
 </style>

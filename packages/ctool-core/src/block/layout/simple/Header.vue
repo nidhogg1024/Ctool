@@ -133,4 +133,41 @@ onUnmounted(() => {
     right: -4px;
     top: -4px;
 }
+
+/* ===== 小屏适配 ===== */
+@media (max-width: 768px) {
+    .ctool-header {
+        height: 42px;
+        padding: 0 6px;
+        font-size: 13px;
+    }
+
+    /* feature 标签可横向滚动 */
+    .ctool-header-middle {
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .ctool-header-middle::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ctool-header-feature-item {
+        padding: 0 0.6rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}
+@media (max-width: 480px) {
+    .ctool-header {
+        height: 40px;
+        padding: 0 4px;
+        font-size: 12px;
+    }
+
+    .ctool-header-feature-item {
+        padding: 0 0.4rem;
+        font-size: 12px;
+    }
+}
 </style>

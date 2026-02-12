@@ -155,6 +155,7 @@ watch(() => {
     align-items: center;
     padding: 0 .85rem;
     cursor: pointer;
+    white-space: nowrap;
 }
 [data-locale="en"] .ctool-header-category{
     padding: 0 .3rem;
@@ -173,6 +174,7 @@ watch(() => {
     display: inline-flex;
     align-items: center;
     gap: 3px;
+    white-space: nowrap;
 }
 
 .ctool-header-category-current {
@@ -202,6 +204,7 @@ watch(() => {
     justify-content: center;
     padding: 0 1rem;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .ctool-header-feature:hover {
@@ -211,6 +214,99 @@ watch(() => {
 .ctool-header-feature-current {
     color: var(--ctool-primary);
     border-bottom: 2px solid var(--ctool-primary);
+}
+
+/* ===== 小屏适配（≤768px） ===== */
+@media (max-width: 768px) {
+    /* 顶部栏：增高以适应触摸 */
+    .ctool-header-top {
+        height: 42px;
+        padding: 0 8px;
+    }
+
+    /* 分类标签区域：横向可滚动，不截断 */
+    .ctool-header-top-left {
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        flex-shrink: 1;
+        min-width: 0;
+    }
+    .ctool-header-top-left::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ctool-header-category {
+        padding: 0 0.6rem;
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    /* 工具列表区域：限高 + 可滚动 */
+    .ctool-header-middle {
+        max-height: 80px;
+        overflow-y: auto;
+        padding: 8px 8px 4px;
+        gap: 8px 6px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .ctool-header-middle::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ctool-header-tool {
+        font-size: 13px;
+        padding: 2px 0;
+    }
+
+    /* feature 标签栏：横向可滚动 */
+    .ctool-header-bottom {
+        height: 32px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        justify-content: flex-start;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .ctool-header-bottom::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ctool-header-feature {
+        padding: 0 0.7rem;
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+}
+
+/* ===== 极小屏（≤480px） ===== */
+@media (max-width: 480px) {
+    .ctool-header-top {
+        height: 40px;
+        padding: 0 4px;
+    }
+
+    .ctool-header-category {
+        padding: 0 0.45rem;
+        font-size: 12px;
+    }
+
+    .ctool-header-middle {
+        max-height: 68px;
+        padding: 6px 6px 3px;
+        gap: 6px 4px;
+    }
+
+    .ctool-header-tool {
+        font-size: 12px;
+    }
+
+    .ctool-header-feature {
+        padding: 0 0.5rem;
+        font-size: 12px;
+    }
 }
 
 </style>

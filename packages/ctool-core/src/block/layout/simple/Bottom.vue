@@ -74,4 +74,41 @@ const redirectTool = (tool: string) => storeOperate.redirectTool(tool)
 .ctool-bottom-tools-item:hover {
     color: var(--ctool-primary);
 }
+
+/* ===== 小屏适配 ===== */
+@media (max-width: 768px) {
+    .ctool-bottom {
+        height: 40px;
+        padding: 0 6px;
+    }
+    .ctool-bottom-tools {
+        height: 40px;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .ctool-bottom-tools::-webkit-scrollbar {
+        display: none;
+    }
+    .ctool-bottom-tools-item {
+        line-height: 40px;
+        height: 40px;
+    }
+}
+@media (max-width: 480px) {
+    .ctool-bottom {
+        height: 38px;
+        padding: 0 4px;
+    }
+    .ctool-bottom-tools {
+        height: 38px;
+    }
+    .ctool-bottom-tools-item {
+        line-height: 38px;
+        height: 38px;
+        font-size: 12px;
+        padding: 0 4px;
+    }
+}
 </style>
