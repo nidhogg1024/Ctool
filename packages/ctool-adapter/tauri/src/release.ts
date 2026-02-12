@@ -46,8 +46,8 @@ const getTauriReleaseFile = (dir: string, name: string, extension: string) => {
     }
 
     if (platform === "win32") {
-        filesPush(getTauriReleaseFile("", 'ctool', '.exe'), "win.exe")
-        filesPush(getTauriReleaseFile('bundle/msi', 'ctool', '.msi'), "win.msi")
+        // NSIS 安装包（-setup.exe），包含安装向导和 WebView2 自动安装
+        filesPush(getTauriReleaseFile('bundle/nsis', 'ctool', '.exe'), "win_setup.exe")
     }
     if (platform === "darwin") {
         const arch = getMacArchSuffix();

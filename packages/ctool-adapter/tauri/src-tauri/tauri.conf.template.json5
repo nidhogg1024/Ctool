@@ -40,18 +40,25 @@
         "targets": [
             "deb",
             "appimage",
-            "msi",
+            "nsis",
             "app",
             "dmg"
         ],
-        "macOS": {},
+        "macOS": {
+            // ad-hoc 签名：消除"App 已损坏"提示，用户只需右键→打开即可
+            "signingIdentity": "-"
+        },
         "linux": {
             "deb": {
                 "depends": []
             }
         },
         "windows": {
-            "digestAlgorithm": "sha256"
+            "digestAlgorithm": "sha256",
+            "nsis": {
+                // 让用户选择为当前用户安装还是系统级安装
+                "installMode": "both"
+            }
         }
     }
 }
