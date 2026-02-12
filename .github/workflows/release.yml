@@ -64,13 +64,14 @@ jobs:
               env:
                   NODE_OPTIONS: "--max_old_space_size=4096"
 
-            - name: Release browser extensions
+            - name: Release browser extensions + uTools
               run: |
                   node release.cjs init
                   pnpm --filter ctool-adapter-chrome run platform-release
                   pnpm --filter ctool-adapter-edge run platform-release
                   pnpm --filter ctool-adapter-firefox run platform-release
                   pnpm --filter ctool-adapter-web run platform-release
+                  pnpm --filter ctool-adapter-utools run platform-release
                   ls -lh ./_release/
                   node release.cjs get
 
@@ -87,7 +88,7 @@ jobs:
                   files: |
                       ${{ steps.get_release_files.outputs.files }}
 
-    # 构建 Tauri 桌面端（macOS + Windows）
+    # 构建 Tauri 桌面端（macOS + Windows + Linux）
     tauri-desktop:
         needs: create-release
         strategy:
@@ -100,6 +101,8 @@ jobs:
                       target: x86_64-apple-darwin
                     - platform: windows-latest
                       target: x86_64-pc-windows-msvc
+                    - platform: ubuntu-22.04
+                      target: x86_64-unknown-linux-gnu
 
         runs-on: ${{ matrix.platform }}
         steps:
@@ -124,6 +127,12 @@ jobs:
                   key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
                   restore-keys: |
                       ${{ runner.os }}-pnpm-store-
+
+            - name: Install Linux dependencies
+              if: runner.os == 'Linux'
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
 
             - name: Install dependencies
               run: pnpm install
