@@ -7,6 +7,10 @@
     "repository": "https://github.com/nidhogg1024/Ctool",
     "author": "nidhogg1024",
     "license": "MIT",
+    "engines": {
+        "node": ">=20",
+        "pnpm": ">=10"
+    },
     "scripts": {
         "initialize": "pnpm --filter ctool-config run build && pnpm --filter ctool-adapter-base run build && pnpm -r run adapter-build",
         "check": "pnpm run initialize && pnpm --filter ctool-core run check",
