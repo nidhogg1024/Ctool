@@ -14,8 +14,8 @@ import TextInput from "./text/TextInput.vue";
 import TextOutput from "./text/TextOutput.vue";
 import SerializeInput from "./serialize/SerializeInput.vue";
 import SerializeOutput from "./serialize/SerializeOutput.vue";
-import Editor from "./editor/Editor.vue";
 import ExtendPage from "./ExtendPage.vue";
+import {defineAsyncComponent} from "vue";
 import Card from "./ui/Card.vue";
 import Color from "./ui/Color.vue";
 import InputNumber from "./ui/InputNumber.vue";
@@ -58,8 +58,8 @@ const components = {
     TextInput, TextOutput,
     // 序列化数据输入输出组件
     SerializeInput, SerializeOutput,
-    // 代码编辑器
-    Editor,
+    // 代码编辑器（异步加载，避免 Monaco 影响首屏体积）
+    Editor: defineAsyncComponent(() => import("./editor/Editor.vue")),
     // tabs
     Tabs,
     // 帮助按钮
