@@ -10,15 +10,29 @@
 
 ## 相比原版的增强
 
-### 新功能
+### 新增工具
+- **Chmod 权限计算器** — 可视化勾选矩阵生成八进制权限（rwx ↔ 755）
+- **密码生成器** — 自定义字符集、长度、批量生成，密码强度可视化
+- **User-Agent 解析器** — 解析浏览器、操作系统、设备、引擎信息
+- **Stacktrace 格式化** — 支持 Java/Python/JS/Go/C#/Ruby/PHP/Rust 等多语言堆栈解析，自动从 JSON 日志（GCP 等）提取堆栈和元信息，Sentry 风格 UI
+- **配置格式互转** — 10 种格式一键互转（JSON/YAML/TOML/XML/CSV/Properties/HTML Table/Query String/PHP Array/PHP Serialize）
 - **JSON Transform** — 用 JavaScript + lodash 表达式对 JSON 数据做变换（groupBy、sortBy、filter 等）
 - **IPv4 反掩码输入** — 支持直接输入通配符掩码（反掩码），自动转换为子网掩码计算
 - **URL 全字符编码** — 对所有字符（含未保留字符）进行百分号编码
 - **Base58 编码/解码** — 新增 Base58 工具
 - **多行数字统计** — 多行数字求和、平均值等
-- **界面缩放设置** — 适配不同显示器和浏览器缩放
-- **网络带宽换算** — 单位换算新增网络带宽类别
 - **SQL 具名参数填充** — 支持 `:name` 风格的具名参数
+
+### 改进
+- **JSON 工具 UX 重构** — 转实体类改为内联面板，语言按热门程度分层展示；新增格式转换快捷跳转
+- **工具分类重构** — 7 个语义化分类（加密/安全、编解码、数据处理、文本工具、网络/Web、开发辅助、生成器），消灭"其他"分类和工具重复
+- **randomString 安全性提升** — 底层换用 `crypto.getRandomValues()`
+- **构建版本号自动化** — 从 Git tag 自动获取，无需手动维护
+- 时区选择器支持搜索过滤
+- 文本对比语言选择可搜索
+- 界面缩放设置，适配不同显示器和浏览器缩放
+- 网络带宽换算
+- 升级 Tauri v1 → v2，支持 macOS 26（Tahoe）
 
 ### Bug 修复
 - CRC16 Modbus 校验结果字节序错误
@@ -29,12 +43,6 @@
 - 时间戳/时区页面崩溃、日期计算精度问题
 - 进制转换大写十六进制输入失败
 - PHP array() 语法转 JSON 不支持
-
-### 改进
-- 时区选择器支持搜索过滤
-- 文本对比语言选择可搜索
-- Select 组件搜索框高度优化
-- 升级 Tauri v1 → v2，支持 macOS 26（Tahoe）
 
 ## 先睹为快
 
@@ -50,15 +58,17 @@ https://nidhogg1024.github.io/Ctool/
 
 - [点击下载](https://github.com/nidhogg1024/Ctool/releases)
 
-> **macOS 用户注意**：首次打开可能提示"已损坏，无法打开"，这是因为应用未经 Apple 签名。请在终端执行以下命令后重新打开：
+> **macOS 用户注意**：首次打开可能提示"已损坏，无法打开"，这是因为应用未经 Apple 付费签名。请在终端执行以下命令后重新打开：
 >
 > ```bash
-> # DMG 文件（下载后执行）
+> # 对下载的 DMG 文件执行
 > xattr -cr ~/Downloads/ctool_tauri_mac_arm64.dmg
 >
 > # 如果安装到 Applications 后仍提示，再执行
 > xattr -cr /Applications/ctool.app
 > ```
+>
+> 或者：双击打开被拦截后，前往 **系统设置 → 隐私与安全性 → 安全性**，点击"仍要打开"。
 
 ### 浏览器扩展
 
@@ -99,42 +109,60 @@ pnpm --filter ctool-adapter-firefox run platform-release
 
 ## 功能列表
 
-|功能|说明|离线使用 |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------|------|
-|哈希|`md5`, `sha1`, `sha256`, `sha512`,`sm3`,`批量处理`,`支持文件` |√|
-|加密/解密|`AES`,`DES`,`RC4`,`Rabbit`,`TripleDes`,`sm2`,`sm4`|√|
-|BASE64编码 |`加密`,`解密`,`支持文件`|√|
-|URL编码|`编码`,`解码` |√|
-|时间|`时间戳双向转换`,`毫秒` ,`时区`,`时间计算器`|√|
-|二维码|`生成`,`解析` |√|
-|条形码|`生成` |√|
-|汉字转拼音|`声调`,`首字母`,`分隔符`|√|
-|IP地址查询 |`运营商`,`城市`|×|
-|代码格式化|`js`, `ts`, `html`, `css`, `less`, `scss`, `graphql`, `vue`, `angular`, `markdown`, `json5`, `xml`, `yaml`, `sql`, `压缩` |√|
-|Unicode|`双向转换`,`emoji`,`html 实体`,`css 实体` |√|
-|进制转换 |`2-64进制`|√|
-|正则表达式|`匹配`,`查找`,`替换`  |√|
-|随机字符生成器|`批量`,`特殊字符` |√|
-|序列化转换|`json`, `xml`, `yaml`, `phpArray`, `phpSerialize`, `properties`|√|
-|文本差异化对比|`行`,`单词`,`css`  |√|
-|crontab校验|`Crontab`,`规则`,`校验`,`例子`   |√|
-|websocket调试  |`websocket`,`在线调试` |×|
-|单位换算 |`长度`,`面积`,`体积`,`质量`,`温度`,`压力`,`功率`,`功`,`密度`,`力`,`时间`,`速度`,`数据存储`,`角度`  |√|
-|时间计算器|-|√|
-|JSON工具 |`格式化`,`校验`,`压缩`,`转义`,`去除转义`,`Unicode转中文`,`中文转Unicode`,`转GET参数`,`Java`, `C#`, `Go`, `Dart`,`csv`,`table`,`Protobuf`,`jsonpath` |√|
-|UUID |`在线生成uuid`|√|
-|ascii编码转换|`十进制`, `十六进制`, `八进制`, `二进制`, `字符串`|√|
-|变量名格式转换|`Var Name`, `var-name`, `VAR_NAME`, `VarName`, `varName`, `var_name`, `var name`  |√|
-|jwt解码|`header`, `payload`|√|
-|Hex/String转换 |`hex to string`, `string to hex`, `十六进制转字符串`, `字符串转十六进制`|√|
-|Hex/Base64转换 |`hex to Base64`, `Base64 to hex`|√|
-|文本处理 |`大小写转换`, `中英文标点转换`, `简繁转换`, `替换`, `字符统计`, `行去重`, `添加行号`, `行排序`, `过滤行首尾不可见字符`,`过滤空行`|√|
-|html编码 |-|√|
-|原码/反码/补码 |`生成` |√|
-|ARM/HEX|`互转` |×|
-|Bcrypt |`加密`,`验证` |√|
-|IP网络计算器|`子网掩码各个进制表示换算,IP地址进制表示换算`  |√|
-|SQL参数填充|`Mybatis打印SQL的参数填充`|√|
+| 分类 | 功能 | 说明 | 离线 |
+|------|------|------|:----:|
+| **加密/安全** | 哈希 | `md5`, `sha1`, `sha256`, `sha512`, `sm3`, 批量处理, 支持文件 | √ |
+| | HMAC | `md5`, `sha1`, `sha256`, `sha512` | √ |
+| | 加密/解密 | `AES`, `DES`, `RC4`, `Rabbit`, `TripleDes`, `sm2`, `sm4` | √ |
+| | RSA | 公钥加密, 私钥解密 | √ |
+| | 签名/验签 | 数字签名验证 | √ |
+| | Bcrypt | 加密, 验证 | √ |
+| | 密码生成器 | 自定义字符集, 强度可视化, 批量生成 | √ |
+| **编解码** | BASE64 | 编码, 解码, 支持文件 | √ |
+| | URL编码 | 编码, 解码, 全字符编码 | √ |
+| | Unicode | 双向转换, emoji, html实体, css实体 | √ |
+| | JWT | header, payload 解码/编码 | √ |
+| | Hex/String | 十六进制 ↔ 字符串 | √ |
+| | HTML编码 | 实体编码/解码 | √ |
+| | Gzip | 压缩, 解压 | √ |
+| | ASN.1 | DER/PEM 结构解析 | √ |
+| | Punycode | 编码, 解码 | √ |
+| | Base58 | 编码, 解码 | √ |
+| **数据处理** | JSON工具 | 格式化, 校验, 压缩, 转义, Transform, JSONPath, 转实体类 | √ |
+| | 配置格式互转 | JSON/YAML/TOML/XML/CSV/Properties 等 10 种格式 | √ |
+| | 序列化转换 | json, xml, yaml, phpArray, phpSerialize, properties | √ |
+| | 进制转换 | 2-64 进制 | √ |
+| | ASCII转换 | 十进制, 十六进制, 八进制, 二进制, 字符串 | √ |
+| | ARM/HEX | 互转 | × |
+| | MongoDB ObjectId | 解析时间戳、机器标识等 | √ |
+| **文本工具** | 文本处理 | 大小写, 中英文标点, 简繁转换, 替换, 统计, 去重, 排序 | √ |
+| | 汉字转拼音 | 声调, 首字母, 分隔符 | √ |
+| | 变量名转换 | camelCase, PascalCase, snake_case, kebab-case 等 | √ |
+| | 文本差异对比 | 行, 单词, CSS | √ |
+| | 正则表达式 | 匹配, 查找, 替换 | √ |
+| | 中文数字 | 阿拉伯数字 ↔ 中文大小写数字 | √ |
+| | 代码格式化 | js, ts, html, css, less, scss, graphql, vue, xml, yaml, sql, 压缩 | √ |
+| **网络/Web** | IP地址查询 | 运营商, 城市 | × |
+| | URL解析 | 协议, 域名, 路径, 参数, 锚点 | √ |
+| | WebSocket | 在线调试 | × |
+| | HTTP Snippet | cURL/Fetch/Axios/Python 等 HTTP 客户端代码生成 | √ |
+| | User-Agent解析 | 浏览器, 操作系统, 设备, 引擎 | √ |
+| | Docker Compose | docker run 转 docker-compose | √ |
+| **开发辅助** | Crontab | 规则校验, 执行时间预览 | √ |
+| | SQL参数填充 | Mybatis 参数填充, 具名参数 | √ |
+| | Stacktrace格式化 | Java/Python/JS/Go/C#/Ruby/PHP/Rust, JSON 日志提取 | √ |
+| | Chmod计算器 | rwx 勾选矩阵 ↔ 八进制权限 | √ |
+| | 数据校验 | BCC, CRC, LRC | √ |
+| | 颜色转换 | HEX, RGB, HSL, HSV | √ |
+| | 单位换算 | 长度, 面积, 体积, 质量, 温度, 压力, 功率, 速度, 数据存储等 | √ |
+| | 时间工具 | 时间戳转换, 时区, 计算器 | √ |
+| **生成器** | 二维码 | 生成, 解析 | √ |
+| | 条形码 | 生成 | √ |
+| | 随机字符串 | 批量, 特殊字符, crypto 安全随机 | √ |
+| | UUID | 在线生成 | √ |
+| | 原码/反码/补码 | 生成 | √ |
+| | IP网络计算器 | 子网掩码换算, 反掩码/通配符输入 | √ |
+| | 数字计算器 | 大数计算, 表达式求值 | √ |
 
 ## 致谢
 
