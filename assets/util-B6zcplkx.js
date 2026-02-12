@@ -1,3 +1,0 @@
-import{a as l}from"./proxy-DFg6DrWC.js";const h=(r,u,e,c)=>{if(!r||r.startsWith("#"))return r;if(!c)return e+r;const o=u*2;let s="";for(let n=0;n<r.length;n+=o){const a=r.slice(n,n+o);for(let t=a.length;t>0;t-=2)s+=a.slice(t-2,t)}return e+s},f=(r,u,{response:e,prefix_0x:c=!1,swap_endian:o=!1})=>{var a,t;if(e==="")return"";const s=(t=(a=e[r])==null?void 0:a[u])==null?void 0:t[1];if(s===void 0)return"";if(!c&&!o)return s;const n={arm64:4,arm:4,armbe:4,thumb:2,thumbbe:2};return s.split(`
-`).map(i=>h(i,n[u],c?"0x":"",o)).join(`
-`)},b=r=>l().post("https://armconverter.com/api/convert",r);export{f as h,b as r};
