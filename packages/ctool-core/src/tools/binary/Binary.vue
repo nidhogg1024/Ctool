@@ -44,8 +44,8 @@ const result = (type: GenerateType) => {
     if (action.current.input.trim() === "") {
         return "";
     }
-    let output: string[] = []
-    for (let input of action.current.input.trim().split("\n")) {
+    const output: string[] = []
+    for (const input of action.current.input.trim().split("\n")) {
         try {
             output.push(`${generate(input.trim(), action.current.length, type)}`)
         } catch (e) {

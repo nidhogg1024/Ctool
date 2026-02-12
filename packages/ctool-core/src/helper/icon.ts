@@ -1,8 +1,8 @@
 import {iconData, iconType} from "@/buildDataTemp";
 
-const lists: Record<string, VNode> = {}
-
 import {h, VNode} from 'vue'
+
+const lists: Record<string, VNode> = {}
 
 const svg = (name: iconType) => {
     let [left, top, right, bottom] = iconData[name].box

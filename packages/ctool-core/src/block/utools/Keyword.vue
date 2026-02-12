@@ -32,7 +32,7 @@ type Item = {
 }
 
 const getFeatures = () => {
-    let lists: Record<string, Item> = {}
+    const lists: Record<string, Item> = {}
     runtime.getFeatures().forEach((value, feature) => {
         lists[`${feature.getKey()}`] = {
             feature,
@@ -50,7 +50,7 @@ const itemsKey = Object.keys(items)
 const save = () => {
     const features: { feature: FeatureInterface, cmds: string[] }[] = []
     itemsKey.forEach(key => {
-        let cmds = [...(new Set(items[key].cmds.split("\n").map(item => item.trim()).filter(item => item !== "")))]
+        const cmds = [...(new Set(items[key].cmds.split("\n").map(item => item.trim()).filter(item => item !== "")))]
         if (cmds.length > 0) {
             features.push({
                 feature: items[key].feature,

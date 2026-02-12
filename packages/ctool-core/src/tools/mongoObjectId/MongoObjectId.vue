@@ -65,7 +65,7 @@ const result = $computed(() => {
         return { valid: false, timestamp: '', datetime: '', machineId: '', processId: '', counter: '' };
     }
     // 校验是否为合法的 24 位十六进制字符串
-    if (!/^[0-9a-fA-F]{24}$/.test(input)) {
+    if (!/^[0-9a-f]{24}$/i.test(input)) {
         return { valid: false, timestamp: '', datetime: '', machineId: '', processId: '', counter: '' };
     }
 
@@ -104,7 +104,7 @@ watch(() => result.valid, (valid) => {
 const generate = () => {
     const timestamp = Math.floor(Date.now() / 1000).toString(16).padStart(8, '0');
     const random = Array.from({ length: 10 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
-    const counter = Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0');
+    const counter = Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, '0');
     action.current.input = timestamp + random + counter;
 };
 </script>

@@ -131,7 +131,7 @@ const load = async <T extends Languages>(name: T): Promise<Format<T>> => {
 
 const getLanguageKey = (land: string) => {
     const landName = getDisplayName(land)
-    for (let item of allLanguageType) {
+    for (const item of allLanguageType) {
         if (getDisplayName(item) === landName) {
             return item as Languages
         }

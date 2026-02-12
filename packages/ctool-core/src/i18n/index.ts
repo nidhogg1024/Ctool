@@ -10,7 +10,7 @@ export const DEFAULT_LOCALE = platform.getLocale()
 let currentLocale: Locale = "_default"
 
 const getMessage = (code: Locale, key: string) => {
-    let locale: LocaleLists = code === "_default" ? DEFAULT_LOCALE : code;
+    const locale: LocaleLists = code === "_default" ? DEFAULT_LOCALE : code;
     let text = key;
     if ((locale in LOCALE_DETAIL) && (key in LOCALE_DETAIL[locale])) {
         text = LOCALE_DETAIL[locale][key]['message']
@@ -21,9 +21,9 @@ const getMessage = (code: Locale, key: string) => {
 const translate = (code: Locale, key: string, values: Record<string, any> = {}): string => {
     if (!key) return '';
 
-    let text = getMessage(code, key);
+    const text = getMessage(code, key);
 
-    const matchRge = new RegExp('{.+?}', 'g')
+    const matchRge = new RegExp('\\{.+?\\}', 'g')
     const matchString = text.match(matchRge);
     const replaceHash: Record<string, any> = {};
     // 获取语言包对应翻译内容
@@ -31,7 +31,7 @@ const translate = (code: Locale, key: string, values: Record<string, any> = {}):
 
     if (matchString) {
         matchString.forEach((wildcard) => {
-            let key = wildcard.replace("{", "").replace("}", '')
+            const key = wildcard.replace("{", "").replace("}", '')
             if ((key in values) && !(wildcard in replaceHash)) {
                 replaceHash[wildcard] = values[key]
             }
@@ -53,7 +53,7 @@ export const $t = (key: string, values?: Record<string, any> | [], locale?: Loca
     }
     if (Array.isArray(values)) {
         // 数组转对象表示法
-        let temp: Record<string, any> = {}
+        const temp: Record<string, any> = {}
         for (let i = 0; i < values.length; i++) {
             temp[i] = values[i]
         }
@@ -77,7 +77,7 @@ export const getCurrentLocale = () => {
 }
 
 export const getLocaleName = (code: string): null | string => {
-    for (let l of locales.lists) {
+    for (const l of locales.lists) {
         if (l.code === code) {
             return l.name
         }

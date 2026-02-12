@@ -25,10 +25,10 @@
             <Icon hover @click="openTools = !openTools" name="common" :tooltip="$t(`main_tools_lists`)"/>
             <Icon hover name="clear" @click="event.dispatch('content_clear')" :tooltip="$t('main_content_clear')"/>
             <span style="display: inline-flex;" :class="!storeSetting.items.history_icon_badge_hidden && historyExist ? `ctool-header-exist-history` : ''">
-                <Icon hover name="history" @click="openHistory = !openHistory" :tooltip="$t('tool_'+storeOperate.items.tool) + ' -' + $t('main_history')"/>
+                <Icon hover name="history" @click="openHistory = !openHistory" :tooltip="`${$t(`tool_${storeOperate.items.tool}`) } -${ $t('main_history')}`"/>
             </span>
             <Icon hover name="setting" @click="event.dispatch('open_setting')" :tooltip="$t('main_ui_setting')"/>
-            <Icon v-if="platform.isChromium() || platform.isFirefox() || platform.isWeb()" hover name="full" :tooltip="$t('main_ui_open_full')"  @click="openUrl()"/>
+            <Icon v-if="platform.isChromium() || platform.isFirefox() || platform.isWeb()" hover name="full" :tooltip="$t('main_ui_open_full')" @click="openUrl()"/>
             <Icon v-if="platform.isDesktop()" hover name="devtools" :tooltip="$t('main_ui_open_devtools')" @click="platform.runtime.call('toggleDevTools')"/>
         </Align>
     </div>
@@ -58,8 +58,8 @@ import Tools from "../../Tools.vue";
 const storeOperate = useOperate()
 const storeSetting = useSetting()
 let historyExist = $ref(false);
-let openHistory = $ref(false)
-let openTools = $ref(false);
+const openHistory = $ref(false)
+const openTools = $ref(false);
 
 const features = $computed(() => {
     return toolExists(storeOperate.items.tool) && !getTool(storeOperate.items.tool).isSimple() ? getTool(storeOperate.items.tool).features : []

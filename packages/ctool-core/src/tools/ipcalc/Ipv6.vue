@@ -40,7 +40,7 @@
         <Card :title="`${action.current.input} ${$t('ipcalc_subnet')}`" padding="0">
             <HeightResize v-slot="{height}" :reduce="35">
                 <SerializeOutput
-                    disabledBorder
+                    disabled-border
                     v-model="action.current.subnetOption"
                     :allow="['json','xml','yaml','toml','php_array','properties','text']"
                     :content="subnet"
@@ -88,7 +88,7 @@ const action = useAction(await initialize({
 }))
 
 let error = $ref("")
-let showSubnet = $ref(false)
+const showSubnet = $ref(false)
 
 watch(() => {
     return {input: action.current.input.trim()}

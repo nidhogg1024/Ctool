@@ -11,10 +11,10 @@
                     <Button @click="generate"><Icon name="refresh" /></Button>
                 </Align>
                 <Align horizontal="center">
-                    <Bool v-model="action.current.uppercase" :label="$t('password_uppercase') + ' (A-Z)'" size="small" border />
-                    <Bool v-model="action.current.lowercase" :label="$t('password_lowercase') + ' (a-z)'" size="small" border />
-                    <Bool v-model="action.current.digits" :label="$t('password_digits') + ' (0-9)'" size="small" border />
-                    <Bool v-model="action.current.symbols" :label="$t('password_symbols') + ' (!@#$)'" size="small" border />
+                    <Bool v-model="action.current.uppercase" :label="`${$t('password_uppercase') } (A-Z)`" size="small" border />
+                    <Bool v-model="action.current.lowercase" :label="`${$t('password_lowercase') } (a-z)`" size="small" border />
+                    <Bool v-model="action.current.digits" :label="`${$t('password_digits') } (0-9)`" size="small" border />
+                    <Bool v-model="action.current.symbols" :label="`${$t('password_symbols') } (!@#$)`" size="small" border />
                 </Align>
                 <Align horizontal="center">
                     <Bool v-model="action.current.excludeAmbiguous" :label="$t('password_exclude_ambiguous')" size="small" border />
@@ -25,7 +25,7 @@
                     <span style="font-size: .75rem; color: var(--ctool-placeholder-text-color);">{{ $t('password_strength') }}:</span>
                     <span :style="{ fontSize: '.875rem', fontWeight: 'bold', color: strengthColor }">{{ strengthLabel }}</span>
                     <div style="width: 120px; height: 6px; border-radius: 3px; background: var(--ctool-border-color); overflow: hidden;">
-                        <div :style="{ width: strengthPercent + '%', height: '100%', borderRadius: '3px', background: strengthColor, transition: 'all 0.3s' }"></div>
+                        <div :style="{ width: `${strengthPercent }%`, height: '100%', borderRadius: '3px', background: strengthColor, transition: 'all 0.3s' }"></div>
                     </div>
                 </Align>
             </Align>
@@ -78,7 +78,7 @@ const generate = () => {
 
     const results: string[] = [];
     for (let i = 0; i < opt.amount; i++) {
-        let pwd: string[] = [];
+        const pwd: string[] = [];
         // 确保每类至少 1 个
         if (opt.ensureEachType && opt.length >= pools.length) {
             for (const p of pools) {

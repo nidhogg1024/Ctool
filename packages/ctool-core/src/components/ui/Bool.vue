@@ -41,9 +41,9 @@ const props = defineProps({
     },
 })
 
-const key = `ctool-bool-key-${uuid()}`
-
 const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void, (e: 'change', value: boolean): void }>()
+
+const key = `ctool-bool-key-${uuid()}`
 
 const checked = $computed({
     get: () => props.modelValue,

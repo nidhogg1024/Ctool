@@ -308,7 +308,7 @@ const parseGenericLine = (line: string): StackFrame | null => {
 
     // 通用兜底：任何包含 路径/文件名.扩展名:行号 的行
     // 匹配绝对路径、相对路径、Windows 路径
-    m = trimmed.match(/((?:\/|\.\.?\/|[A-Za-z]:\\)[^\s:()]+?\.[a-zA-Z0-9]{1,10}):(\d+)/);
+    m = trimmed.match(/((?:\/|\.\.?\/|[A-Z]:\\)[^\s:()]+?\.[a-z0-9]{1,10}):(\d+)/i);
     if (m) {
         // 从 file:line 前面提取方法名
         const beforeIdx = trimmed.indexOf(m[0]);
@@ -320,7 +320,7 @@ const parseGenericLine = (line: string): StackFrame | null => {
     }
 
     // 最宽泛兜底：file.ext:line（无路径分隔符，但要有扩展名）
-    m = trimmed.match(/\b([a-zA-Z0-9_.-]+\.[a-zA-Z]{1,10}):(\d+)\b/);
+    m = trimmed.match(/\b([\w.-]+\.[a-z]{1,10}):(\d+)\b/i);
     if (m) {
         const beforeIdx = trimmed.indexOf(m[0]);
         const before = trimmed.substring(0, beforeIdx).trim()
@@ -408,7 +408,7 @@ const parseGeneric = (lines: string[]): ParsedStack => {
 const guessLanguageFromFrames = (frames: StackFrame[]): string => {
     const extCount: Record<string, number> = {};
     for (const frame of frames) {
-        const extMatch = frame.file.match(/\.([a-zA-Z0-9]+)$/);
+        const extMatch = frame.file.match(/\.([a-z0-9]+)$/i);
         if (extMatch) {
             const ext = extMatch[1].toLowerCase();
             extCount[ext] = (extCount[ext] || 0) + 1;
@@ -458,7 +458,7 @@ const detectLanguage = (text: string): LangKey => {
     if (JAVA_FRAME.test(text) || JAVA_EXCEPTION.test(text)) return "java";
     if (text.includes("\tat ")) return "java";
     // Go zap 格式
-    if (/\n\s+\/.+?:\d+/m.test(text)) return "go";
+    if (/\n\s+\/.+?:\d+/.test(text)) return "go";
     // 其他所有情况 → 通用解析器
     return "generic";
 };

@@ -54,7 +54,7 @@ const props = defineProps({
 const sizeLists = {small: "3px", large: "10px", default: "5px"}
 
 const style = $computed(() => {
-    let css: StyleValue = {
+    const css: StyleValue = {
         display:"inline-flex",
         gap:props.gap === "none" ? "unset" : sizeConvert(props.gap, sizeLists),
         marginTop: props.top === "none" ? "unset" : sizeConvert(props.top, sizeLists),

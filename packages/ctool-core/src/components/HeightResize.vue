@@ -30,6 +30,7 @@ const props = defineProps({
     },
 });
 
+const emit = defineEmits<{ (e: "resize", height: number): void }>();
 let height = $ref("auto");
 let slotHeight = $ref(0);
 
@@ -39,26 +40,24 @@ let slotHeight = $ref(0);
 let small = $ref(100);
 let large = $ref(100);
 
-const emit = defineEmits<{ (e: "resize", height: number): void }>();
-
 const getAbsoluteHeight = (select: string) => {
-    let el = document.querySelector<HTMLElement>(select);
+    const el = document.querySelector<HTMLElement>(select);
     if (!el) {
         return 0;
     }
-    let styles = window.getComputedStyle(el);
+    const styles = window.getComputedStyle(el);
     return Math.ceil(el.offsetHeight + parseFloat(styles["marginTop"]) + parseFloat(styles["marginBottom"]));
 };
 
-const resize = debounce(function () {
+const resize = debounce(() => {
     let current: number = props.fatherHeight || mainToolHeight;
-    let defaultFilterBlock: string[] = props.fatherHeight ? [] : [];
+    const defaultFilterBlock: string[] = props.fatherHeight ? [] : [];
     const filterBlock = defaultFilterBlock
         .filter(item => {
             return !props.remove.includes(item);
         })
         .concat(props.append || []);
-    for (let block of filterBlock) {
+    for (const block of filterBlock) {
         current = current - getAbsoluteHeight(block);
     }
     if (props.reduce > 0) {

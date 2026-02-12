@@ -18,16 +18,6 @@
 <script lang="ts">
 import Event from "@/event";
 
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-        Event.dispatch('extend_page_close')
-    }
-});
-
-export default {
-    inheritAttrs: false
-}
-
 </script>
 <script setup lang="ts">
 // 扩展页面 用于临时内容展示
@@ -52,6 +42,19 @@ const props = defineProps({
         default: ''
     }
 })
+
+const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>()
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        Event.dispatch('extend_page_close')
+    }
+});
+
+export default {
+    inheritAttrs: false
+}
+
 let closeI18n = $ref($t(`main_ui_close`));
 event.addListener("locale_change", () => {
     closeI18n = $t(`main_ui_close`)
@@ -59,8 +62,6 @@ event.addListener("locale_change", () => {
 const closeTextI18n = $computed(() => {
     return props.closeText || closeI18n
 })
-const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>()
-
 let show = $computed({
     get: () => props.modelValue,
     set: (value) => emit('update:modelValue', value)

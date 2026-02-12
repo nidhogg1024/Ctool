@@ -95,7 +95,7 @@ class StorageObject {
 
     // 移除过期数据
     flushExpired(): void {
-        for (let key of this.getAllKey()) {
+        for (const key of this.getAllKey()) {
             // 获取一次 过期会自动删除
             this.get(key)
         }
@@ -118,8 +118,8 @@ const clearExpireVersion = () => {
         return;
     }
     storage.setNoVersion(cacheVersionName, cacheVersion)
-    for (let key of storage.getAllKey()) {
-        let c = /^v_(\d+)_/.exec(key)
+    for (const key of storage.getAllKey()) {
+        const c = /^v_(\d+)_/.exec(key)
         if (c === null) {
             continue;
         }

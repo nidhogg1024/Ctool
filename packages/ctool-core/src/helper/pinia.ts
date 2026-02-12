@@ -10,11 +10,11 @@ const VERSION_FLAG = "_version_flag_"
 class PiniaStorage implements Pick<Storage, 'getItem' | 'setItem'> {
     // 处理过期时间/版本号
     handleKey(_key: string): { k: string, e: number, v: boolean } {
-        let isVersion = _key.includes(VERSION_FLAG);
+        const isVersion = _key.includes(VERSION_FLAG);
         if (isVersion) {
             _key = _key.replace(VERSION_FLAG, "")
         }
-        let [key, expiry] = _key.split(EXPIRY_SEPARATOR)
+        const [key, expiry] = _key.split(EXPIRY_SEPARATOR)
         return {
             k: key,
             e: parseInt(expiry),
@@ -23,12 +23,12 @@ class PiniaStorage implements Pick<Storage, 'getItem' | 'setItem'> {
     }
 
     getItem(_key: string): any {
-        let handle = this.handleKey(_key)
+        const handle = this.handleKey(_key)
         return storage.get<any>(handle.k, null, handle.v)
     }
 
     setItem(_key: string, value: any): void {
-        let handle = this.handleKey(_key)
+        const handle = this.handleKey(_key)
         if (handle.v) {
             storage.set(handle.k, value, handle.e)
             return
@@ -51,7 +51,7 @@ interface PersistOptions {
 
 const persist = (_option: PersistOptions | PersistOptions[] = []) => {
     const option = (!isArray(_option) ? [_option] : _option).map((item) => {
-        let config = {isVersion: false, paths: undefined, expire: 0, ...item}
+        const config = {isVersion: false, paths: undefined, expire: 0, ...item}
         return {
             key: `${config.isVersion ? VERSION_FLAG : ""}${config.key}${EXPIRY_SEPARATOR}${config.expire}`,
             paths: config.paths

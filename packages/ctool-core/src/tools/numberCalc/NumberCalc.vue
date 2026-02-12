@@ -63,7 +63,7 @@ const result = $computed(() => {
     const lines = input.split('\n');
     for (const line of lines) {
         // 按空格、逗号、制表符分割
-        const parts = line.trim().split(/[\s,\t]+/);
+        const parts = line.trim().split(/[\s,]+/);
         for (const part of parts) {
             const trimmed = part.trim();
             if (trimmed === '') continue;

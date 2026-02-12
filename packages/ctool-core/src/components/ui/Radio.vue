@@ -1,7 +1,8 @@
 <template>
     <div class="ctool-radio">
         <Button :size="size" :disabled="disabled" v-for="item in getOptions" :type="getButtonType(item.value)"
-                @click="select(item.value)">{{ item.label }}
+                @click="select(item.value)">
+{{ item.label }}
         </Button>
     </div>
 </template>
@@ -45,8 +46,8 @@ let current = $computed({
 });
 
 const getOptions = $computed(() => {
-    let items: Array<{ value: RadioValue, label: string }> = [];
-    for (let item of props.options) {
+    const items: Array<{ value: RadioValue, label: string }> = [];
+    for (const item of props.options) {
         if (isNumber(item) || isString(item)) {
             items.push({ value: item, label: `${item}` });
         } else {

@@ -81,7 +81,7 @@ const lineInfoHandle = (editor: monaco.editor.IStandaloneCodeEditor) => {
             });
     }
 
-    if ("json" !== editor.getModel()?.getLanguageId()) {
+    if (editor.getModel()?.getLanguageId() !== "json") {
         return;
     }
 
@@ -99,7 +99,7 @@ const lineInfoHandle = (editor: monaco.editor.IStandaloneCodeEditor) => {
             render(item.range, editor);
         });
 };
-const lineInfoDecoration = debounce(function (editor: monaco.editor.IStandaloneCodeEditor) {
+const lineInfoDecoration = debounce((editor: monaco.editor.IStandaloneCodeEditor) => {
     setTimeout(() => lineInfoHandle(editor), 100);
 }, 300);
 

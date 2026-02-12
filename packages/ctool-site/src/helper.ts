@@ -22,7 +22,7 @@ const secondLocale = defaultLocale === "zh_CN" ? "en" : "zh_CN";
 export const getSetting = (): { v: { items: { locale: Locale; theme: ThemeType } } } => {
     return JSON.parse(localStorage.getItem(settingKey) || `{"e":0,"v":{"items":{"locale":"_default","theme":"auto"}}}`);
 };
-let settingInstance: any = undefined;
+let settingInstance: any;
 export const useSetting = () => {
     const handle = () => {
         const setting = getSetting();
@@ -76,7 +76,7 @@ export const isToToolIndex = () => {
 };
 
 export const translation = (key: string) => {
-    let l = useSetting().locale.value === "_default" ? defaultLocale : useSetting().locale.value;
+    const l = useSetting().locale.value === "_default" ? defaultLocale : useSetting().locale.value;
     if (key in i18n[l]) {
         return i18n[l][key];
     }

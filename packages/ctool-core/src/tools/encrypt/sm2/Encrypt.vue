@@ -64,7 +64,7 @@ const output = $computed<Text>(() => {
         } else if(publicKey.length != 130 || !publicKey.startsWith('04')) {
             return Text.fromError($error($t(`public_key_error`)))
         }
-        let result = sm2.doEncrypt(
+        const result = sm2.doEncrypt(
             action.current.input.text.toArray() as any,
             publicKey,
             action.current.option.cipher_mode as CipherMode)
@@ -82,7 +82,7 @@ watch(() => output, (output) => {
 }, {immediate: true, deep: true})
 
 const generateKeypair = () => {
-    let keypair = sm2.generateKeyPairHex()
+    const keypair = sm2.generateKeyPairHex()
     action.current.option.public_key = keypair.publicKey
     action.current.option.private_key = keypair.privateKey
 }

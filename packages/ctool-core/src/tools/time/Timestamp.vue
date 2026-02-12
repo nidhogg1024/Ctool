@@ -120,7 +120,7 @@ const action = useAction(
                 new RegExp(/^\d+-\d+-\d+ \d+:\d+:\d+\.\d+$/).test(str) ||
                 new RegExp(/^-?\d{5,}$/).test(str) ||
                 // 科学计数法
-                new RegExp(/^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/).test(str),
+                new RegExp(/^[-+]?(?:\d+(?:\.\d+)?|\.\d+)(e[-+]?\d+)?$/i).test(str),
         },
     ),
 );

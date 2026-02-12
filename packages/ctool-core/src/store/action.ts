@@ -1,7 +1,7 @@
 // 工具操作
 import { reactive, toRaw } from "vue";
 import dayjs from "dayjs";
-import { instanceOfInput, instanceOfHistorySerializable } from "@/helper/util";
+import { instanceOfInput, instanceOfHistorySerializable, objectInObject  } from "@/helper/util";
 import { paste, copy as copyText, copyImage } from "@/helper/clipboard";
 import useOperate from "@/store/operate";
 import getHistoryInstance from "@/helper/history";
@@ -9,7 +9,6 @@ import useSetting from "@/store/setting";
 import { useRoute } from "vue-router";
 import { debounce, cloneDeep, isNumber, toNumber, mergeWith, isObject, isString, merge } from "lodash";
 import { MessageType } from "@/types";
-import { objectInObject } from "@/helper/util";
 import Message from "@/helper/message";
 import storage from "@/helper/storage";
 
@@ -44,10 +43,10 @@ type initializeOption = {
 /**
  * 初始化页面数据
  * 自动解析输入 优先级从高到低
- * * 固定输入: storage:_temp_input_storage | url?input=value
- * * 强制历史数据: url?history = index
- * * 剪贴板数据 || 最新历史数据 根据配置`fill_history_expire`确定
- * * 默认数据
+ * 固定输入: storage:_temp_input_storage | url?input=value
+ * 强制历史数据: url?history = index
+ * 剪贴板数据 || 最新历史数据 根据配置`fill_history_expire`确定
+ * 默认数据
  *
  * 固定输入/剪贴板数据 inputField != ""
  * @param defaultItems 默认数据
@@ -107,11 +106,11 @@ export const initialize = async <T extends Record<string, any>>(
     // 默认输入搜索关键字处理
     defaultItems = keywordItems ? merge(defaultItems, keywordItems) : defaultItems;
 
-    let items = cloneDeep(defaultItems);
+    const items = cloneDeep(defaultItems);
 
     // 固定数据
     if (inputField) {
-        let fixeInput = storage.get<string>(`_temp_input_storage`) || getUrlInput("input");
+        const fixeInput = storage.get<string>(`_temp_input_storage`) || getUrlInput("input");
         if (fixeInput !== "") {
             if (isTextInput) {
                 items[inputField]["value"] = fixeInput;
@@ -141,7 +140,7 @@ export const initialize = async <T extends Record<string, any>>(
 
         if (keywordItems) {
             const all = history.all();
-            for (let itemIndex in all) {
+            for (const itemIndex in all) {
                 if (objectInObject(keywordItems, all[itemIndex].v)) {
                     // 最新历史数据 根据索关键字过滤
                     return history.getWithTime(parseInt(itemIndex));
@@ -204,7 +203,7 @@ export const useAction = <T extends Record<string, any>>(input: InitializeReturn
 
     const current = reactive<T>(input.items);
 
-    const historyPush = debounce(function() {
+    const historyPush = debounce(() => {
         // 检查是否可以保存数据
         const handle = (items: any) => {
             if (!isObject(items)) {
@@ -217,7 +216,7 @@ export const useAction = <T extends Record<string, any>>(input: InitializeReturn
                 return items.serialize();
             }
 
-            for (let key in items) {
+            for (const key in items) {
                 items[key] = handle(items[key]);
             }
             return items;

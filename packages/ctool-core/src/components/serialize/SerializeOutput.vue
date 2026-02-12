@@ -170,7 +170,7 @@ watch(() => {
 }, {immediate: true, deep: true})
 
 const style = $computed(() => {
-    let css: StyleValue = {}
+    const css: StyleValue = {}
     if (props.height) {
         css.height = sizeConvert(props.height)
     }

@@ -40,12 +40,12 @@ import {ComponentSizeType} from "@/types";
 
 const operate = useOperate()
 const setting = useSetting()
-let openCommon = $ref(false)
+const openCommon = $ref(false)
 
 const size: ComponentSizeType = "default"
 
 const selectTool = (tool: ToolType, category?: CategoryInterface, feature?: FeatureType) => {
-    operate.redirectTool(tool, feature ? feature : operate.getToolLastFeature(tool), category ? category.name : "")
+    operate.redirectTool(tool, feature || operate.getToolLastFeature(tool), category ? category.name : "")
 }
 
 const recently: FeatureInterface[] = $computed(() => {

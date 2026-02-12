@@ -247,7 +247,7 @@ watch(
 );
 
 const style = $computed(() => {
-    let css: StyleValue = {};
+    const css: StyleValue = {};
     if (props.height) {
         css.height = sizeConvert(props.height);
     }

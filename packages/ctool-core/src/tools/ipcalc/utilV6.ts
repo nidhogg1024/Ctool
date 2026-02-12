@@ -32,7 +32,7 @@ export default {
             return Serialize.fromError($error(e))
         }
     },
-    range: (addr: string, mask0 = 32, mask1 = 64, abbr = false): { start: string, end: string, size: BigInt } => {
+    range: (addr: string, mask0 = 32, mask1 = 64, abbr = false): { start: string, end: string, size: bigint } => {
         if (addr === "") {
             return {start: "", end: "", size: 0n}
         }

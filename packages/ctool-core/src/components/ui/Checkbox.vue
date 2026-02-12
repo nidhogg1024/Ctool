@@ -34,9 +34,11 @@ const props = defineProps({
     },
 })
 
+const emit = defineEmits<{ (e: 'update:modelValue', value: CheckboxValue): void }>()
+
 const serializeOptions = $computed(() => {
-    let items: Array<{ value: string | number, label: string }> = []
-    for (let item of props.options) {
+    const items: Array<{ value: string | number, label: string }> = []
+    for (const item of props.options) {
         if (isNumber(item) || isString(item)) {
             items.push({value: item, label: `${item}`})
         } else {
@@ -45,8 +47,6 @@ const serializeOptions = $computed(() => {
     }
     return items
 })
-
-const emit = defineEmits<{ (e: 'update:modelValue', value: CheckboxValue): void }>()
 
 type ListsValueType = Record<string, { value: string | number, select: boolean, label: string }>
 
@@ -58,8 +58,8 @@ watch(() => {
         values: props.modelValue
     }
 }, ({options, values}) => {
-    let temp: ListsValueType = {}
-    for (let option of options) {
+    const temp: ListsValueType = {}
+    for (const option of options) {
         temp[`${isNumber(option.value) ? 'n_' : 's_'}${option.value}`] = {
             value: option.value,
             select: values.includes(option.value),

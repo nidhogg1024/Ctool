@@ -31,8 +31,8 @@ const modelValue = defineModel<string>({
     default:""
 });
 
-let current = $ref<ItemType>("minute");
-let items = $ref({
+const current = $ref<ItemType>("minute");
+const items = $ref({
     second: "",
     minute: "*",
     hour: "*",

@@ -3,12 +3,12 @@
 // https://github.com/fkei/JSON.minify/blob/master/minify.json.js
 export default (json: string): string => {
 
-    var tokenizer = /"|(\/\*)|(\*\/)|(\/\/)|\n|\r/g,
-        in_string = false,
-        in_multiline_comment = false,
-        in_singleline_comment = false,
-        tmp, tmp2, new_str = [], ns = 0, from = 0, lc, rc,
-        prevFrom
+    const tokenizer = /["\n\r]|(\/\*)|(\*\/)|(\/\/)/g;
+        let in_string = false;
+        let in_multiline_comment = false;
+        let in_singleline_comment = false;
+        let tmp; let tmp2; const new_str = []; let ns = 0; let from = 0; let lc; let rc;
+        let prevFrom
     ;
 
     tokenizer.lastIndex = 0;
@@ -19,7 +19,7 @@ export default (json: string): string => {
         if (!in_multiline_comment && !in_singleline_comment) {
             tmp2 = lc.substring(from);
             if (!in_string) {
-                tmp2 = tmp2.replace(/(\n|\r|\s)+/g, "");
+                tmp2 = tmp2.replace(/(\s)+/g, "");
             }
             new_str[ns++] = tmp2;
         }
@@ -51,11 +51,11 @@ export default (json: string): string => {
             in_singleline_comment = true;
         } else if ((tmp[0] == "\n" || tmp[0] == "\r") && !in_string && !in_multiline_comment && in_singleline_comment) {
             in_singleline_comment = false;
-        } else if (!in_multiline_comment && !in_singleline_comment && !(/\n|\r|\s/.test(tmp[0]))) {
+        } else if (!in_multiline_comment && !in_singleline_comment && !(/\s/.test(tmp[0]))) {
             new_str[ns++] = tmp[0];
         }
     }
     // 处理最后剩余内容，去除多余空白字符
-    new_str[ns++] = (rc || "").replace(/(\n|\r|\s)+/g, "");
+    new_str[ns++] = (rc || "").replace(/(\s)+/g, "");
     return new_str.join("").trim();
 }

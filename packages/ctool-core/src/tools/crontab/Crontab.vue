@@ -63,7 +63,7 @@ const action = useAction(await initialize({
     paste: (str) => [5, 6].includes(str.trim().split(" ").length),
 }))
 
-let isGenerate = $ref(false)
+const isGenerate = $ref(false)
 let output = $ref("")
 
 const conversion = (exp: string) => {
@@ -79,7 +79,7 @@ watch(() => {
     if (input === "") {
         return;
     }
-    let list: string[] = [];
+    const list: string[] = [];
     try {
         const msg = conversion(input);
         if (input.includes("L")) {
@@ -90,7 +90,7 @@ watch(() => {
         }
         list.push(msg);
         list.push("", $t('crontab_execute_time_list'));
-        let interval = parser.parseExpression(input);
+        const interval = parser.parseExpression(input);
         for (let i = 1; i <= 10; i++) {
             list.push($t('crontab_no', [i, dayjs(interval.next().toString()).format("YYYY-MM-DD HH:mm:ss")]))
         }

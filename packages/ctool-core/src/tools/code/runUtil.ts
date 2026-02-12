@@ -995,7 +995,7 @@ export const language: Language[] = [
 ]
 
 export const getLanguage = (code: string) => {
-    for (let item of language) {
+    for (const item of language) {
         if (code === item.code) {
             return item
         }
@@ -1029,7 +1029,7 @@ export const getUsed = () => {
             }
         ).then((response) => {
             return resolve(Number(`${response.data.used}`))
-        }).catch(function (error) {
+        }).catch((error) => {
             reject(error)
         });
     })

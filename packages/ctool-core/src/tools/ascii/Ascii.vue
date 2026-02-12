@@ -34,7 +34,7 @@ const action = useAction(await initialize<{ input: string, type: ConventType | "
     input: "",
 }, {paste: false}))
 
-let showReference = $ref(false)
+const showReference = $ref(false)
 
 const getHandle = (target: ConventType) => {
     if (action.current.type === "" || action.current.input === "") {

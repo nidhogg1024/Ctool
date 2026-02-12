@@ -36,7 +36,7 @@ export default class Uint {
             "UTF-8": "utf-8"
         }
 
-        for (let item of analyseEncodings) {
+        for (const item of analyseEncodings) {
             if (item in Map) {
                 return Map[item]
             }

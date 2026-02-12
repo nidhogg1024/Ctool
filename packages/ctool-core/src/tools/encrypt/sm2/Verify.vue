@@ -74,7 +74,7 @@ const output = $computed<Text>(() => {
             return Text.fromError($error($t(`public_key_error`)))
         }
 
-        let verifyResult = sm2.doVerifySignature(
+        const verifyResult = sm2.doVerifySignature(
             action.current.sourceData.text.toArray() as any,
             action.current.signValue.text.toHexString(),
             publicKey,

@@ -62,7 +62,7 @@ import Github from "../../Github.vue";
 const storeOperate = useOperate()
 const storeSetting = useSetting()
 
-let openTools = $ref(false);
+const openTools = $ref(false);
 let selectedCategory = $ref(storeOperate.items.category || "common")
 
 const allCategories = ['common', ...categories.map(({name}) => name)]
@@ -81,7 +81,7 @@ const selectCategory = (name: string) => {
         tool = storeOperate.getCategoryLastTool(name)
     } else {
         const smartCommon = storeOperate.getSmartCommon(storeSetting.items.common)
-        for (let feature of storeOperate.getRecently()) {
+        for (const feature of storeOperate.getRecently()) {
             if (smartCommon.includes(feature.tool.name)) {
                 tool = feature.tool.name
                 break;

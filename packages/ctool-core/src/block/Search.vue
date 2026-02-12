@@ -22,7 +22,8 @@
                 @click="select(index)"
                 :key="`${item.tool}-${item.feature}`"
                 @mouseover="selectIndex = index"
-            >{{ item.label }}
+            >
+{{ item.label }}
             </li>
         </ul>
     </div>
@@ -36,7 +37,7 @@ import {watch} from "vue";
 
 const setting = useSetting()
 const operate = useOperate()
-let container = $ref<HTMLElement | null>(null);
+const container = $ref<HTMLElement | null>(null);
 let input = $ref("")
 let inputElement = $ref<HTMLInputElement | null>(null);
 let isInput = $ref(false);

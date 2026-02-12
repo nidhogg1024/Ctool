@@ -12,7 +12,7 @@ const handlers: Transform[] = [
 ]
 
 const getHandler = (lang: string) => {
-    for (let handler of handlers) {
+    for (const handler of handlers) {
         if (handler.getLanguages().includes(lang)) {
             return handler
         }
@@ -21,8 +21,8 @@ const getHandler = (lang: string) => {
 }
 
 export const languages = (() => {
-    let lists: string[] = []
-    for (let handler of handlers) {
+    const lists: string[] = []
+    for (const handler of handlers) {
         lists.push(...handler.getLanguages())
     }
     return [...(new Set(lists))];
@@ -34,7 +34,7 @@ export const transform = async (lang: string, input: string, options: Record<str
 
 const getDefaultOption = (lang: string) => {
     const data: Record<string, any> = {}
-    for (let item of getHandler(lang).getOptionDefine(lang)) {
+    for (const item of getHandler(lang).getOptionDefine(lang)) {
         data[item.name] = item.defaultValue
     }
     return data
@@ -49,8 +49,8 @@ export class Option implements HistorySerializable<Option> {
     constructor(lang: string = "") {
         this.lang = lang;
 
-        let lists: Record<string, any> = {}
-        for (let language of languages) {
+        const lists: Record<string, any> = {}
+        for (const language of languages) {
             lists[language] = getDefaultOption(language)
         }
 

@@ -20,7 +20,7 @@ export const measureTextMaxWidth = (texts: string[], fontSize: string) => {
     el.style.top = "-10000px";
     document.body.appendChild(el);
     el.style.fontSize = fontSize;
-    for (let text of texts) {
+    for (const text of texts) {
         el.textContent = text;
         lists.push(el.clientWidth);
     }

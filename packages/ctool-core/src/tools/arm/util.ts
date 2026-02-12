@@ -34,7 +34,7 @@ export const handleResult = (type: "asm" | "hex", field: Field, {response, prefi
         return ""
     }
 
-    let text = response[type]?.[field]?.[1]
+    const text = response[type]?.[field]?.[1]
     if (text === undefined) {
         return "";
     }

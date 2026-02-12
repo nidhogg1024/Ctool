@@ -60,7 +60,7 @@ export default class implements Transform {
                     defaultValue: option.defaultValue
                 }
             }))
-            for (let item of inferenceFlagNames) {
+            for (const item of inferenceFlagNames) {
                 const stringType = ("stringType" in inferenceFlags[item] ? inferenceFlags[item].stringType : "") || ""
                 if (stringType === "" || quickTypeLanguage.stringTypeMapping.has(stringType)) {
                     define.push({

@@ -17,11 +17,12 @@ const props = defineProps({
     },
 });
 
+const emit = defineEmits<{ (e: "select", value: string): void }>();
+
+
 const modelValue = defineModel<string>({
     default: "",
 });
 
-
-const emit = defineEmits<{ (e: "select", value: string): void }>();
 
 </script>

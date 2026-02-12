@@ -14,7 +14,6 @@
 import {PropType, onMounted, onUnmounted} from "vue";
 import {UploadFileType, UploadFileMode, UploadFileButtonType, ComponentSizeType} from "@/types"
 
-const emit = defineEmits<{ (e: 'update:modelValue', value: string | File): void, (e: 'success', content: File): void }>()
 const props = defineProps({
     modelValue: {
         type: [String, Object] as PropType<string | File>,
@@ -41,7 +40,7 @@ const props = defineProps({
         default: false
     },
 })
-
+const emit = defineEmits<{ (e: 'update:modelValue', value: string | File): void, (e: 'success', content: File): void }>()
 const fileInput = $ref<HTMLInputElement | null>(null)
 
 const accept = $computed(() => {
@@ -68,8 +67,8 @@ const paste = (_event: Event) => {
     if (!event.clipboardData || props.disabled) {
         return;
     }
-    let items = event.clipboardData.items;
-    let types = event.clipboardData.types || [];
+    const items = event.clipboardData.items;
+    const types = event.clipboardData.types || [];
     if (items && items.length) {
         for (let i = 0; i < items.length; i++) {
             const file = items[i].getAsFile();

@@ -43,7 +43,7 @@ const emit = defineEmits<{ (e: 'update:modelValue', value: string): void }>()
 const container = $ref<HTMLElement | null>(null)
 let currentIndex = $ref(-1)
 
-let current = $ref(props.modelValue)
+const current = $ref(props.modelValue)
 
 const update = async () => {
     if (!container) {

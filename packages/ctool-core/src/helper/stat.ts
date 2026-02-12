@@ -7,7 +7,7 @@ import {getUserUuid} from "@/store/user"
 export const report = (data: Record<string, any> = {}) => {
     setTimeout(() => {
         try {
-            let img = new Image(1, 1);
+            const img = new Image(1, 1);
             img.src = 'https://www.baiy.org/chrome_tool/stat/?' + stringify({
                 v: version,
                 u: getUserUuid(),

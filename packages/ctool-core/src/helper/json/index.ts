@@ -11,7 +11,7 @@ export default {
             (_key, value) => {
                 // 非安全数字转字符串
                 if (BIGINT_TO_STING && typeof value === "bigint") {
-                    return (value as BigInt).toString()
+                    return (value as bigint).toString()
                 }
                 return value
             }

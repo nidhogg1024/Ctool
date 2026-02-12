@@ -40,7 +40,7 @@ export const copy = (data: string, successCallback?: () => void) => {
             () => {
                 successCallback && successCallback();
             },
-            function (e) {
+            (e) => {
                 console.log("copy failed", e);
             },
         );
@@ -58,7 +58,7 @@ export const paste = async (force: boolean = false): Promise<string> => {
             navigator.clipboard
                 .readText()
                 .then(text => {
-                    return resolve(text ? text : "error");
+                    return resolve(text || "error");
                 })
                 .catch(e => {
                     console.error(e);
@@ -96,7 +96,7 @@ export const copyImage = (imageBase64: string, successCallback?: () => void) => 
                 if (!blob) {
                     throw new Error("Canvas 转换为 Blob 失败");
                 }
-                let data = [new window.ClipboardItem({ [blob.type]: blob })];
+                const data = [new window.ClipboardItem({ [blob.type]: blob })];
                 navigator.clipboard.write(data).then(
                     () => successCallback && successCallback(),
                     e => {
@@ -110,7 +110,7 @@ export const copyImage = (imageBase64: string, successCallback?: () => void) => 
 };
 
 export const useClipboardPermission = () => {
-    let state = ref(permission);
+    const state = ref(permission);
     const timer = setInterval(async () => {
         await initPermission();
         state.value = permission;

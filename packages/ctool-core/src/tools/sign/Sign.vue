@@ -68,7 +68,7 @@ const action = useAction(await initialize({
     verifyCode: '',
     algorithm: 'MD5withRSA'
 }, {paste: false}))
-let generateKeypair = $ref({
+const generateKeypair = $ref({
     show: false,
     loading: false,
     length: 1024,
@@ -83,7 +83,7 @@ worker.onmessage = function (event) {
     }
 }
 const workerPost = (method: string, data: any) => {
-    let send = {method, data}
+    const send = {method, data}
     console.log("main send", send)
     worker.postMessage(send);
 }
@@ -132,8 +132,8 @@ const verify = () => {
         const sign = new rs.KJUR.crypto.Signature({alg: action.current.algorithm})
         sign.init(rsaPublicKey)
         sign.updateString(action.current.signData)
-        let hexData = rs.b64tohex(action.current.verifyCode)
-        let verifyResult = sign.verify(hexData)
+        const hexData = rs.b64tohex(action.current.verifyCode)
+        const verifyResult = sign.verify(hexData)
         if (!verifyResult) {
             return action.success({message: $t(`sign_verify_fail`), message_type: "error", is_save: false})
         }

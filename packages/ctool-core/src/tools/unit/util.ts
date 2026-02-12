@@ -1325,7 +1325,7 @@ export const config: ConfigType[] = [
 ];
 
 export const getGroupByUnit = (type: string, unit: string) => {
-    for (let group of getType(type).group) {
+    for (const group of getType(type).group) {
         if (group.list.includes(unit)) {
             return group.key;
         }
@@ -1334,13 +1334,13 @@ export const getGroupByUnit = (type: string, unit: string) => {
 };
 
 export const calculate = function(type: string, num: string, from: string, to: string) {
-    let fromUnit = getUnit(type, from);
+    const fromUnit = getUnit(type, from);
     if (from === to) {
         return format(num);
     }
-    let toUnit = getUnit(type, to);
+    const toUnit = getUnit(type, to);
 
-    let special = getSpecial(type, from, to);
+    const special = getSpecial(type, from, to);
 
     const calc = (input: string, expression: string) => {
         return math.evaluate(expression.replaceAll("x", input)).toString();
@@ -1354,7 +1354,7 @@ export const calculate = function(type: string, num: string, from: string, to: s
 };
 
 export const getType = (name: string): ConfigType => {
-    for (let type of config) {
+    for (const type of config) {
         if (name === type.key) {
             return type;
         }
@@ -1363,7 +1363,7 @@ export const getType = (name: string): ConfigType => {
 };
 
 export const getUnit = (type: string, unitKey: string) => {
-    for (let unit of getType(type).unit) {
+    for (const unit of getType(type).unit) {
         if (unitKey === unit.key) {
             return unit;
         }
@@ -1372,9 +1372,9 @@ export const getUnit = (type: string, unitKey: string) => {
 };
 
 const getSpecial = (name: string, from: string, to: string) => {
-    let type = getType(name);
+    const type = getType(name);
     if (type.special.length > 0) {
-        for (let special of type.special) {
+        for (const special of type.special) {
             if (special["from"] === from && special["to"] === to) {
                 return special["func"];
             }
@@ -1390,12 +1390,12 @@ const format = function(_num: string) {
     let num = Number(_num);
 
     //格式策略，整体不超过14位
-    let strNum = `${num}`,
-        isFloat = false,
-        arr, intPart, decPart;
+    const strNum = `${num}`;
+        let isFloat = false;
+        let arr; let intPart; let decPart;
     //只有包括.且整数位小于14位才认为是浮点数（便于以后格式化）
     if (strNum.indexOf(".") > -1) {
-        let match = strNum.match(/\.\d+e[+-](\d+)$/);
+        const match = strNum.match(/\.\d+e[+-](\d+)$/);
         if (match && match[1]) {
             isFloat = (match[1] as any) * 1 < (MAX_NUM - 1);
         } else {
@@ -1446,7 +1446,7 @@ const format = function(_num: string) {
 // 科学计数法快捷函数
 const exponential = (num: number, n: number) => {
     //保留科学计数法小数后n位
-    let numExp = num.toExponential(n);
+    const numExp = num.toExponential(n);
     //如果计数小数位均为0，去掉
     return (numExp + "").match(new RegExp(".0{" + n + "}e")) ? num.toExponential(0) : numExp;
 };

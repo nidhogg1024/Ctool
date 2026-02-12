@@ -2,7 +2,7 @@
 const _categories = ["crypto", "encoding", "data", "text", "network", "dev", "generate"] as const;
 
 // 工具 - 功能 - 父目录 定义
-export let _tools = {
+export const _tools = {
     hash: {
         feature: ["hash"],
         parent_directory: "",

@@ -77,8 +77,8 @@ class Ascii {
                 }
                 break;
             case 'bin':
-                if (/^[0-1 ]+$/.test(c)){
-                    dec = parseInt(radix(c.replace(/\b(0+)/gi, ""), 2, 10));
+                if (/^[01 ]+$/.test(c)){
+                    dec = parseInt(radix(c.replace(/\b(0+)/g, ""), 2, 10));
                 }
                 break;
             default:
@@ -131,16 +131,16 @@ export const convent = (s: string, currentType: ConventType, targetType: Convent
     }
     // 字符串转义处理
     if (currentType === "str") {
-        for (let key of Object.keys(asciiHidden)) {
+        for (const key of Object.keys(asciiHidden)) {
             s = s.replace(new RegExp(`\\[${key}\\]`, 'g'), String.fromCharCode(asciiMap.indexOf(key)))
         }
     }
-    let r: string[] = [];
+    const r: string[] = [];
     for (const c of s.split(currentType === "str" ? '' : ' ')) {
         if (currentType !== "str" && c === ""){
             continue;
         }
-        let ascii = new Ascii(c, currentType);
+        const ascii = new Ascii(c, currentType);
         r.push(ascii[targetType]())
     }
     return r.join(targetType === "str" ? '' : ' ');

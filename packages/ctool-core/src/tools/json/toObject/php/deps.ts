@@ -1,6 +1,6 @@
 export default () => {
-    let _deps:any[] = [];
-    let _keys:any[] = [];
+    const _deps:any[] = [];
+    const _keys:any[] = [];
     let _index = 0;
 
     const add = (dep:any) => {

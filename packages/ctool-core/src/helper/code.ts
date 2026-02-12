@@ -3,7 +3,7 @@ const supportedLanguages = monaco.languages.getLanguages();
 
 // 获取编辑器编辑语言对象
 const getSourceLanguage = (land: string) => {
-    for (let language of supportedLanguages) {
+    for (const language of supportedLanguages) {
         if ([language.id, ...(language.aliases || [])].map(name => name.toLowerCase()).includes(land.toLowerCase())) {
             return language;
         }
@@ -51,7 +51,7 @@ export const getEditorLanguage = (land: string) => {
     }
 
     // 自定义
-    for (let item of customLanguages) {
+    for (const item of customLanguages) {
         if ([item.name, ...item.alias].map(name => name.toLowerCase()).includes(land.toLowerCase()) && item.language) {
             return item.language;
         }
@@ -62,7 +62,7 @@ export const getEditorLanguage = (land: string) => {
 // 获取程序语言显示名称
 export const getDisplayName = (land: string) => {
     // 自定义
-    for (let language of customLanguages) {
+    for (const language of customLanguages) {
         if ([language.name, ...language.alias].map(name => name.toLowerCase()).includes(land.toLowerCase())) {
             return language.name;
         }

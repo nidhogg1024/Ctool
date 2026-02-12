@@ -62,7 +62,7 @@ class Expression {
     toString() {
         if (this.flag === "root") {
             let str = ""
-            for (let i in this.parameter) {
+            for (const i in this.parameter) {
                 const item = this.parameter[i].toString()
                 str += `${parseInt(i) > 0 ? '.' : ""}${item.toString()}`
             }
@@ -70,7 +70,7 @@ class Expression {
         }
         if (this.flag === "hash") {
             let str = ""
-            for (let i in this.parameter) {
+            for (const i in this.parameter) {
                 const item = this.parameter[i].toString()
                 str += `${parseInt(i) > 0 ? '.' : ""}${item.toString()}`
             }
@@ -86,8 +86,8 @@ class Expression {
         if (this.flag === "$salt") {
             return salt
         }
-        let result: string[] = []
-        for (let i in this.parameter) {
+        const result: string[] = []
+        for (const i in this.parameter) {
             result.push(this.parameter[i].getResult(input, salt, hashFunc))
         }
         if (this.flag === "root") {
@@ -104,12 +104,12 @@ const expressionParse = (str = "") => {
     if (!['hash', '$input', '$salt'].includes(items[0])) {
         throw new Error(`Expression Error ${items[0]}`)
     }
-    let root = new Expression();
-    let stack: Expression[] = [root]
+    const root = new Expression();
+    const stack: Expression[] = [root]
     let prev: Expression | null = null
 
-    for (let item of items) {
-        let current = stack[stack.length - 1]
+    for (const item of items) {
+        const current = stack[stack.length - 1]
         let itemExp: Expression | null = null;
         switch (item) {
             case ".":

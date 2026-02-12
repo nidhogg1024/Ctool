@@ -49,7 +49,7 @@ const output = $computed(() => {
         if (action.current.input.text.isError()) {
             return action.current.input.text
         }
-        let result = sm2.doDecrypt(
+        const result = sm2.doDecrypt(
             action.current.input.text.toHexString(),
             action.current.option.private_key,
             action.current.option.cipher_mode as CipherMode,

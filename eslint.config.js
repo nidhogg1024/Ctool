@@ -1,0 +1,117 @@
+import antfu from "@antfu/eslint-config";
+
+export default antfu({
+    // Vue + TypeScript 支持
+    vue: true,
+    typescript: true,
+
+    // 关闭所有格式化/样式规则（已有 Prettier 处理）
+    stylistic: false,
+    jsonc: false,
+    yaml: false,
+    markdown: false,
+
+    // 不检查的文件
+    ignores: [
+        "**/dist/**",
+        "**/node_modules/**",
+        "**/_release/**",
+        "**/_temp/**",
+        "**/src-tauri/**",
+        "**/buildDataTemp.ts",
+        "**/buildTypeTemp.d.ts",
+        "**/ctool-core/src/tools/asn1/lib/**",
+        "**/ctool-core/src/helper/serialize/**",
+        "**/ctool-core/src/statics/**",
+        "*.cjs",
+        // Vercel serverless API（Node.js 环境，规则不同）
+        "api/**",
+        // Vue 模板解析器无法处理的文件（含特殊花括号语法）
+        "**/components/editor/Editor.vue",
+        "**/components/editor/Diff.vue",
+        "**/components/HeightResize.vue",
+    ],
+
+    rules: {
+        // === 关闭样式/格式相关规则（Prettier 已处理） ===
+        "vue/html-indent": "off",
+        "vue/attributes-order": "off",
+        "vue/html-closing-bracket-spacing": "off",
+        "vue/singleline-html-element-content-newline": "off",
+        "vue/block-order": "off",
+        "vue/no-useless-v-bind": "off",
+        "vue/multi-word-component-names": "off",
+        "vue/no-v-html": "off",
+        "vue/html-self-closing": "off",
+        "vue/first-attribute-linebreak": "off",
+        "vue/html-closing-bracket-newline": "off",
+        "vue/space-infix-ops": "off",
+        "perfectionist/sort-imports": "off",
+        "perfectionist/sort-named-imports": "off",
+        "perfectionist/sort-named-exports": "off",
+        "perfectionist/sort-exports": "off",
+
+        // === 放宽 TypeScript 规则（适配现有代码） ===
+        "ts/no-explicit-any": "off",
+        "ts/no-require-imports": "off",
+        "ts/ban-ts-comment": "off",
+        "ts/consistent-type-imports": "off",
+        "ts/consistent-type-definitions": "off",
+        "ts/method-signature-style": "off",
+        "ts/no-use-before-define": "off",
+        "ts/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+
+        // === 放宽通用规则 ===
+        "no-console": "off",
+        "prefer-const": "warn",
+        "prefer-template": "off",
+        "dot-notation": "off",
+        "unicorn/prefer-node-protocol": "off",
+        "unicorn/prefer-number-properties": "off",
+        "unicorn/prefer-includes": "off",
+        "no-nested-ternary": "off",
+        "no-var": "warn",
+        "object-shorthand": "off",
+        "no-restricted-properties": "off",
+        "unused-imports/no-unused-imports": "warn",
+        "regexp/no-unused-capturing-group": "off",
+        "unicorn/no-new-array": "off",
+
+        // === 有价值的代码质量规则（warn 级别，后续逐步收紧为 error） ===
+        "eqeqeq": "warn",
+        "no-throw-literal": "off",
+        "no-case-declarations": "warn",
+        "no-new": "off",
+        "no-prototype-builtins": "off",
+        "prefer-promise-reject-errors": "warn",
+        "regexp/no-super-linear-backtracking": "warn",
+        "regexp/no-misleading-capturing-group": "off",
+        "regexp/no-legacy-features": "off",
+        "regexp/optimal-quantifier-concatenation": "off",
+        "regexp/no-dupe-disjunctions": "off",
+        "import/no-mutable-exports": "off",
+        "import/no-duplicates": "warn",
+        "unused-imports/no-unused-vars": "off",
+        // node/no-deprecated-api 由 antfu 内置 plugin 控制，此处不覆盖
+        "accessor-pairs": "off",
+        "array-callback-return": "warn",
+        "no-unexpected-multiline": "off",
+        "no-cond-assign": "warn",
+        "no-new-func": "warn",
+        "no-unreachable-loop": "warn",
+        "no-useless-catch": "warn",
+        "ts/no-empty-object-type": "off",
+        "no-array-constructor": "warn",
+        "new-cap": "off",
+        "no-undef": "off",
+        "no-restricted-globals": "off",
+        "node/prefer-global/process": "off",
+        "prefer-regex-literals": "off",
+        "vue/valid-v-for": "warn",
+        "vue/require-v-for-key": "warn",
+        "vue/require-valid-default-prop": "warn",
+        "vue/no-export-in-script-setup": "warn",
+        "vue/no-unused-refs": "warn",
+        "ts/prefer-as-const": "off",
+    },
+});

@@ -8,7 +8,7 @@ import Json from "@/helper/json"
 import {Option, Transform} from "@/tools/json/toObject/type";
 
 function buildDeps(config, deps, classes: string[] = []) {
-    let classContent = deps.get();
+    const classContent = deps.get();
     if (classContent == null) {
         return classes;
     }

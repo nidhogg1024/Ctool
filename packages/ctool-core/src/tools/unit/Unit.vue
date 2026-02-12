@@ -3,7 +3,7 @@
         <Radio
             v-model="action.current.type"
             :options="config.map((item) => {
-                    return {value: item.key, label: $t('unit_' + item.key)}
+                    return {value: item.key, label: $t(`unit_${ item.key}`)}
                 })"
         />
         <Align>
@@ -22,8 +22,10 @@
     <HeightResize v-slot="{height}" :append="['.ctool-page-option']">
         <Card :height="height">
             <div class="ctool-unit-all" v-if="action.current.to === 'all'">
-                <div v-for="item of result" @click="$copy(item.value)"><span>{{ item.value }}</span><span>{{ item.name
-                    }}</span></div>
+                <div v-for="item of result" @click="$copy(item.value)">
+<span>{{ item.value }}</span><span>{{ item.name
+                    }}</span>
+</div>
             </div>
             <Align horizontal="center" vertical="center" v-else>
                 <div class="ctool-unit-simple">
@@ -65,7 +67,7 @@ const currentUnitName = $computed(() => {
 });
 
 const getUnits = (type: string) => {
-    let lists: SelectOption = [];
+    const lists: SelectOption = [];
     getType(type).group.forEach(group => {
         group.list.forEach(unit => {
             lists.push({ value: unit, label: `${unitName(unit, type, group.key)}` });
@@ -77,8 +79,8 @@ const getUnits = (type: string) => {
 let units = $ref<SelectOption>(getUnits(action.current.type));
 
 const result = $computed(() => {
-    let lists: { name: string, value: string, key: string }[] = [];
-    for (let unit of getType(action.current.type).unit) {
+    const lists: { name: string, value: string, key: string }[] = [];
+    for (const unit of getType(action.current.type).unit) {
         lists.push({
             key: unit.key,
             value: calculate(action.current.type, `${action.current.input}`, action.current.from, unit.key),
@@ -89,7 +91,7 @@ const result = $computed(() => {
 });
 
 const simple = $computed(() => {
-    for (let item of result) {
+    for (const item of result) {
         if (action.current.to === item.key) {
             return item;
         }

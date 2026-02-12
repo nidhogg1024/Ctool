@@ -25,7 +25,7 @@ import useOperate from "@/store/operate";
 
 const storeSetting = useSetting()
 const storeOperate = useOperate()
-let openTools = $ref(false);
+const openTools = $ref(false);
 
 const tools = $computed(() => {
     return storeOperate.getSmartCommon(storeSetting.items.common).map(name => {

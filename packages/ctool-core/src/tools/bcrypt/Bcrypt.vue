@@ -2,9 +2,9 @@
     <HeightResize v-slot="{ height }" :append="['.ctool-page-option']">
         <div v-row="'1-1'">
             <Textarea :height="height" v-model="action.current.input" :float-text="$t('bcrypt_password')" :placeholder="$t('bcrypt_password')"
-                      @clickFloatText="$copy(action.current.input)" />
+                      @click-float-text="$copy(action.current.input)" />
             <Textarea :height="height" v-model="action.current.hash" :float-text="$t('bcrypt_hash')" :placeholder="$t('bcrypt_hash')"
-                      @clickFloatText="$copy(action.current.hash)" />
+                      @click-float-text="$copy(action.current.hash)" />
         </div>
     </HeightResize>
     <div style="display: grid; grid-template-columns: 1fr 5px 1fr; grid-column-gap: 10px; margin-top: 5px" class="ctool-page-option">
@@ -72,7 +72,7 @@ worker.onmessage = function (event) {
 }
 
 const workerPost = (method: string, data: any) => {
-    let send = { method, data }
+    const send = { method, data }
     console.log("main send", send)
     worker.postMessage(send);
 }

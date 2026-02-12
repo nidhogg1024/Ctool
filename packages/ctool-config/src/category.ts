@@ -1,4 +1,4 @@
-import {ToolInterface, CategoryInterface, ToolType, CategoryType} from "./config"
+import {ToolInterface, CategoryInterface, CategoryType} from "./config"
 
 class Category<T extends CategoryType = any> implements CategoryInterface<T> {
     private readonly _name: T;

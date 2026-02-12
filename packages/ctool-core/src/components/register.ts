@@ -15,7 +15,7 @@ import TextOutput from "./text/TextOutput.vue";
 import SerializeInput from "./serialize/SerializeInput.vue";
 import SerializeOutput from "./serialize/SerializeOutput.vue";
 import ExtendPage from "./ExtendPage.vue";
-import {defineAsyncComponent} from "vue";
+import {defineAsyncComponent,App} from "vue";
 import Card from "./ui/Card.vue";
 import Color from "./ui/Color.vue";
 import InputNumber from "./ui/InputNumber.vue";
@@ -27,7 +27,6 @@ import Tabs from "./ui/Tabs.vue";
 import HelpTip from "./HelpTip.vue";
 import Align from "./Align.vue";
 import Checkbox from "./ui/Checkbox.vue";
-import {App} from "vue";
 
 const components = {
     // icon
@@ -89,7 +88,7 @@ const components = {
 
 // 组件注册
 export default (app: App) => {
-    for (let [key, value] of Object.entries(components)) {
+    for (const [key, value] of Object.entries(components)) {
         app.component(key, value)
     }
 }

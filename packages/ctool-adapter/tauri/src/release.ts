@@ -26,7 +26,7 @@ const getTauriReleaseFile = (dir: string, name: string, extension: string) => {
     const files = readdirSync(path).map(item => join(path, item)).filter(item => {
         return statSync(item).isFile()
     }) || []
-    for (let file of files) {
+    for (const file of files) {
         const fileInfo = parse(file)
         if (fileInfo.name.includes(name) && extension === fileInfo.ext) {
             return file
@@ -67,7 +67,7 @@ const getTauriReleaseFile = (dir: string, name: string, extension: string) => {
         filesPush(getTauriReleaseFile("bundle/deb", 'ctool', '.deb'), "linux.deb")
         filesPush(getTauriReleaseFile("bundle/appimage", 'ctool', '.AppImage'), "linux.AppImage")
     }
-    for (let file of files) {
+    for (const file of files) {
         await release(file.path, file.name)
     }
 })()

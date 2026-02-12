@@ -27,9 +27,9 @@
         <!-- 特殊权限位 -->
         <Card :title="$t('chmod_special')" padding="0">
             <Align horizontal="center" style="padding: 10px 0;">
-                <Bool v-model="special[0]" :label="$t('chmod_suid') + ' (4)'" size="small" border />
-                <Bool v-model="special[1]" :label="$t('chmod_sgid') + ' (2)'" size="small" border />
-                <Bool v-model="special[2]" :label="$t('chmod_sticky') + ' (1)'" size="small" border />
+                <Bool v-model="special[0]" :label="`${$t('chmod_suid') } (4)`" size="small" border />
+                <Bool v-model="special[1]" :label="`${$t('chmod_sgid') } (2)`" size="small" border />
+                <Bool v-model="special[2]" :label="`${$t('chmod_sticky') } (1)`" size="small" border />
             </Align>
         </Card>
         <!-- 八进制 -->
@@ -69,8 +69,8 @@ const action = useAction(await initialize({
     special: [false, false, false],
 }));
 
-let matrix = $ref(action.current.matrix);
-let special = $ref(action.current.special);
+const matrix = $ref(action.current.matrix);
+const special = $ref(action.current.special);
 
 // 八进制
 const octalStr = $computed(() => {

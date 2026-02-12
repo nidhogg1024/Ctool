@@ -41,13 +41,13 @@ const action = useAction(await initialize({input: "", params: ""}))
  */
 const convertParam = (params: string) => {
     if (params) {
-        let tempList = params.split(',', -1)
+        const tempList = params.split(',', -1)
         // 因为参数中可能存在逗号，例如json数据，为此采取的方案是先分割，后合并的策略
         // 分割后是不包含,的，检查串是否为null或者)结尾，如果是则认为是正常的参数，如果不是则认为是分割后的串的一部分
         // 举例{"goodsService":[],"goodsSpecs":{"id":"db6c56a224a788c5a7458017731c9255","imageFileId":"16925e7fc297452a984d4b3e2e9e6e40"}}(String),
         // null, null, 1(Integer),1(Integer)
         // paramStrList 为合并后的实际参数列表
-        let paramStrList:string[] = []
+        const paramStrList:string[] = []
         let paramIndex = 0
         // 标记是否在合并中
         let combining = false
@@ -67,7 +67,7 @@ const convertParam = (params: string) => {
                 }
                 paramIndex ++
             } else {
-                let tempStr = paramStrList[paramIndex]
+                const tempStr = paramStrList[paramIndex]
                 if (!tempStr) {
                   paramStrList.push(x)
                   combining= true
@@ -77,7 +77,7 @@ const convertParam = (params: string) => {
             }
         })
         return paramStrList.map(x => {
-            let valueEndIndex = x.lastIndexOf('(')
+            const valueEndIndex = x.lastIndexOf('(')
             if (valueEndIndex < 0) {
                 // 直接将整个串作为值，类型为其他
                 return {value: x, type: null}
@@ -123,7 +123,7 @@ const formatParamValue = (param: { value: string, type: string | null }) => {
  */
 const detectNamedParams = (sql: string): 'positional' | 'colon' | 'mybatis' => {
     // 先检查 #{name} 格式（MyBatis 风格）
-    if (/#{(\w+)}/.test(sql)) {
+    if (/#\{(\w+)\}/.test(sql)) {
         return 'mybatis'
     }
     // 再检查 :name 格式（Spring JDBC / PostgreSQL 风格），排除 :: 类型转换
@@ -143,8 +143,8 @@ const convertNamedParam = (params: string): Map<string, { value: string, type: s
     if (!params) return result
 
     // 按逗号分割，处理值中包含逗号的情况（与 convertParam 类似的合并策略）
-    let tempList = params.split(',', -1)
-    let paramStrList: string[] = []
+    const tempList = params.split(',', -1)
+    const paramStrList: string[] = []
     let paramIndex = 0
     let combining = false
 
@@ -161,7 +161,7 @@ const convertNamedParam = (params: string): Map<string, { value: string, type: s
             }
             paramIndex++
         } else {
-            let tempStr = paramStrList[paramIndex]
+            const tempStr = paramStrList[paramIndex]
             if (!tempStr) {
                 paramStrList.push(x)
                 combining = true
@@ -231,12 +231,12 @@ const fill = () => {
     }
 
     // 位置参数模式（原有逻辑）：?
-    let paramList = convertParam(action.current.params)
-    let tempSqlStr = action.current.input
+    const paramList = convertParam(action.current.params)
+    const tempSqlStr = action.current.input
     let resultStr = ''
     let paramIndex = 0
     for (let i = 0; i < tempSqlStr.length; i++) {
-        let c = tempSqlStr.charAt(i)
+        const c = tempSqlStr.charAt(i)
         if (c === '?') {
             if (paramList.length <= paramIndex) {
                 throw new Error($t('sqlFillParameter_parameter_too_little'))
@@ -259,7 +259,7 @@ const splitSqlAndParams = (input: string) => {
         params: ""
     }
     // 寻找SQL串的开始
-    let sqlStartStr = 'Preparing:'
+    const sqlStartStr = 'Preparing:'
     let sqlStartIndex = input.indexOf(sqlStartStr)
     if (sqlStartIndex < 0) {
         // 没有找到Preparing:则认为整个串是SQL
@@ -274,8 +274,8 @@ const splitSqlAndParams = (input: string) => {
     }
     result.sql = input.substring(sqlStartIndex, sqlEndIndex)
     // 寻找参数串的开始
-    let paramStartStr = 'Parameters:'
-    let paramStartIndex = input.indexOf(paramStartStr)
+    const paramStartStr = 'Parameters:'
+    const paramStartIndex = input.indexOf(paramStartStr)
     if (paramStartIndex >= 0) {
         // mybatis打印的SQL都以行为结束标记，因此寻找到该行的\n即认为结束
         let paramEndIndex = input.indexOf("\n", paramStartIndex)
@@ -293,7 +293,7 @@ const output = $computed(() => {
             return ""
         }
         // 做参数填充
-        let resultStr = fill()
+        const resultStr = fill()
         action.save()
         return resultStr
     } catch (e) {

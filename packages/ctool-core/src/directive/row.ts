@@ -11,11 +11,11 @@ const update = (el: HTMLElement, value: string = "") => {
     if (!value.includes("|")) {
         value = `${value}|5` // 默认值
     }
-    let [column, gap] = value.split("|")
+    const [column, gap] = value.split("|")
     if (column === "") {
         return;
     }
-    let columns = column.split("-");
+    const columns = column.split("-");
     if (columns.length < 2) {
         return;
     }

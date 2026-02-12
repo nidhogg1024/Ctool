@@ -68,8 +68,8 @@ const action = useAction(await initialize({
     input: "",
     language: "php",
     version: (() => {
-        let version: Record<string, string> = {}
-        for (let l of language) {
+        const version: Record<string, string> = {}
+        for (const l of language) {
             version[l.code] = l.version[l.version.length - 1].value
         }
         return version
@@ -82,9 +82,9 @@ const action = useAction(await initialize({
     } as Result
 }))
 
-let showSetting = $ref(false)
+const showSetting = $ref(false)
 let used = $ref<number>(0)
-let config = $ref(getConfig())
+const config = $ref(getConfig())
 
 const languageLists = language.map((item) => item.code).sort()
 const languageVersionLists: SelectOption = $computed(() => {

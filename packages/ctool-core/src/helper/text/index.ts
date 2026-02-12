@@ -107,7 +107,7 @@ class Text {
         }
         // 自动处理 URL 编码的 Base64（如从浏览器地址栏复制的参数）
         // Base64 字符集为 A-Za-z0-9+/=，不包含 %，因此检测到 %XX 可安全解码
-        if (/%[0-9A-Fa-f]{2}/.test(item)) {
+        if (/%[0-9A-F]{2}/i.test(item)) {
             try {
                 item = decodeURIComponent(item);
             } catch {
@@ -166,8 +166,8 @@ class Text {
     }
 
     toDown() {
-        let objectUrl = window.URL.createObjectURL(new Blob([this.uint.uint8Array], { type: this.mime() }));
-        let aEle = document.createElement("a");
+        const objectUrl = window.URL.createObjectURL(new Blob([this.uint.uint8Array], { type: this.mime() }));
+        const aEle = document.createElement("a");
         aEle.download = this.name();
         aEle.href = objectUrl;
         aEle.click();
@@ -187,7 +187,7 @@ class Text {
     }
 
     extension(): string {
-        let temp = this.fileName.split(".")?.pop() || "";
+        const temp = this.fileName.split(".")?.pop() || "";
         if (temp) {
             return `.${temp}`;
         }
@@ -228,7 +228,7 @@ class Text {
         if (this.isEmpty()) {
             return false;
         }
-        for (let n of this.toArray()) {
+        for (const n of this.toArray()) {
             if (n > 127) {
                 return false;
             }

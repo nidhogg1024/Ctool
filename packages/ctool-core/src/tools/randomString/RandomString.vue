@@ -69,7 +69,7 @@ const action = useAction(await initialize<{
     result: []
 }))
 
-let baseSetting = $ref<{ base: string, show: boolean }>({base: action.current.base, show: false})
+const baseSetting = $ref<{ base: string, show: boolean }>({base: action.current.base, show: false})
 
 /**
  * 密码学安全的随机整数，替代 Math.random()
@@ -82,14 +82,14 @@ const secureRandomInt = (max: number): number => {
 }
 
 const generate = () => {
-    let chars = `${action.current.base}`;
-    let randomStringLists: string[] = [];
+    const chars = `${action.current.base}`;
+    const randomStringLists: string[] = [];
     for (let i = 0, l = action.current.amount; i < l; i++) {
-        let _chars = chars.split(""),
-            randomString = "";
+        const _chars = chars.split("");
+            let randomString = "";
         for (let j = 0, k = action.current.length; j < k; j++) {
             if (_chars.length < 1) break;
-            let index = secureRandomInt(_chars.length);
+            const index = secureRandomInt(_chars.length);
             randomString += _chars[index];
         }
         randomStringLists.push(randomString);
@@ -148,7 +148,7 @@ const setBase = (type: string) => {
 }
 
 const baseIsExist = $computed(() => {
-    let base = `${baseSetting.base}`.split("")
+    const base = `${baseSetting.base}`.split("")
     return {
         digital: intersection(base, baseDigital.split("")).length > 0,
         lowercase: intersection(base, baseLowercase.split("")).length > 0,

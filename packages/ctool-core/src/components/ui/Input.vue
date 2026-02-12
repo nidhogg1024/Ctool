@@ -37,16 +37,12 @@
     </div>
 </template>
 <script lang="ts">
-export default {
-    inheritAttrs: false,
-};
 </script>
 <script setup lang="ts">
 import { onMounted, onUnmounted, onUpdated, PropType, StyleValue } from "vue";
 import { sizeConvert } from "../util";
 import { ComponentSizeType } from "@/types";
 import event from "@/event";
-
 const props = defineProps({
     modelValue: {
         type: String,
@@ -90,15 +86,19 @@ const props = defineProps({
     },
 });
 
-const container = $ref<HTMLInputElement | null>(null);
-const inputLeft = $ref<HTMLElement | null>(null);
-const inputRight = $ref<HTMLElement | null>(null);
-
 const emit = defineEmits<{
     (e: "update:modelValue", value: string): void;
     (e: "load", value: HTMLInputElement): void;
     (e: "change", value: string): void;
 }>();
+
+export default {
+    inheritAttrs: false,
+};
+
+const container = $ref<HTMLInputElement | null>(null);
+const inputLeft = $ref<HTMLElement | null>(null);
+const inputRight = $ref<HTMLElement | null>(null);
 
 let content = $computed({
     get: () => props.modelValue,
@@ -112,7 +112,7 @@ let inputLeftWidth = $ref(0);
 let inputRightWidth = $ref(0);
 
 const style = $computed(() => {
-    let css: StyleValue = {};
+    const css: StyleValue = {};
     if (props.width !== "") {
         css.width = sizeConvert(props.width);
     }
@@ -126,7 +126,7 @@ const style = $computed(() => {
 });
 
 const inputStyle = $computed(() => {
-    let css: StyleValue = {};
+    const css: StyleValue = {};
     if (props.center) {
         css["text-align"] = "center";
     }

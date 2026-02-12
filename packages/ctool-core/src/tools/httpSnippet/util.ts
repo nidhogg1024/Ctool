@@ -76,9 +76,9 @@ export const targets = (() => {
         clientId: ClientId;
         targetId: TargetId;
     }[] = [];
-    for (let target of Object.values(httpTargets)) {
+    for (const target of Object.values(httpTargets)) {
         const isSimple = Object.values(target.clientsById).length < 2;
-        for (let client of Object.values(target.clientsById)) {
+        for (const client of Object.values(target.clientsById)) {
             lists.push({
                 value: `${target.info.key}-|-${client.info.key}`,
                 label: isSimple ? target.info.title : `${target.info.title} - ${client.info.title}`,
@@ -102,7 +102,7 @@ export const targets = (() => {
 })();
 
 export const getTarget = value => {
-    for (let target of targets) {
+    for (const target of targets) {
         if (value === target.value) {
             return target;
         }

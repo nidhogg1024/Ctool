@@ -17,8 +17,8 @@ type RowType = {
     explain: string
 }
 const lists = $computed(() => {
-    let data: RowType[] = []
-    for (let i in asciiMap) {
+    const data: RowType[] = []
+    for (const i in asciiMap) {
         const isVisible = !(asciiMap[i] in asciiHidden)
         data.push({
             dec: `${i}`,

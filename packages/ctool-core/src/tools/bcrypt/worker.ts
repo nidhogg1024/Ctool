@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 
 // Helper function to send messages back to the main thread
 const post = (method: string, data: any) => {
-    let send = { method, data };
+    const send = { method, data };
     console.log("worker send", send);
     self.postMessage({ method, data });
 };
@@ -29,7 +29,7 @@ const compare = ({ input, hash }: { input: string, hash: string }) => {
 };
 
 // Event listener to handle incoming messages
-self.addEventListener("message", function(e) {
+self.addEventListener("message", (e) => {
     console.log("worker accept", e.data);
     const data = e.data;
     if (data.method === "hash") {

@@ -108,7 +108,7 @@ export const runtime = new (class implements PlatformRuntime {
     }
 
     resetFeatures() {
-        let features: FeatureItem[] = [];
+        const features: FeatureItem[] = [];
         tools.forEach(tool => {
             tool.features.forEach(feature => {
                 features.push({

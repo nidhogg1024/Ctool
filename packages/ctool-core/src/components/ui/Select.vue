@@ -115,11 +115,15 @@ const props = defineProps({
         default: "Search...",
     },
 });
+const emit = defineEmits<{
+    (e: "update:modelValue", value: SelectValue): void;
+    (e: "change", value: SelectValue): void;
+}>();
 const container = $ref<HTMLElement | null>(null);
 const searchInput = $ref<HTMLInputElement | null>(null);
 let selectLeftWidth = $ref(0);
 let menuTextWidth = $ref(0);
-let menuPosition = $ref<Record<"top" | "right" | "left" | "bottom", string>>({
+const menuPosition = $ref<Record<"top" | "right" | "left" | "bottom", string>>({
     top: "unset",
     right: "unset",
     left: "unset",
@@ -128,12 +132,7 @@ let menuPosition = $ref<Record<"top" | "right" | "left" | "bottom", string>>({
 let dialogShow = $ref(false);
 let searchKeyword = $ref("");
 
-const emit = defineEmits<{
-    (e: "update:modelValue", value: SelectValue): void;
-    (e: "change", value: SelectValue): void;
-}>();
-
-let selected = $computed({
+const selected = $computed({
     get: () => props.modelValue,
     set: value => {
         emit("update:modelValue", value);
@@ -150,8 +149,8 @@ const close = () => {
 };
 
 const getOptions = $computed(() => {
-    let items: Array<{ value: SelectValue; label: string; description: string }> = [];
-    for (let item of props.options) {
+    const items: Array<{ value: SelectValue; label: string; description: string }> = [];
+    for (const item of props.options) {
         if (isNumber(item) || isString(item)) {
             items.push({ value: item, label: `${item}`, description: "" });
         } else {
@@ -181,7 +180,7 @@ const placeholderValue = $computed(() => {
 });
 
 const style = $computed(() => {
-    let css: StyleValue = {};
+    const css: StyleValue = {};
     if (props.center) {
         css["--text-align"] = "center";
     }

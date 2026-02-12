@@ -1,7 +1,7 @@
 import nameConvert from "@/helper/nameConvert"
 
 export const indent = (string, level = 0, spaceCount = 4) => {
-    let space = " ".repeat(spaceCount * level);
+    const space = " ".repeat(spaceCount * level);
     return space + string;
 }
 
