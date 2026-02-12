@@ -89,6 +89,7 @@ export default antfu({
         "regexp/no-legacy-features": "off",
         "regexp/optimal-quantifier-concatenation": "off",
         "regexp/no-dupe-disjunctions": "off",
+        "import/first": "warn",
         "import/no-mutable-exports": "off",
         "import/no-duplicates": "warn",
         "unused-imports/no-unused-vars": "off",

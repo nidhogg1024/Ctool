@@ -3,6 +3,8 @@
     "private": true,
     "scripts": {
         "check": "vue-tsc -b",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "dev": "pnpm run check && vite --host",
         "build": "pnpm run check && vite build",
         "preview": "vite preview"
@@ -123,6 +125,7 @@
         "vite": "^6.4.1",
         "vite-plugin-html-config": "^2.0.2",
         "vite-plugin-node-polyfills": "catalog:",
+        "vitest": "^4.0.18",
         "vue-tsc": "^3.2.4"
     }
 }

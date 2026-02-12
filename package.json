@@ -14,6 +14,7 @@
     "scripts": {
         "initialize": "pnpm --filter ctool-config run build && pnpm --filter ctool-adapter-base run build && pnpm -r run adapter-build",
         "lint": "eslint . --max-warnings 300",
+        "test": "pnpm --filter ctool-core run test",
         "check": "pnpm run initialize && pnpm --filter ctool-core run check",
         "dev": "pnpm run initialize && pnpm --filter ctool-core run dev",
         "build": "pnpm run initialize && pnpm --filter ctool-core run build",
