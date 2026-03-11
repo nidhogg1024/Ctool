@@ -121,6 +121,53 @@
                     @change="(value)=>storeSetting.save('history_icon_badge_hidden',value)"
                 />
             </div>
+            <!-- AI 设置 -->
+            <span style="grid-column: 1 / -1; font-weight: bold; justify-content: left; border-top: 1px solid var(--ctool-border-color); padding-top: 15px;">
+                {{ $t('main_ai_setting') }}
+            </span>
+            <span>{{ $t('main_ai_provider') }}</span>
+            <div>
+                <Select
+                    :model-value="storeSetting.items.ai_provider"
+                    @change="(value) => onProviderChange(value)"
+                    :options="aiProviderOptions"
+                />
+            </div>
+            <span>{{ $t('main_ai_base_url') }}</span>
+            <div>
+                <Input
+                    :model-value="storeSetting.items.ai_base_url"
+                    :width="400"
+                    :placeholder="storeSetting.items.ai_provider === 'ollama' ? 'http://localhost:11434' : 'https://api.example.com'"
+                    @change="(value) => storeSetting.save('ai_base_url', value)"
+                />
+            </div>
+            <template v-if="storeSetting.items.ai_provider === 'openai_compatible'">
+                <span>{{ $t('main_ai_api_key') }}</span>
+                <div>
+                    <Align>
+                        <Input
+                            :model-value="storeSetting.items.ai_api_key"
+                            :width="400"
+                            placeholder="sk-..."
+                            @change="(value) => storeSetting.save('ai_api_key', value)"
+                        />
+                        <span style="font-size: 12px; color: var(--ctool-info-color);">{{ $t('main_ai_privacy_note') }}</span>
+                    </Align>
+                </div>
+            </template>
+            <span>{{ $t('main_ai_model') }}</span>
+            <div>
+                <Align>
+                    <Input
+                        :model-value="storeSetting.items.ai_model"
+                        :width="250"
+                        :placeholder="storeSetting.items.ai_provider === 'ollama' ? 'qwen2.5:7b' : 'gpt-4o-mini'"
+                        @change="(value) => storeSetting.save('ai_model', value)"
+                    />
+                    <Button :size="'small'" :loading="aiTesting" :text="$t('main_ai_test_connection')" @click="testAiConnection"/>
+                </Align>
+            </div>
         </div>
     </Card>
     <ExtendPage v-model="openUtoolsKeyword" disable-replace>
@@ -148,6 +195,8 @@ import Input from "@/components/ui/Input.vue";
 import Link from "@/components/ui/Link.vue";
 import Button from "@/components/ui/Button.vue";
 import InputNumber from "@/components/ui/InputNumber.vue";
+import {type AiProvider, type AiConfig, defaultAiConfig, chat} from "@/helper/llm";
+import Message from "@/helper/message";
 
 const storeSetting = useSetting()
 const openUtoolsKeyword = $ref(false)
@@ -166,6 +215,51 @@ const zoomOptions = [50, 60, 70, 75, 80, 85, 90, 95, 100, 110, 120, 125, 130, 14
     value: v,
     label: `${v}%`,
 }))
+
+// AI 设置相关
+const aiProviderOptions = [
+    {value: "ollama" as AiProvider, label: $t("main_ai_provider_ollama")},
+    {value: "openai_compatible" as AiProvider, label: $t("main_ai_provider_openai_compatible")},
+]
+
+// 切换 provider 时自动填充默认地址和模型
+const onProviderChange = (value: AiProvider) => {
+    storeSetting.save("ai_provider", value)
+    if (value === "ollama") {
+        storeSetting.save("ai_base_url", defaultAiConfig.baseUrl)
+        storeSetting.save("ai_model", defaultAiConfig.model)
+    } else {
+        storeSetting.save("ai_base_url", "")
+        storeSetting.save("ai_model", "")
+    }
+}
+
+let aiTesting = $ref(false)
+
+// 获取当前 AI 配置快照
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+})
+
+// 测试 AI 连接
+const testAiConnection = async () => {
+    aiTesting = true
+    try {
+        const config = getAiConfig()
+        if (!config.baseUrl || !config.model) {
+            throw new Error($t("main_ai_not_configured"))
+        }
+        await chat([{role: "user", content: "Hi, just say OK"}], config)
+        Message.success($t("main_ai_test_success"))
+    } catch (e: any) {
+        Message.error($t("main_ai_test_fail", [e?.message || String(e)]))
+    } finally {
+        aiTesting = false
+    }
+}
 </script>
 <style>
 .ctool-setting {

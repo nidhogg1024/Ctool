@@ -6,6 +6,7 @@ import {proxy} from "ctool-config"
 import {onMounted, watch, onUnmounted, nextTick} from 'vue';
 import {setCurrentLocale} from '@/i18n';
 import event from "@/event";
+import {type AiProvider, defaultAiConfig} from "@/helper/llm";
 
 interface Setting {
     // 常用工具
@@ -32,6 +33,14 @@ interface Setting {
     history_icon_badge_hidden: boolean,
     // 界面缩放比例（百分比，50-200，默认 100）
     zoom: number,
+    // AI 服务提供方（ollama: 本地 Ollama, openai_compatible: OpenAI 兼容接口）
+    ai_provider: AiProvider,
+    // AI 服务地址
+    ai_base_url: string,
+    // AI API Key（BYOK 模式下使用）
+    ai_api_key: string,
+    // AI 模型名称
+    ai_model: string,
 }
 
 const getSystemTheme = (): ThemeRawType => {
@@ -54,6 +63,10 @@ const defaultValue: Setting = {
     fill_history_expire: 3600,
     history_icon_badge_hidden: false,
     zoom: 100,
+    ai_provider: defaultAiConfig.provider,
+    ai_base_url: defaultAiConfig.baseUrl,
+    ai_api_key: defaultAiConfig.apiKey,
+    ai_model: defaultAiConfig.model,
 }
 
 const useSetting = defineStore('setting', () => {

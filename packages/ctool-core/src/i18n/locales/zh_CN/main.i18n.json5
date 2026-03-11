@@ -93,5 +93,19 @@
     "history_icon_badge_hidden": "隐藏历史记录图标角标",
     "content_clear": "清空输入",
     "setting_zoom": "界面缩放",
-    "history_save_too_large": "数据过大，未保存到历史记录"
+    "history_save_too_large": "数据过大，未保存到历史记录",
+    // AI 设置
+    "ai_setting": "AI 设置",
+    "ai_provider": "服务类型",
+    "ai_provider_ollama": "Ollama (本地模型)",
+    "ai_provider_openai_compatible": "OpenAI 兼容接口",
+    "ai_base_url": "服务地址",
+    "ai_api_key": "API Key",
+    "ai_model": "模型名称",
+    "ai_test_connection": "测试连接",
+    "ai_test_success": "AI 连接成功",
+    "ai_test_fail": "AI 连接失败: {0}",
+    "ai_not_configured": "请先在设置页面配置 AI 服务",
+    "ai_request_error": "AI 请求失败: {0}",
+    "ai_privacy_note": "API Key 仅保存在本地，不会上传到任何服务器"
 }

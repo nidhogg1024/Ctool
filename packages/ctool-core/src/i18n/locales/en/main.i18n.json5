@@ -93,5 +93,19 @@
     "history_icon_badge_hidden": "Hide History Icon Badge",
     "content_clear": "Clear Input",
     "setting_zoom": "UI Zoom",
-    "history_save_too_large": "Data too large, not saved to history"
+    "history_save_too_large": "Data too large, not saved to history",
+    // AI settings
+    "ai_setting": "AI Settings",
+    "ai_provider": "Provider",
+    "ai_provider_ollama": "Ollama (Local Model)",
+    "ai_provider_openai_compatible": "OpenAI Compatible API",
+    "ai_base_url": "Base URL",
+    "ai_api_key": "API Key",
+    "ai_model": "Model",
+    "ai_test_connection": "Test Connection",
+    "ai_test_success": "AI connection successful",
+    "ai_test_fail": "AI connection failed: {0}",
+    "ai_not_configured": "Please configure AI service in settings first",
+    "ai_request_error": "AI request failed: {0}",
+    "ai_privacy_note": "API Key is stored locally only, never uploaded to any server"
 }

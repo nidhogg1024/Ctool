@@ -29,4 +29,9 @@
     "transform": "转换",
     "transform_placeholder": "输入 JS 表达式，如 _.groupBy(data, 'key')",
     "transform_preset": "常用表达式",
+    // AI
+    "ai_extract_json": "AI 提取 JSON",
+    "ai_extracting": "AI 正在提取...",
+    "ai_extract_fail": "AI 提取失败: {0}",
+    "ai_extract_empty": "请先输入需要提取 JSON 的文本",
 }

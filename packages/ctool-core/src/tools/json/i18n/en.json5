@@ -29,4 +29,9 @@
     "transform": "Transform",
     "transform_placeholder": "JS expression, e.g. _.groupBy(data, 'key')",
     "transform_preset": "Presets",
+    // AI
+    "ai_extract_json": "AI Extract JSON",
+    "ai_extracting": "AI extracting...",
+    "ai_extract_fail": "AI extraction failed: {0}",
+    "ai_extract_empty": "Please input text to extract JSON from",
 }
