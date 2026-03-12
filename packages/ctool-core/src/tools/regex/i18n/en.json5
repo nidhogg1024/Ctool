@@ -12,5 +12,12 @@
     "output_count": "{0} Total Matches",
     "output_empty": "No match result, please check expression",
     "reference_name": "Char",
-    "reference_text": "Description"
+    "reference_text": "Description",
+    // AI
+    "ai_generate": "AI Generate",
+    "ai_explain": "AI Explain",
+    "ai_generate_placeholder": "Describe what regex you need, e.g.: match email addresses",
+    "ai_explain_result": "AI Explanation",
+    "ai_generate_empty": "Please enter a description",
+    "ai_explain_empty": "Please enter a regex first"
 }

@@ -2,4 +2,8 @@
     'parameter': '参数',
     'parameter_too_little': '参数个数不足',
     'named_param_missing': '未找到具名参数: {name}',
+    // AI
+    'ai_explain': 'AI 解释',
+    'ai_explain_result': 'SQL 解释',
+    'ai_explain_empty': '请先输入 SQL 语句',
 }

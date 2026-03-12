@@ -25,4 +25,8 @@
     "generate_scope": "Scope",
     "generate_interval": "Interval",
     "generate_list": "List",
+    // AI
+    "ai_generate": "AI Generate",
+    "ai_generate_placeholder": "Describe your schedule, e.g.: every 30 minutes from 9am to 6pm on weekdays",
+    "ai_generate_empty": "Please enter a description",
 }

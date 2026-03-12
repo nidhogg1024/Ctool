@@ -16,6 +16,9 @@
                         @click="showReference = !showReference"
                         :text="$t(`main_ui_reference`)"
                     />
+                    <span>|</span>
+                    <Button :size="'small'" :loading="aiLoading" @click="showAiGenerate = true">✨ {{ $t('regex_ai_generate') }}</Button>
+                    <Button :size="'small'" :loading="aiExplainLoading" @click="aiExplainRegex()">✨ {{ $t('regex_ai_explain') }}</Button>
                 </Align>
             </template>
         </Display>
@@ -53,6 +56,14 @@
     <ExtendPage v-model="showReference">
         <Reference />
     </ExtendPage>
+    <!-- AI 生成正则弹窗 -->
+    <Modal v-model="showAiGenerate" :title="$t('regex_ai_generate')" footer-type="normal" :loading="aiLoading" @ok="aiGenerateRegex()">
+        <Textarea v-model="aiPromptText" :height="100" :placeholder="$t('regex_ai_generate_placeholder')" />
+    </Modal>
+    <!-- AI 解释结果弹窗 -->
+    <Modal v-model="showAiExplain" :title="$t('regex_ai_explain_result')" width="70%">
+        <Textarea :model-value="aiExplainText" :height="200" />
+    </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -60,6 +71,12 @@ import { initialize, useAction } from "@/store/action";
 import { getCommonExpression } from "@/tools/regex/util";
 import { watch } from "vue";
 import Reference from "./Reference.vue";
+import Modal from "@/components/Modal.vue";
+import useSetting from "@/store/setting";
+import { type AiConfig, chat, extractCode } from "@/helper/llm";
+import Message from "@/helper/message";
+
+const storeSetting = useSetting();
 
 const action = useAction(
     await initialize(
@@ -79,6 +96,78 @@ const action = useAction(
 
 let output = $ref("");
 const showReference = $ref(false);
+
+// AI 相关状态
+let showAiGenerate = $ref(false);
+let showAiExplain = $ref(false);
+let aiPromptText = $ref("");
+let aiExplainText = $ref("");
+let aiLoading = $ref(false);
+let aiExplainLoading = $ref(false);
+
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+});
+
+const aiGenerateRegex = async () => {
+    if (!aiPromptText.trim()) {
+        Message.error($t("regex_ai_generate_empty"));
+        return;
+    }
+    const config = getAiConfig();
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"));
+        return;
+    }
+    aiLoading = true;
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: "你是一个正则表达式专家。根据用户的自然语言描述，生成对应的 JavaScript 正则表达式。\n\n规则：\n1. 只输出正则表达式本体（不要包含 / 定界符和 flags）\n2. 不要输出任何解释或 Markdown 标记\n3. 正则必须兼容 JavaScript RegExp 语法",
+            },
+            { role: "user", content: aiPromptText.trim() },
+        ], config);
+        action.current.input = extractCode(result.content);
+        showAiGenerate = false;
+        aiPromptText = "";
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]));
+    } finally {
+        aiLoading = false;
+    }
+};
+
+const aiExplainRegex = async () => {
+    if (!action.current.input.trim()) {
+        Message.error($t("regex_ai_explain_empty"));
+        return;
+    }
+    const config = getAiConfig();
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"));
+        return;
+    }
+    aiExplainLoading = true;
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: "你是一个正则表达式专家。用户会给你一段正则表达式，请用简洁的中文解释它的含义。\n\n规则：\n1. 逐段解释正则的各个部分\n2. 最后给出整体的自然语言描述\n3. 如果有常见的匹配/不匹配示例，简要列出",
+            },
+            { role: "user", content: action.current.input.trim() },
+        ], config);
+        aiExplainText = result.content;
+        showAiExplain = true;
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]));
+    } finally {
+        aiExplainLoading = false;
+    }
+};
 watch(
     () => action.current,
     current => {

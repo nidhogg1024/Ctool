@@ -13,4 +13,11 @@
     "output_empty": "没有匹配结果，请检查正则",
     "reference_name": "字符",
     "reference_text": "描述",
+    // AI
+    "ai_generate": "AI 生成",
+    "ai_explain": "AI 解释",
+    "ai_generate_placeholder": "用自然语言描述你需要的正则，例如：匹配邮箱地址",
+    "ai_explain_result": "AI 解释结果",
+    "ai_generate_empty": "请输入自然语言描述",
+    "ai_explain_empty": "请先输入正则表达式",
 }

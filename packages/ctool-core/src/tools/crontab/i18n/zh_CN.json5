@@ -25,4 +25,8 @@
     "generate_scope": "范围",
     "generate_interval": "间隔",
     "generate_list": "指定",
+    // AI
+    "ai_generate": "AI 生成",
+    "ai_generate_placeholder": "用自然语言描述定时任务，例如：工作日每天上午9点到下午6点，每半小时执行一次",
+    "ai_generate_empty": "请输入自然语言描述",
 }

@@ -2,4 +2,8 @@
     'parameter': 'Parameter',
     'parameter_too_little': 'No Enough Parameters',
     'named_param_missing': 'Named parameter not found: {name}',
+    // AI
+    'ai_explain': 'AI Explain',
+    'ai_explain_result': 'SQL Explanation',
+    'ai_explain_empty': 'Please enter a SQL statement first',
 }

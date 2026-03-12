@@ -2,12 +2,19 @@
     <HeightResize v-slot="{height}" ignore :reduce="5">
         <Align direction="vertical">
             <div v-row="`1-1`">
-                <Editor
-                    v-model="action.current.input"
-                    lang="sql"
-                    :height="height/2"
-                    :placeholder="`Sql: SELECT * FROM T WHERE id=? AND name=?`"
-                />
+                <Display>
+                    <Editor
+                        v-model="action.current.input"
+                        lang="sql"
+                        :height="height/2"
+                        :placeholder="`Sql: SELECT * FROM T WHERE id=? AND name=?`"
+                    />
+                    <template #extra>
+                        <Align>
+                            <Button :size="'small'" :loading="aiExplainLoading" @click="aiExplainSql()">✨ {{ $t('sqlFillParameter_ai_explain') }}</Button>
+                        </Align>
+                    </template>
+                </Display>
                 <Textarea
                     v-model="action.current.params"
                     :height="height/2"
@@ -23,16 +30,68 @@
             />
         </Align>
     </HeightResize>
+    <!-- AI 解释结果弹窗 -->
+    <Modal v-model="showAiExplain" :title="$t('sqlFillParameter_ai_explain_result')" width="70%">
+        <Textarea :model-value="aiExplainText" :height="250" />
+    </Modal>
 </template>
 
 <script lang="ts" setup>
 import {initialize, useAction} from "@/store/action";
 import {watch} from "vue";
+import Modal from "@/components/Modal.vue";
+import Display from "@/components/Display.vue";
+import useSetting from "@/store/setting";
+import {type AiConfig, chat} from "@/helper/llm";
+import Message from "@/helper/message";
+
+const storeSetting = useSetting();
 
 // 1-String 2-NUMBER 3-Long,4-Timestamp
 const TYPE_STR = ['String', 'Integer', 'Long', 'Timestamp']
 
 const action = useAction(await initialize({input: "", params: ""}))
+
+// AI 相关状态
+let showAiExplain = $ref(false)
+let aiExplainText = $ref("")
+let aiExplainLoading = $ref(false)
+
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+})
+
+const aiExplainSql = async () => {
+    const sql = action.current.input.trim()
+    if (!sql) {
+        Message.error($t("sqlFillParameter_ai_explain_empty"))
+        return
+    }
+    const config = getAiConfig()
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"))
+        return
+    }
+    aiExplainLoading = true
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: "你是一个 SQL 专家。用户会给你一段 SQL 语句（可能包含 ? 占位符或 #{name} 参数），请用简洁的中文解释这段 SQL 的作用。\n\n规则：\n1. 解释 SQL 的整体目的（查询/插入/更新/删除什么数据）\n2. 逐一解释 WHERE 条件、JOIN、子查询等关键部分\n3. 如果有性能风险（如全表扫描、缺少索引提示），简要指出",
+            },
+            { role: "user", content: sql },
+        ], config)
+        aiExplainText = result.content
+        showAiExplain = true
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]))
+    } finally {
+        aiExplainLoading = false
+    }
+}
 
 /**
  * 将一行参数转化为值和类型的对象有序列表
