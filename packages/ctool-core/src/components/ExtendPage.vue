@@ -1,16 +1,15 @@
 <template>
     <Teleport to="#ctool-append">
-        <Transition name="ctool-extend-page">
-            <div class="ctool-extend-page" :style="style" v-if="show" v-bind="$attrs">
-                <slot></slot>
-            </div>
+        <!-- 遮罩层 -->
+        <Transition name="ctool-drawer-backdrop">
+            <div class="ctool-drawer-backdrop" :style="backdropStyle" v-if="show" @click="close"></div>
         </Transition>
-        <Transition name="ctool-extend-page">
-            <div class="ctool-extend-page-close" v-if="show">
-                <Button :size="'small'" :type="'primary'" @click="close">
-                    <Icon name="up" :size="10"/>
-                    <span style="margin-left: 5px">{{ closeTextI18n }}</span>
-                </Button>
+        <!-- 抽屉面板 -->
+        <Transition name="ctool-drawer">
+            <div class="ctool-drawer" :style="drawerStyle" v-if="show" v-bind="$attrs">
+                <div class="ctool-drawer-body">
+                    <slot></slot>
+                </div>
             </div>
         </Transition>
     </Teleport>
@@ -23,7 +22,6 @@ export default {
 };
 </script>
 <script setup lang="ts">
-// 扩展页面 用于临时内容展示
 import {onMounted, onUnmounted, StyleValue, watch} from "vue";
 import event, {componentResizeDispatch} from "@/event";
 
@@ -43,6 +41,10 @@ const props = defineProps({
     closeText:{
         type: String,
         default: ''
+    },
+    width: {
+        type: String,
+        default: '500px'
     }
 })
 
@@ -54,13 +56,6 @@ document.addEventListener('keydown', e => {
     }
 });
 
-let closeI18n = $ref($t(`main_ui_close`));
-event.addListener("locale_change", () => {
-    closeI18n = $t(`main_ui_close`)
-});
-const closeTextI18n = $computed(() => {
-    return props.closeText || closeI18n
-})
 let show = $computed({
     get: () => props.modelValue,
     set: (value) => emit('update:modelValue', value)
@@ -69,10 +64,19 @@ let show = $computed({
 let top = $ref(document.querySelector<HTMLElement>('.ctool-header')?.offsetHeight || 33)
 let bottom = $ref(document.querySelector<HTMLElement>('.ctool-bottom')?.offsetHeight || 33)
 
-const style = $computed(() => {
+const backdropStyle = $computed(() => {
+    const css: StyleValue = {
+        "top": `${top}px`,
+        "height": `calc(100vh - ${top + bottom}px)`,
+    }
+    return css
+})
+
+const drawerStyle = $computed(() => {
     const css: StyleValue = {
         "top": `${top + props.offset}px`,
         "height": `calc(100vh - ${top + bottom + props.offset}px)`,
+        "width": `min(${props.width}, 90vw)`,
     }
     return css
 })
@@ -117,33 +121,48 @@ onUnmounted(() => {
 </script>
 
 <style>
-.ctool-extend-page {
+/* 遮罩层：与内容区域对齐（top/height 由 JS 动态设置） */
+.ctool-drawer-backdrop {
     position: fixed;
-    box-sizing: border-box;
-    padding: 5px;
-    top: 33px;
     left: 0;
     width: 100%;
-    height: calc(100vh - 66px);
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 998;
+}
+
+/* 抽屉面板 */
+.ctool-drawer {
+    position: fixed;
+    box-sizing: border-box;
+    right: 0;
+    width: 500px;
     background-color: var(--background-color);
+    border-left: 1px solid var(--ctool-border-color);
+    overflow: hidden;
+    z-index: 999;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 内容区域 */
+.ctool-drawer-body {
+    width: 100%;
+    height: 100%;
     overflow-y: auto;
 }
 
-.ctool-extend-page-close {
-    --close-width: 80px;
-    position: fixed;
-    bottom: 3px;
-    width: var(--close-width);
-    left: calc(100vw / 2 - (var(--close-width) / 2));
-    display: inline-flex;
+/* 遮罩层动画 */
+.ctool-drawer-backdrop-enter-active, .ctool-drawer-backdrop-leave-active {
+    transition: opacity 0.3s ease;
 }
-
-.ctool-extend-page-enter-active, .ctool-extend-page-leave-active {
-    transition: all 0.3s ease-in-out;
-}
-
-.ctool-extend-page-enter-from, .ctool-extend-page-leave-to {
-    transform: translateY(-100%);
+.ctool-drawer-backdrop-enter-from, .ctool-drawer-backdrop-leave-to {
     opacity: 0;
+}
+
+/* 抽屉面板动画：从右侧滑入 */
+.ctool-drawer-enter-active, .ctool-drawer-leave-active {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ctool-drawer-enter-from, .ctool-drawer-leave-to {
+    transform: translateX(100%);
 }
 </style>

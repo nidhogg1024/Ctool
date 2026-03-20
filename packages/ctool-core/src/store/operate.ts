@@ -1,7 +1,7 @@
 // 页面操作
 import {defineStore} from '@/helper/pinia'
 import {reactive} from 'vue';
-import {getTool, ToolType, toolExists, categoryExists, tools, getCategory} from "@/config";
+import {getTool, ToolType, toolExists, categoryExists, tools, getCategory, commonTool} from "@/config";
 import {useRouter} from "vue-router";
 import event from "@/event";
 
@@ -143,20 +143,29 @@ export default defineStore(
 
         /**
          * 智能常用工具列表
-         * 优先展示用户手动置顶的工具，再按使用频率自动补充
-         * @param pinned 用户手动置顶的工具列表（来自 setting.items.common）
+         * - 用户手动修改过常用列表时，完全尊重用户选择，不自动补充
+         * - 未修改过（默认列表）时，按使用频率自动补充高频工具
+         * @param pinned 用户的常用工具列表（来自 setting.items.common）
          */
         const getSmartCommon = (pinned: ToolType[]): ToolType[] => {
-            // 没有使用数据时（新用户），直接返回置顶列表
-            if (Object.keys(items.usage_count).length === 0) {
-                return pinned.filter(t => toolExists(t))
+            const validPinned = pinned.filter(t => toolExists(t))
+
+            // 用户手动修改过常用列表：内容或顺序与默认不同，完全尊重用户选择
+            const isCustomized = pinned.length !== commonTool.length
+                || pinned.some((t, i) => t !== commonTool[i])
+            if (isCustomized) {
+                return validPinned
             }
 
-            // 置顶工具优先
-            const result: ToolType[] = pinned.filter(t => toolExists(t))
+            // 默认列表 + 无使用数据（新用户），直接返回
+            if (Object.keys(items.usage_count).length === 0) {
+                return validPinned
+            }
+
+            // 默认列表 + 有使用数据：按使用频率补充高频工具
+            const result: ToolType[] = [...validPinned]
             const pinnedSet = new Set(result)
 
-            // 按使用次数降序排列，补充未置顶的高频工具
             const sorted = Object.entries(items.usage_count)
                 .filter(([tool]) => toolExists(tool) && !pinnedSet.has(tool as ToolType))
                 .sort((a, b) => b[1] - a[1])
