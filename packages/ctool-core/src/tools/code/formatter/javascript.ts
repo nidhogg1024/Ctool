@@ -1,5 +1,5 @@
 import Base from "./base";
-import UglifyJS from "uglify-js-export";
+import { minify } from "terser";
 import { format } from "prettier/standalone";
 import babel from "prettier/plugins/babel";
 import estree from "prettier/plugins/estree";
@@ -10,21 +10,20 @@ export const formatter = new (class extends Base<"javascript"> {
             plugins: [babel, estree],
             parser: "babel",
             tabWidth: this.getOptionValue("tab", 4),
-
         });
     }
 
     async compress(): Promise<string> {
-        const result = UglifyJS.minify(this.code, {
+        const result = await minify(this.code, {
             keep_fnames: true,
             compress: false,
             mangle: false,
-            output: {
+            format: {
                 beautify: false,
             },
         });
-        if (!("code" in result) || !result.code) {
-            throw new Error(JSON.stringify(result.error));
+        if (!result.code) {
+            throw new Error("JS minify failed");
         }
         return result.code;
     }

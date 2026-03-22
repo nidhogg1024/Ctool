@@ -464,15 +464,15 @@ importers:
       strict-uri-encode:
         specifier: ^2.0.0
         version: 2.0.0
+      terser:
+        specifier: ^5.32.0
+        version: 5.32.0
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
       ua-parser-js:
         specifier: ^2.0.9
         version: 2.0.9
-      uglify-js-export:
-        specifier: ^3.17.4
-        version: 3.19.3
       ulid:
         specifier: ^2.3.0
         version: 2.3.0
@@ -5900,9 +5900,6 @@ packages:
 
   ufo@1.6.3:
     resolution: {integrity: sha512-yDJTmhydvl5lJzBmy/hyOAA0d+aqCBuwl818haVdYCRrWV84o7YyeVm4QlVHStqNrrJSTb6jKuFAVqAFsr+K3Q==}
-
-  uglify-js-export@3.19.3:
-    resolution: {integrity: sha512-q5uyaOepquFzA/77CqU2sAIgq9LBARs2jo1x0KaRK2D3uf0Kf0GvLlc+mtHKGU1mIyHB+J8kIMvusT8eCvBDhw==}
 
   ulid@2.3.0:
     resolution: {integrity: sha512-keqHubrlpvT6G2wH0OEfSW4mquYRcbe/J8NMmveoQOjUqmo+hXtO+ORCpWhdbZ7k72UtY61BL7haGxW6enBnjw==}
@@ -11863,7 +11860,7 @@ snapshots:
   terser@5.32.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.12.1
+      acorn: 8.15.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -12065,8 +12062,6 @@ snapshots:
   ufo@1.5.4: {}
 
   ufo@1.6.3: {}
-
-  uglify-js-export@3.19.3: {}
 
   ulid@2.3.0: {}
 
