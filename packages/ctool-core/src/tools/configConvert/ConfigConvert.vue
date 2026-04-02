@@ -1,9 +1,9 @@
 <template>
     <Align direction="vertical">
         <Align horizontal="center" class="ctool-page-option">
-            <Select v-model="action.current.sourceFormat" :options="formatOptions" :label="$t('configConvert_source')" />
+            <Select v-model="action.current.sourceFormat" :options="sourceFormatOptions" :label="$t('configConvert_source')" />
             <Button text="⇄" @click="swap" />
-            <Select v-model="action.current.targetFormat" :options="formatOptions" :label="$t('configConvert_target')" />
+            <Select v-model="action.current.targetFormat" :options="targetFormatOptions" :label="$t('configConvert_target')" />
             <Button :loading="aiDetectLoading" @click="aiDetectSourceFormat()">✨ {{ $t('main_configConvert_ai_detect_source') }}</Button>
         </Align>
         <HeightResize v-slot="{ height }" :reduce="5" :append="['.ctool-page-option']">
@@ -28,18 +28,26 @@ import Message from "@/helper/message";
 import { normalizeDetectedFormat } from "./ai";
 
 // 支持的全部格式（Serialize 体系中可双向转换的格式）
-const formats = [
+const sourceFormats = [
+    "text",
     "json", "yaml", "toml", "xml", "csv", "properties",
     "html_table", "http_query_string", "php_array", "php_serialize",
 ] as const;
-type Format = typeof formats[number];
+const targetFormats = [
+    "text",
+    "json", "yaml", "toml", "xml", "csv", "properties",
+    "html_table", "http_query_string", "php_array", "php_serialize",
+] as const;
+type SourceFormat = typeof sourceFormats[number];
+type TargetFormat = typeof targetFormats[number];
 
-const formatOptions = formats.map(f => ({ value: f, label: getDisplayName(f) }));
+const sourceFormatOptions = sourceFormats.map(f => ({ value: f, label: getDisplayName(f) }));
+const targetFormatOptions = targetFormats.map(f => ({ value: f, label: getDisplayName(f) }));
 
 // 编辑器语言映射
 const editorLang = (fmt: string) => {
     const map: Record<string, string> = {
-        json: "json", yaml: "yaml", toml: "toml", xml: "xml",
+        text: "text", json: "json", yaml: "yaml", toml: "toml", xml: "xml",
         csv: "csv", properties: "properties", html_table: "html_table",
         http_query_string: "http_query_string", php_array: "php_array",
         php_serialize: "php_serialize",
@@ -52,20 +60,21 @@ const storeSetting = useSetting();
 
 const action = useAction(await initialize({
     input: "",
-    sourceFormat: "json" as Format,
-    targetFormat: "yaml" as Format,
+    sourceFormat: "json" as SourceFormat,
+    targetFormat: "yaml" as TargetFormat,
 }));
 
 // 接收来自其他工具（如 JSON 工具）的传递数据
 if (transfer.hasData()) {
     const transferred = transfer.consume();
     action.current.input = transferred.data;
-    action.current.sourceFormat = transferred.sourceFormat as Format;
+    action.current.sourceFormat = transferred.sourceFormat as SourceFormat;
 }
 
 // 解析输入为 Serialize 对象
-const parse = (text: string, fmt: Format): Serialize => {
+const parse = (text: string, fmt: SourceFormat): Serialize => {
     switch (fmt) {
+        case "text": return Serialize.formText(text);
         case "json": return Serialize.formJson(text);
         case "yaml": return Serialize.formYaml(text);
         case "toml": return Serialize.formToml(text);
@@ -89,8 +98,9 @@ const ensureArray = (data: Serialize): Serialize => {
 };
 
 // 将 Serialize 对象序列化为目标格式
-const stringify = (data: Serialize, fmt: Format): string => {
+const stringify = (data: Serialize, fmt: TargetFormat): string => {
     switch (fmt) {
+        case "text": return ensureArray(data).toText();
         case "json": return data.toJson();
         case "yaml": return data.toYaml();
         case "toml": return data.toToml();
@@ -130,11 +140,11 @@ const aiDetectSourceFormat = async () => {
         const result = await chat([
             {
                 role: "system",
-                content: `你是一个配置格式识别助手。请从以下候选中识别用户输入最可能的来源格式，只输出一个格式 ID，不要解释：${formats.join(", ")}。`,
+                content: `你是一个配置格式识别助手。请从以下候选中识别用户输入最可能的来源格式，只输出一个格式 ID，不要解释：${sourceFormats.join(", ")}。`,
             },
             { role: "user", content: input },
         ], config);
-        const detected = normalizeDetectedFormat(extractCode(result.content), formats);
+        const detected = normalizeDetectedFormat(extractCode(result.content), sourceFormats);
         if (!detected) {
             Message.error($t("main_configConvert_ai_detect_invalid"));
             return;
@@ -169,13 +179,13 @@ watch(() => ({
     const trimmed = input.trim();
     if (!trimmed) return;
     try {
-        const data = parse(trimmed, source as Format);
+        const data = parse(trimmed, source as SourceFormat);
         if (data.isError()) {
             output = data.error();
             return;
         }
         if (data.isEmpty()) return;
-        const raw = stringify(data, target as Format);
+        const raw = stringify(data, target as TargetFormat);
         // 美化输出
         output = await formatter.simple(target, 'beautify', raw);
         action.save();

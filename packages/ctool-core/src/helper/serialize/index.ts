@@ -76,6 +76,21 @@ class Serialize<T extends ContentType = ContentType> {
         });
     }
 
+    static formText<T extends ContentType = ContentType>(str: string) {
+        return Serialize.formCallback<T>(() => {
+            const lines = str
+                .split(/\r?\n/)
+                .map(line => line.trim())
+                .filter(line => line !== "");
+
+            if (lines.length > 0) {
+                return lines as unknown as T;
+            }
+
+            return [str] as unknown as T;
+        });
+    }
+
     static formQueryString<T extends ContentType = ContentType>(str: string) {
         return Serialize.formCallback<T>(() => {
             return qs.parse(str) as T;
