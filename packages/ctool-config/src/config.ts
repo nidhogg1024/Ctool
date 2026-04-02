@@ -47,6 +47,10 @@ export const _tools = {
         feature: ["encoder", "decoder"],
         parent_directory: "",
     },
+    msgpack: {
+        feature: ["encoder", "decoder"],
+        parent_directory: "",
+    },
     json: {
         feature: ["json"],
         parent_directory: "",
@@ -241,7 +245,7 @@ export const _tools = {
 export const _categoryTool: Record<CategoryType, ToolType[]> = {
     crypto: ["hash", "hmac", "aes", "des", "tripleDes", "rc4", "rabbit", "sm2", "sm4", "rsa", "sign", "bcrypt", "password"],
     encoding: ["base64", "url", "unicode", "jwt", "hexString", "html", "gzip", "asn1", "punycode", "base58"],
-    data: ["json", "configConvert", "serialize", "radix", "ascii", "arm", "mongoObjectId"],
+    data: ["json", "msgpack", "configConvert", "serialize", "radix", "ascii", "arm", "mongoObjectId"],
     text: ["text", "pinyin", "variableConversion", "diffs", "regex", "zhNumber", "code"],
     network: ["ip", "urlParse", "websocket", "httpSnippet", "userAgent", "dockerCompose"],
     dev: ["crontab", "sqlFillParameter", "stacktrace", "chmod", "dataValidation", "color", "unit", "time"],
@@ -305,4 +309,3 @@ export interface FeatureInterface<T extends ToolType = ToolType> {
 
     getQuery(category?: string, other?: Record<string, any>): Record<string, any>
 }
-
