@@ -106,7 +106,7 @@ export function extractCode(raw: string): string {
     const trimmed = raw.trim()
 
     // 提取代码块（支持任意语言标记）
-    const codeBlockMatch = trimmed.match(/```(?:\w+)?\s*\n?([\s\S]*?)\n?\s*```/)
+    const codeBlockMatch = trimmed.match(/```\w*\s*\n?([\s\S]*?)\n?\s*```/)
     if (codeBlockMatch) {
         return codeBlockMatch[1].trim()
     }
@@ -128,7 +128,7 @@ export function extractCode(raw: string): string {
             // 跳过空行
             if (stripped === "") continue
             // 跳过以冒号/句号结尾的引导性语句（如"好的，以下是生成的表达式："、"Here's the result:"）
-            if (/[：:。.]$/.test(stripped) && /^(?:.*(?:好的|以下是|这是|结果|生成|here|result|output|pattern|expression|following))/i.test(stripped)) {
+            if (/[：:。.]$/.test(stripped) && /^.*(?:好的|以下是|这是|结果|生成|here|result|output|pattern|expression|following)/i.test(stripped)) {
                 continue
             }
             foundCode = true

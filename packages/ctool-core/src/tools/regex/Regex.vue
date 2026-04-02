@@ -76,7 +76,8 @@ import { watch } from "vue";
 import Reference from "./Reference.vue";
 import Modal from "@/components/Modal.vue";
 import useSetting from "@/store/setting";
-import { type AiConfig, chat, extractCode } from "@/helper/llm";
+import { chat, extractCode } from "@/helper/llm";
+import type {AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
 
 const storeSetting = useSetting();

@@ -39,7 +39,7 @@ describe("msgpack/util", () => {
 
     it("将二进制字段归一化为 hex/base64", () => {
         const normalized = normalizeDecodedValue({
-            payload: new Uint8Array([0xde, 0xad, 0xbe, 0xef]),
+            payload: new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF]),
         });
 
         expect(normalized).toEqual({

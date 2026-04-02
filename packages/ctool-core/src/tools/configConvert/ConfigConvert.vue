@@ -23,7 +23,8 @@ import { getDisplayName } from "@/helper/code";
 import formatter from "@/tools/code/formatter";
 import useTransfer from "@/store/transfer";
 import useSetting from "@/store/setting";
-import {type AiConfig, chat, extractCode} from "@/helper/llm";
+import { chat, extractCode} from "@/helper/llm";
+import type {AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
 import { normalizeDetectedFormat } from "./ai";
 

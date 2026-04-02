@@ -183,7 +183,8 @@ import { getCommonExpression } from "../regex/util";
 import { ComponentSizeType, CheckboxOption } from "@/types";
 import { typeLists as renameTypeLists } from "@/helper/nameConvert";
 import useSetting from "@/store/setting";
-import {type AiConfig, chat, extractCode} from "@/helper/llm";
+import { chat, extractCode} from "@/helper/llm";
+import type {AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
 
 const action = useAction(await initialize({

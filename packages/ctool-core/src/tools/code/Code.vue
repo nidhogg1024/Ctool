@@ -37,7 +37,8 @@ import {
 import Modal from "@/components/Modal.vue";
 import Textarea from "@/components/ui/Textarea.vue";
 import useSetting from "@/store/setting";
-import {type AiConfig, chat} from "@/helper/llm";
+import { chat} from "@/helper/llm";
+import type {AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
 
 // 过滤json 有单独json工具

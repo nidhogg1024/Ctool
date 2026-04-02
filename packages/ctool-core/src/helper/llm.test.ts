@@ -17,22 +17,22 @@ describe("extractJSON", () => {
         expect(extractJSON(input)).toBe('{"key": "value"}');
     });
 
-    it("Markdown 代码块包裹的 JSON（带 json 标记）", () => {
+    it("markdown 代码块包裹的 JSON（带 json 标记）", () => {
         const input = '```json\n{"name": "test"}\n```';
         expect(extractJSON(input)).toBe('{"name": "test"}');
     });
 
-    it("Markdown 代码块包裹的 JSON（无语言标记）", () => {
+    it("markdown 代码块包裹的 JSON（无语言标记）", () => {
         const input = '```\n{"name": "test"}\n```';
         expect(extractJSON(input)).toBe('{"name": "test"}');
     });
 
-    it("AI 废话 + Markdown 代码块", () => {
+    it("有废话前缀 + markdown 代码块", () => {
         const input = '好的，这是提取到的 JSON：\n\n```json\n{"users": [{"id": 1, "name": "张三"}]}\n```\n\n希望对你有帮助！';
         expect(extractJSON(input)).toBe('{"users": [{"id": 1, "name": "张三"}]}');
     });
 
-    it("AI 废话 + 裸 JSON（无代码块）", () => {
+    it("有废话前缀 + 裸 JSON（无代码块）", () => {
         const input = 'Here is the extracted JSON:\n\n{"status": "ok", "data": [1, 2, 3]}\n\nLet me know if you need anything else.';
         expect(extractJSON(input)).toBe('{"status": "ok", "data": [1, 2, 3]}');
     });
@@ -47,7 +47,7 @@ describe("extractJSON", () => {
         expect(extractJSON(input)).toBe('{"a": {"b": {"c": [1, 2, {"d": true}]}}}');
     });
 
-    it("JSON 数组在代码块中", () => {
+    it("数组在代码块中", () => {
         const input = '```json\n[{"id": 1}, {"id": 2}]\n```';
         expect(extractJSON(input)).toBe('[{"id": 1}, {"id": 2}]');
     });
@@ -59,12 +59,12 @@ describe("extractJSON", () => {
 });
 
 describe("extractCode", () => {
-    it("Markdown 代码块中的正则", () => {
+    it("markdown 代码块中的正则", () => {
         const input = '```regex\n^\\d{4}-\\d{2}-\\d{2}$\n```';
         expect(extractCode(input)).toBe("^\\d{4}-\\d{2}-\\d{2}$");
     });
 
-    it("Markdown 代码块中的 SQL", () => {
+    it("markdown 代码块中的 SQL", () => {
         const input = '```sql\nSELECT * FROM users WHERE age > 18\n```';
         expect(extractCode(input)).toBe("SELECT * FROM users WHERE age > 18");
     });
@@ -96,52 +96,52 @@ describe("extractCode", () => {
 });
 
 describe("parseSSELine", () => {
-    it("OpenAI 格式 - 正常 delta", () => {
+    it("openai 格式 - 正常 delta", () => {
         const line = 'data: {"choices":[{"delta":{"content":"Hello"}}]}';
         expect(parseSSELine(line, "openai_compatible")).toBe("Hello");
     });
 
-    it("OpenAI 格式 - [DONE] 标记", () => {
+    it("openai 格式 - [DONE] 标记", () => {
         expect(parseSSELine("data: [DONE]", "openai_compatible")).toBeNull();
     });
 
-    it("OpenAI 格式 - 空 delta（role 消息）", () => {
+    it("openai 格式 - 空 delta（role 消息）", () => {
         const line = 'data: {"choices":[{"delta":{"role":"assistant"}}]}';
         expect(parseSSELine(line, "openai_compatible")).toBeNull();
     });
 
-    it("OpenAI 格式 - 空行", () => {
+    it("openai 格式 - 空行", () => {
         expect(parseSSELine("", "openai_compatible")).toBeNull();
     });
 
-    it("OpenAI 格式 - SSE 注释行", () => {
+    it("openai 格式 - SSE 注释行", () => {
         expect(parseSSELine(": keep-alive", "openai_compatible")).toBeNull();
     });
 
-    it("Ollama 格式 - 正常消息", () => {
+    it("ollama 格式 - 正常消息", () => {
         const line = '{"message":{"role":"assistant","content":"世界"},"done":false}';
         expect(parseSSELine(line, "ollama")).toBe("世界");
     });
 
-    it("Ollama 格式 - done 标记", () => {
+    it("ollama 格式 - done 标记", () => {
         const line = '{"message":{"role":"assistant","content":""},"done":true}';
         expect(parseSSELine(line, "ollama")).toBeNull();
     });
 
-    it("Ollama 格式 - 非法 JSON", () => {
+    it("ollama 格式 - 非法 JSON", () => {
         expect(parseSSELine("not json", "ollama")).toBeNull();
     });
 
-    it("OpenAI 格式 - 非法 JSON", () => {
+    it("openai 格式 - 非法 JSON", () => {
         expect(parseSSELine("data: not json", "openai_compatible")).toBeNull();
     });
 
-    it("OpenAI 格式 - 包含中文内容", () => {
+    it("openai 格式 - 包含中文内容", () => {
         const line = 'data: {"choices":[{"delta":{"content":"你好世界"}}]}';
         expect(parseSSELine(line, "openai_compatible")).toBe("你好世界");
     });
 
-    it("OpenAI 格式 - 包含换行符的内容", () => {
+    it("openai 格式 - 包含换行符的内容", () => {
         const line = 'data: {"choices":[{"delta":{"content":"line1\\nline2"}}]}';
         expect(parseSSELine(line, "openai_compatible")).toBe("line1\nline2");
     });

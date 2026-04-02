@@ -61,7 +61,8 @@ import Table from "@/components/ui/Table.vue";
 import Button from "@/components/ui/Button.vue";
 import Modal from "@/components/Modal.vue";
 import useSetting from "@/store/setting";
-import {type AiConfig, chat, extractCode} from "@/helper/llm";
+import { chat, extractCode} from "@/helper/llm";
+import type {AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
 
 const storeSetting = useSetting();

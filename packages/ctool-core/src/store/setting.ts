@@ -6,7 +6,8 @@ import {proxy} from "ctool-config"
 import {onMounted, watch, onUnmounted, nextTick} from 'vue';
 import {setCurrentLocale} from '@/i18n';
 import event from "@/event";
-import {type AiProvider, defaultAiConfig} from "@/helper/llm";
+import { defaultAiConfig} from "@/helper/llm";
+import type {AiProvider} from "@/helper/llm";
 
 interface Setting {
     // 常用工具

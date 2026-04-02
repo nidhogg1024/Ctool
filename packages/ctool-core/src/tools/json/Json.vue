@@ -158,7 +158,8 @@ import { languages as toObjectLangLists, getOption as getToObjectOption } from "
 import useOperate from "@/store/operate";
 import useTransfer from "@/store/transfer";
 import useSetting from "@/store/setting";
-import {type AiConfig, chat, extractJSON} from "@/helper/llm";
+import { chat, extractJSON} from "@/helper/llm";
+import type {AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
 
 const operate = useOperate();
@@ -361,7 +362,10 @@ const getAiConfig = (): AiConfig => ({
 
 const looksLikeJsonSource = (text: string): boolean => {
     const trimmed = text.trim()
-    return /^[\[{]/.test(trimmed) || /[:=]\s*[\[{]/.test(text) || /"\s*:/.test(text)
+    return trimmed.startsWith("{")
+        || trimmed.startsWith("[")
+        || /[:=]\s*(?:\{|\[)/.test(text)
+        || /"\s*:/.test(text)
 }
 
 const aiExtractJson = async () => {

@@ -225,7 +225,8 @@ import Input from "@/components/ui/Input.vue";
 import Link from "@/components/ui/Link.vue";
 import Button from "@/components/ui/Button.vue";
 import InputNumber from "@/components/ui/InputNumber.vue";
-import {type AiProvider, type AiConfig, defaultAiConfig, chat} from "@/helper/llm";
+import { defaultAiConfig, chat } from "@/helper/llm";
+import type {AiProvider, AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
 
 const storeSetting = useSetting()
@@ -265,7 +266,7 @@ const onProviderChange = (value: AiProvider) => {
 }
 
 let aiTesting = $ref(false)
-let showApiKey = $ref(false)
+const showApiKey = $ref(false)
 
 // 获取当前 AI 配置快照
 const getAiConfig = (): AiConfig => ({
