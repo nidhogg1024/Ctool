@@ -404,6 +404,78 @@
 			]
 		},
 		{
+			"name": "msgpack",
+			"feature": "encoder",
+			"keyword": [
+				"msgpack",
+				"encoder",
+				"MsgPack",
+				"编码",
+				"messagepack",
+				"redis",
+				"缓存",
+				"序列化",
+				"Encoder",
+				"cache",
+				"serialize",
+				"encode"
+			],
+			"search": [
+				"msgpack",
+				"encoder",
+				"编码",
+				"messagepack",
+				"redis",
+				"缓存",
+				"序列化",
+				"bianma",
+				"bm",
+				"huancun",
+				"hc",
+				"xuliehua",
+				"xlh",
+				"cache",
+				"serialize",
+				"encode"
+			]
+		},
+		{
+			"name": "msgpack",
+			"feature": "decoder",
+			"keyword": [
+				"msgpack",
+				"decoder",
+				"MsgPack",
+				"解码",
+				"messagepack",
+				"redis",
+				"缓存",
+				"序列化",
+				"Decoder",
+				"cache",
+				"serialize",
+				"decode"
+			],
+			"search": [
+				"msgpack",
+				"decoder",
+				"解码",
+				"messagepack",
+				"redis",
+				"缓存",
+				"序列化",
+				"jiema",
+				"jm",
+				"huancun",
+				"hc",
+				"xuliehua",
+				"xlh",
+				"cache",
+				"serialize",
+				"decode"
+			]
+		},
+		{
 			"name": "json",
 			"feature": "json",
 			"keyword": [
@@ -2089,6 +2161,249 @@
 				"main_history_save_too_large": {
 					"message": "数据过大，未保存到历史记录"
 				},
+				"main_ai_setting": {
+					"message": "AI 设置"
+				},
+				"main_ai_provider": {
+					"message": "服务类型"
+				},
+				"main_ai_provider_ollama": {
+					"message": "Ollama (本地模型)"
+				},
+				"main_ai_provider_openai_compatible": {
+					"message": "OpenAI 兼容接口"
+				},
+				"main_ai_provider_hint_ollama": {
+					"message": "适合本机已安装模型的场景，通常只需要本地服务地址和模型名。"
+				},
+				"main_ai_provider_hint_openai_compatible": {
+					"message": "适合 OpenAI、豆包/方舟、DeepSeek、OpenRouter 等兼容接口。"
+				},
+				"main_ai_base_url": {
+					"message": "服务地址"
+				},
+				"main_ai_api_key": {
+					"message": "API Key"
+				},
+				"main_ai_model": {
+					"message": "模型名称"
+				},
+				"main_ai_example": {
+					"message": "示例：{0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_quick_guide": {
+					"message": "快速配置"
+				},
+				"main_ai_guide_ollama": {
+					"message": "适合本机已经安装模型的场景。通常只需要确认本地服务地址和模型名称即可。"
+				},
+				"main_ai_guide_openai_compatible": {
+					"message": "适合 OpenAI、豆包/方舟、DeepSeek、OpenRouter 等兼容接口。通常需要填写服务地址、API Key 和模型名。"
+				},
+				"main_ai_openai_compatible_tip": {
+					"message": "如果服务不是标准 /v1 兼容路径，请直接填写完整接口地址。"
+				},
+				"main_ai_show_api_key": {
+					"message": "查看"
+				},
+				"main_ai_hide_api_key": {
+					"message": "收起"
+				},
+				"main_ai_badge": {
+					"message": "AI"
+				},
+				"main_ai_tools": {
+					"message": "AI 工具"
+				},
+				"main_ai_tools_count": {
+					"message": "已支持 {0} 个 AI 功能",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_test_connection": {
+					"message": "测试连接"
+				},
+				"main_ai_test_success": {
+					"message": "AI 连接成功"
+				},
+				"main_ai_test_fail": {
+					"message": "AI 连接失败: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_not_configured": {
+					"message": "请先在设置页面配置 AI 服务"
+				},
+				"main_ai_request_error": {
+					"message": "AI 请求失败: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_privacy_note_primary": {
+					"message": "只保存在当前设备，不会上传到 Ctool 服务。"
+				},
+				"main_ai_privacy_note_secondary": {
+					"message": "默认隐藏；你可以随时查看、替换或清空。"
+				},
+				"main_json_ai_extract_empty": {
+					"message": "请输入要提取 JSON 的文本"
+				},
+				"main_json_ai_extract_json": {
+					"message": "AI 提取 JSON"
+				},
+				"main_json_ai_extract_fail": {
+					"message": "AI 提取 JSON 失败: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_json_ai_extract_not_found": {
+					"message": "没有从当前文本中提取到合法 JSON"
+				},
+				"main_regex_ai_generate": {
+					"message": "AI 生成"
+				},
+				"main_regex_ai_generate_empty": {
+					"message": "请输入正则需求描述"
+				},
+				"main_regex_ai_generate_placeholder": {
+					"message": "例如：匹配中国大陆手机号、提取 markdown 标题、匹配 6 位验证码"
+				},
+				"main_regex_ai_explain": {
+					"message": "AI 解释"
+				},
+				"main_regex_ai_explain_empty": {
+					"message": "请先输入要解释的正则表达式"
+				},
+				"main_regex_ai_explain_result": {
+					"message": "正则解释结果"
+				},
+				"main_regex_replace_content": {
+					"message": "替换内容"
+				},
+				"main_regex_replace_content_hint": {
+					"message": "替换内容（留空则只做匹配）"
+				},
+				"main_regex_replace_mode_tip": {
+					"message": "右上角是替换内容，留空时下方显示匹配结果"
+				},
+				"main_regex_input": {
+					"message": "待匹配文本"
+				},
+				"main_regex_output_count": {
+					"message": "共匹配到 {0} 项",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_regex_output_empty": {
+					"message": "没有匹配到结果"
+				},
+				"main_crontab_ai_generate": {
+					"message": "AI 生成"
+				},
+				"main_crontab_ai_generate_empty": {
+					"message": "请输入 Cron 需求描述"
+				},
+				"main_crontab_ai_generate_placeholder": {
+					"message": "例如：工作日每天 9 点到 18 点每半小时执行一次"
+				},
+				"main_sqlFillParameter_ai_explain": {
+					"message": "AI 解释"
+				},
+				"main_sqlFillParameter_ai_explain_empty": {
+					"message": "请先输入要解释的 SQL"
+				},
+				"main_sqlFillParameter_ai_explain_result": {
+					"message": "SQL 解释结果"
+				},
+				"main_stacktrace_ai_analyze": {
+					"message": "AI 分析"
+				},
+				"main_stacktrace_ai_analyze_empty": {
+					"message": "请先输入堆栈或错误日志"
+				},
+				"main_stacktrace_ai_analyze_result": {
+					"message": "堆栈分析结果"
+				},
+				"main_configConvert_ai_detect_source": {
+					"message": "AI 识别来源格式"
+				},
+				"main_configConvert_ai_detect_empty": {
+					"message": "请先输入待识别的配置内容"
+				},
+				"main_configConvert_ai_detect_success": {
+					"message": "AI 已识别为 {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_configConvert_ai_detect_invalid": {
+					"message": "AI 没有识别出受支持的来源格式"
+				},
+				"main_httpSnippet_ai_explain": {
+					"message": "AI 解释"
+				},
+				"main_httpSnippet_ai_explain_empty": {
+					"message": "请先输入 cURL 或 HAR 内容"
+				},
+				"main_httpSnippet_ai_explain_result": {
+					"message": "HTTP 请求解释结果"
+				},
+				"main_code_ai_explain": {
+					"message": "AI 解释"
+				},
+				"main_code_ai_explain_empty": {
+					"message": "请先输入要解释的代码"
+				},
+				"main_code_ai_explain_result": {
+					"message": "代码解释结果"
+				},
+				"main_text_ai_process": {
+					"message": "AI 处理"
+				},
+				"main_text_ai_process_empty": {
+					"message": "请先输入要处理的文本"
+				},
+				"main_text_ai_process_instruction_empty": {
+					"message": "请输入处理要求"
+				},
+				"main_text_ai_process_placeholder": {
+					"message": "例如：提取所有邮箱并去重；把这段话改成更专业的通知语气；整理成键值对"
+				},
+				"main_diffs_ai_summarize": {
+					"message": "AI 总结变化"
+				},
+				"main_diffs_ai_summarize_empty": {
+					"message": "请先输入对比的两段内容"
+				},
+				"main_diffs_ai_summarize_result": {
+					"message": "变化总结"
+				},
+				"main_urlParse_ai_explain": {
+					"message": "AI 解释"
+				},
+				"main_urlParse_ai_explain_empty": {
+					"message": "请先输入 URL"
+				},
+				"main_urlParse_ai_explain_result": {
+					"message": "URL 解释结果"
+				},
+				"main_userAgent_ai_explain": {
+					"message": "AI 解释"
+				},
+				"main_userAgent_ai_explain_empty": {
+					"message": "请先输入 User-Agent"
+				},
+				"main_userAgent_ai_explain_result": {
+					"message": "User-Agent 解释结果"
+				},
 				"tool_hash": {
 					"message": "哈希(hash)"
 				},
@@ -2187,6 +2502,21 @@
 				},
 				"tool_base64_decoder": {
 					"message": "解码"
+				},
+				"tool_msgpack": {
+					"message": "MsgPack"
+				},
+				"tool_msgpack_encoder": {
+					"message": "编码"
+				},
+				"tool_msgpack_decoder": {
+					"message": "解码"
+				},
+				"tool_msgpack_encoder_keywords": {
+					"message": "msgpack,messagepack,redis,缓存,序列化,编码"
+				},
+				"tool_msgpack_decoder_keywords": {
+					"message": "msgpack,messagepack,redis,缓存,序列化,解码"
 				},
 				"tool_json": {
 					"message": "JSON工具"
@@ -2947,6 +3277,21 @@
 				"json_transform_preset": {
 					"message": "常用表达式"
 				},
+				"json_ai_extract_json": {
+					"message": "AI 提取 JSON"
+				},
+				"json_ai_extracting": {
+					"message": "AI 正在提取..."
+				},
+				"json_ai_extract_fail": {
+					"message": "AI 提取失败: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"json_ai_extract_empty": {
+					"message": "请先输入需要提取 JSON 的文本"
+				},
 				"url_encode_mode_standard": {
 					"message": "标准编码"
 				},
@@ -3285,6 +3630,24 @@
 				"regex_reference_text": {
 					"message": "描述"
 				},
+				"regex_ai_generate": {
+					"message": "AI 生成"
+				},
+				"regex_ai_explain": {
+					"message": "AI 解释"
+				},
+				"regex_ai_generate_placeholder": {
+					"message": "用自然语言描述你需要的正则，例如：匹配邮箱地址"
+				},
+				"regex_ai_explain_result": {
+					"message": "AI 解释结果"
+				},
+				"regex_ai_generate_empty": {
+					"message": "请输入自然语言描述"
+				},
+				"regex_ai_explain_empty": {
+					"message": "请先输入正则表达式"
+				},
 				"randomString_length": {
 					"message": "长度"
 				},
@@ -3399,6 +3762,15 @@
 				},
 				"crontab_generate_list": {
 					"message": "指定"
+				},
+				"crontab_ai_generate": {
+					"message": "AI 生成"
+				},
+				"crontab_ai_generate_placeholder": {
+					"message": "用自然语言描述定时任务，例如：工作日每天上午9点到下午6点，每半小时执行一次"
+				},
+				"crontab_ai_generate_empty": {
+					"message": "请输入自然语言描述"
 				},
 				"websocket_connect": {
 					"message": "连接"
@@ -4813,6 +5185,15 @@
 						"name"
 					]
 				},
+				"sqlFillParameter_ai_explain": {
+					"message": "AI 解释"
+				},
+				"sqlFillParameter_ai_explain_result": {
+					"message": "SQL 解释"
+				},
+				"sqlFillParameter_ai_explain_empty": {
+					"message": "请先输入 SQL 语句"
+				},
 				"color_input_placeholder": {
 					"message": "请输入颜色 {0} 值 例子:{1}",
 					"placeholders": [
@@ -5509,6 +5890,249 @@
 				"main_history_save_too_large": {
 					"message": "Data too large, not saved to history"
 				},
+				"main_ai_setting": {
+					"message": "AI Settings"
+				},
+				"main_ai_provider": {
+					"message": "Provider"
+				},
+				"main_ai_provider_ollama": {
+					"message": "Ollama (Local Model)"
+				},
+				"main_ai_provider_openai_compatible": {
+					"message": "OpenAI Compatible API"
+				},
+				"main_ai_provider_hint_ollama": {
+					"message": "Best when you already have a local model installed. Usually you only need the local service URL and model name."
+				},
+				"main_ai_provider_hint_openai_compatible": {
+					"message": "Best for OpenAI, Doubao/Ark, DeepSeek, OpenRouter, and other compatible APIs."
+				},
+				"main_ai_base_url": {
+					"message": "Base URL"
+				},
+				"main_ai_api_key": {
+					"message": "API Key"
+				},
+				"main_ai_model": {
+					"message": "Model"
+				},
+				"main_ai_example": {
+					"message": "Example: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_quick_guide": {
+					"message": "Quick Setup"
+				},
+				"main_ai_guide_ollama": {
+					"message": "Best when you already have a local model installed. Usually you only need the local service URL and model name."
+				},
+				"main_ai_guide_openai_compatible": {
+					"message": "Best for OpenAI, Doubao/Ark, DeepSeek, OpenRouter, and other compatible APIs. You usually need a base URL, API key, and model name."
+				},
+				"main_ai_openai_compatible_tip": {
+					"message": "If the service does not use the standard /v1 path, enter the full endpoint URL directly."
+				},
+				"main_ai_show_api_key": {
+					"message": "Reveal"
+				},
+				"main_ai_hide_api_key": {
+					"message": "Hide"
+				},
+				"main_ai_badge": {
+					"message": "AI"
+				},
+				"main_ai_tools": {
+					"message": "AI Tools"
+				},
+				"main_ai_tools_count": {
+					"message": "{0} AI features available",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_test_connection": {
+					"message": "Test Connection"
+				},
+				"main_ai_test_success": {
+					"message": "AI connection successful"
+				},
+				"main_ai_test_fail": {
+					"message": "AI connection failed: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_not_configured": {
+					"message": "Please configure AI service in settings first"
+				},
+				"main_ai_request_error": {
+					"message": "AI request failed: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_ai_privacy_note_primary": {
+					"message": "Stored on this device only and never sent to Ctool services."
+				},
+				"main_ai_privacy_note_secondary": {
+					"message": "Hidden by default; you can reveal, replace, or clear it at any time."
+				},
+				"main_json_ai_extract_empty": {
+					"message": "Please enter text to extract JSON from"
+				},
+				"main_json_ai_extract_json": {
+					"message": "AI Extract JSON"
+				},
+				"main_json_ai_extract_fail": {
+					"message": "AI JSON extraction failed: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_json_ai_extract_not_found": {
+					"message": "No valid JSON was found in the current text"
+				},
+				"main_regex_ai_generate": {
+					"message": "AI Generate"
+				},
+				"main_regex_ai_generate_empty": {
+					"message": "Please describe the regex you want"
+				},
+				"main_regex_ai_generate_placeholder": {
+					"message": "For example: match China mainland mobile numbers, extract markdown headings, match 6-digit verification codes"
+				},
+				"main_regex_ai_explain": {
+					"message": "AI Explain"
+				},
+				"main_regex_ai_explain_empty": {
+					"message": "Please enter a regex to explain first"
+				},
+				"main_regex_ai_explain_result": {
+					"message": "Regex Explanation"
+				},
+				"main_regex_replace_content": {
+					"message": "Replacement"
+				},
+				"main_regex_replace_content_hint": {
+					"message": "Replacement text (leave empty to match only)"
+				},
+				"main_regex_replace_mode_tip": {
+					"message": "The top-right box is replacement text. Leave it empty to see match results below."
+				},
+				"main_regex_input": {
+					"message": "Text to match"
+				},
+				"main_regex_output_count": {
+					"message": "{0} matches found",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_regex_output_empty": {
+					"message": "No matches found"
+				},
+				"main_crontab_ai_generate": {
+					"message": "AI Generate"
+				},
+				"main_crontab_ai_generate_empty": {
+					"message": "Please describe the cron schedule you want"
+				},
+				"main_crontab_ai_generate_placeholder": {
+					"message": "For example: every 30 minutes from 9:00 to 18:00 on weekdays"
+				},
+				"main_sqlFillParameter_ai_explain": {
+					"message": "AI Explain"
+				},
+				"main_sqlFillParameter_ai_explain_empty": {
+					"message": "Please enter the SQL to explain first"
+				},
+				"main_sqlFillParameter_ai_explain_result": {
+					"message": "SQL Explanation"
+				},
+				"main_stacktrace_ai_analyze": {
+					"message": "AI Analyze"
+				},
+				"main_stacktrace_ai_analyze_empty": {
+					"message": "Please enter a stack trace or error log first"
+				},
+				"main_stacktrace_ai_analyze_result": {
+					"message": "Stack Trace Analysis"
+				},
+				"main_configConvert_ai_detect_source": {
+					"message": "AI Detect Source Format"
+				},
+				"main_configConvert_ai_detect_empty": {
+					"message": "Please enter configuration content to detect"
+				},
+				"main_configConvert_ai_detect_success": {
+					"message": "AI detected the source format as {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"main_configConvert_ai_detect_invalid": {
+					"message": "AI could not identify a supported source format"
+				},
+				"main_httpSnippet_ai_explain": {
+					"message": "AI Explain"
+				},
+				"main_httpSnippet_ai_explain_empty": {
+					"message": "Please enter cURL or HAR content first"
+				},
+				"main_httpSnippet_ai_explain_result": {
+					"message": "HTTP Request Explanation"
+				},
+				"main_code_ai_explain": {
+					"message": "AI Explain"
+				},
+				"main_code_ai_explain_empty": {
+					"message": "Please enter code to explain first"
+				},
+				"main_code_ai_explain_result": {
+					"message": "Code Explanation"
+				},
+				"main_text_ai_process": {
+					"message": "AI Process"
+				},
+				"main_text_ai_process_empty": {
+					"message": "Please enter text to process first"
+				},
+				"main_text_ai_process_instruction_empty": {
+					"message": "Please enter an instruction for the text"
+				},
+				"main_text_ai_process_placeholder": {
+					"message": "For example: extract all email addresses and deduplicate them; rewrite this into a more professional notice; turn this into key-value pairs"
+				},
+				"main_diffs_ai_summarize": {
+					"message": "AI Summarize Changes"
+				},
+				"main_diffs_ai_summarize_empty": {
+					"message": "Please enter both sides of the diff first"
+				},
+				"main_diffs_ai_summarize_result": {
+					"message": "Change Summary"
+				},
+				"main_urlParse_ai_explain": {
+					"message": "AI Explain"
+				},
+				"main_urlParse_ai_explain_empty": {
+					"message": "Please enter a URL first"
+				},
+				"main_urlParse_ai_explain_result": {
+					"message": "URL Explanation"
+				},
+				"main_userAgent_ai_explain": {
+					"message": "AI Explain"
+				},
+				"main_userAgent_ai_explain_empty": {
+					"message": "Please enter a User-Agent first"
+				},
+				"main_userAgent_ai_explain_result": {
+					"message": "User-Agent Explanation"
+				},
 				"tool_hash": {
 					"message": "Hash"
 				},
@@ -5607,6 +6231,21 @@
 				},
 				"tool_base64_decoder": {
 					"message": "Decoder"
+				},
+				"tool_msgpack": {
+					"message": "MsgPack"
+				},
+				"tool_msgpack_encoder": {
+					"message": "Encoder"
+				},
+				"tool_msgpack_decoder": {
+					"message": "Decoder"
+				},
+				"tool_msgpack_encoder_keywords": {
+					"message": "msgpack,messagepack,redis,cache,serialize,encode"
+				},
+				"tool_msgpack_decoder_keywords": {
+					"message": "msgpack,messagepack,redis,cache,serialize,decode"
 				},
 				"tool_json": {
 					"message": "JSON"
@@ -6367,6 +7006,21 @@
 				"json_transform_preset": {
 					"message": "Presets"
 				},
+				"json_ai_extract_json": {
+					"message": "AI Extract JSON"
+				},
+				"json_ai_extracting": {
+					"message": "AI extracting..."
+				},
+				"json_ai_extract_fail": {
+					"message": "AI extraction failed: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"json_ai_extract_empty": {
+					"message": "Please input text to extract JSON from"
+				},
 				"url_encode_mode_standard": {
 					"message": "Standard"
 				},
@@ -6705,6 +7359,24 @@
 				"regex_reference_text": {
 					"message": "Description"
 				},
+				"regex_ai_generate": {
+					"message": "AI Generate"
+				},
+				"regex_ai_explain": {
+					"message": "AI Explain"
+				},
+				"regex_ai_generate_placeholder": {
+					"message": "Describe what regex you need, e.g.: match email addresses"
+				},
+				"regex_ai_explain_result": {
+					"message": "AI Explanation"
+				},
+				"regex_ai_generate_empty": {
+					"message": "Please enter a description"
+				},
+				"regex_ai_explain_empty": {
+					"message": "Please enter a regex first"
+				},
 				"randomString_length": {
 					"message": "Length"
 				},
@@ -6819,6 +7491,15 @@
 				},
 				"crontab_generate_list": {
 					"message": "List"
+				},
+				"crontab_ai_generate": {
+					"message": "AI Generate"
+				},
+				"crontab_ai_generate_placeholder": {
+					"message": "Describe your schedule, e.g.: every 30 minutes from 9am to 6pm on weekdays"
+				},
+				"crontab_ai_generate_empty": {
+					"message": "Please enter a description"
 				},
 				"websocket_connect": {
 					"message": "Connect"
@@ -8232,6 +8913,15 @@
 					"placeholders": [
 						"name"
 					]
+				},
+				"sqlFillParameter_ai_explain": {
+					"message": "AI Explain"
+				},
+				"sqlFillParameter_ai_explain_result": {
+					"message": "SQL Explanation"
+				},
+				"sqlFillParameter_ai_explain_empty": {
+					"message": "Please enter a SQL statement first"
 				},
 				"color_input_placeholder": {
 					"message": "Please enter color {0} value, e.g. {1}",
