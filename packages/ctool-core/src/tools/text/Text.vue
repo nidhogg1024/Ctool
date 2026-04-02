@@ -46,6 +46,7 @@
             />
             <Button :size="size" :text="$t('text_replace')" @click="replaceShow = true" />
             <Button :size="size" :text="$t('text_escape')" @click="escapeShow = true" />
+            <Button :size="size" :loading="aiProcessLoading" @click="showAiProcess = true">✨ {{ $t('main_text_ai_process') }}</Button>
             <Button :size="size" :text="$t('text_line_remove_duplicate')" @click="handle('lineRemoveRepeat')" />
             <Dropdown :size="size" @select="(value)=>handle('rename',{type:value})" :placeholder="$t('text_rename')"
                       :options="renameTypeLists.filter(item=>!['spaceCase','pascalCaseSpace'].includes(item.value))" />
@@ -170,6 +171,9 @@
             </Align>
         </template>
     </Modal>
+    <Modal v-model="showAiProcess" :width="600" :title="$t('main_text_ai_process')" footer-type="normal" :loading="aiProcessLoading" @ok="aiProcessText()">
+        <Textarea v-model="aiProcessInstruction" :height="120" :placeholder="$t('main_text_ai_process_placeholder')" />
+    </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -178,6 +182,9 @@ import TextHandle, { escapeChars, EscapeCharsType } from "./util";
 import { getCommonExpression } from "../regex/util";
 import { ComponentSizeType, CheckboxOption } from "@/types";
 import { typeLists as renameTypeLists } from "@/helper/nameConvert";
+import useSetting from "@/store/setting";
+import {type AiConfig, chat, extractCode} from "@/helper/llm";
+import Message from "@/helper/message";
 
 const action = useAction(await initialize({
     input: "",
@@ -188,12 +195,23 @@ const action = useAction(await initialize({
     },
     escapeChars: Object.keys(escapeChars) as EscapeCharsType[],
 }));
+const storeSetting = useSetting();
 
 const size: ComponentSizeType = "small";
 
 let replaceShow = $ref(false);
 const statMore = $ref(false);
 const escapeShow = $ref(false);
+let showAiProcess = $ref(false);
+let aiProcessInstruction = $ref("");
+let aiProcessLoading = $ref(false);
+
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+});
 
 const replace = () => {
     if (action.current.replace.regular) {
@@ -231,5 +249,43 @@ const escapeOptions = $computed<CheckboxOption>(() => {
 const selectReplaceExplain = (value: string) => {
     action.current.replace.search = value;
     action.current.replace.regular = true;
+};
+
+const aiProcessText = async () => {
+    const input = action.current.input.trim();
+    if (!input) {
+        Message.error($t("main_text_ai_process_empty"));
+        return;
+    }
+    if (!aiProcessInstruction.trim()) {
+        Message.error($t("main_text_ai_process_instruction_empty"));
+        return;
+    }
+    const config = getAiConfig();
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"));
+        return;
+    }
+    aiProcessLoading = true;
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: "你是一个文本处理助手。请严格按照用户要求改写或提取文本，只输出处理后的最终文本，不要解释、不要加标题、不要使用 Markdown 代码块。",
+            },
+            {
+                role: "user",
+                content: `处理要求：${aiProcessInstruction.trim()}\n\n原始文本：\n${input}`,
+            },
+        ], config);
+        action.current.input = extractCode(result.content);
+        action.success();
+        showAiProcess = false;
+        aiProcessInstruction = "";
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]));
+    } finally {
+        aiProcessLoading = false;
+    }
 };
 </script>

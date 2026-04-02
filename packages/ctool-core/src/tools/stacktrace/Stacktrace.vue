@@ -1,6 +1,9 @@
 <template>
     <Align direction="vertical">
-        <HeightResize v-slot="{ small, large }" :reduce="5">
+        <Align horizontal="right" class="ctool-page-option" :bottom="'default'">
+            <Button :size="'small'" :loading="aiAnalyzeLoading" @click="aiAnalyzeStacktrace()">✨ {{ $t('main_stacktrace_ai_analyze') }}</Button>
+        </Align>
+        <HeightResize v-slot="{ small, large }" :reduce="5" :append="['.ctool-page-option']">
             <Align direction="vertical">
                 <Textarea v-model="action.current.input" :height="small" :placeholder="$t('stacktrace_input_placeholder')" />
                 <div :style="{ height: `${large}px`, overflow: 'auto' }" v-if="parsed && parsed.frames.length > 0">
@@ -82,6 +85,9 @@
             </Align>
         </HeightResize>
     </Align>
+    <Modal v-model="showAiAnalyze" :title="$t('main_stacktrace_ai_analyze_result')" width="70%">
+        <Textarea :model-value="aiAnalyzeText" :height="260" readonly />
+    </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -89,15 +95,24 @@ import { initialize, useAction } from "@/store/action";
 import { reactive, watch } from "vue";
 import { parseStackTrace, preprocessInput    } from "./parser";
 import type {ParsedStack, StackFrame, LogMeta} from "./parser";
+import Button from "@/components/ui/Button.vue";
+import Modal from "@/components/Modal.vue";
+import useSetting from "@/store/setting";
+import {type AiConfig, chat} from "@/helper/llm";
+import Message from "@/helper/message";
 
 interface IndexedFrame { idx: number; frame: StackFrame }
 interface FrameGroup { type: 'business' | 'framework'; frames: IndexedFrame[]; expanded: boolean }
 
 const action = useAction(await initialize({ input: "" }));
+const storeSetting = useSetting()
 
 let parsed = $ref<ParsedStack | null>(null);
 let meta = $ref<LogMeta | undefined>(undefined);
 let frameGroups = $ref<FrameGroup[]>([]);
+let showAiAnalyze = $ref(false)
+let aiAnalyzeText = $ref("")
+let aiAnalyzeLoading = $ref(false)
 
 const metaEntries = $computed(() => meta ? Object.entries(meta) : []);
 const businessCount = $computed(() => parsed ? parsed.frames.filter(f => isBusinessCode(f)).length : 0);
@@ -137,6 +152,66 @@ const splitMethod = (method: string): { pkg: string; fn: string } => {
     if (i > 0 && i < method.length - 1) return { pkg: method.substring(0, i + 1), fn: method.substring(i + 1) };
     return { pkg: "", fn: method };
 };
+
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+})
+
+const buildAiContext = () => {
+    if (!parsed) {
+        return action.current.input.trim()
+    }
+    const businessFrames = parsed.frames
+        .filter(frame => isBusinessCode(frame))
+        .slice(0, 8)
+        .map(frame => ({
+            file: frame.file,
+            line: frame.line,
+            method: frame.method,
+        }))
+
+    return JSON.stringify({
+        language: parsed.language,
+        exception: parsed.exception || "",
+        message: parsed.message || "",
+        meta: meta || {},
+        totalFrames: parsed.frames.length,
+        businessFrames,
+        raw: action.current.input.trim(),
+    }, null, 2)
+}
+
+const aiAnalyzeStacktrace = async () => {
+    const input = action.current.input.trim()
+    if (!input) {
+        Message.error($t("main_stacktrace_ai_analyze_empty"))
+        return
+    }
+    const config = getAiConfig()
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"))
+        return
+    }
+    aiAnalyzeLoading = true
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: "你是一个资深故障排查助手。用户会提供结构化后的堆栈信息和原始日志，请用简洁中文输出三部分：1. 最可能的根因 2. 最值得优先看的业务帧/模块 3. 下一步排查建议。避免泛泛而谈，优先引用输入里的异常名、消息和业务帧。",
+            },
+            { role: "user", content: buildAiContext() },
+        ], config)
+        aiAnalyzeText = result.content
+        showAiAnalyze = true
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]))
+    } finally {
+        aiAnalyzeLoading = false
+    }
+}
 
 watch(() => action.current.input, (val) => {
     const trimmed = val.trim();

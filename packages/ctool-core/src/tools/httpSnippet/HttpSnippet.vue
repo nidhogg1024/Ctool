@@ -8,6 +8,7 @@
                             :link="action.current.source === 'cURL' ? 'https://everything.curl.dev/usingcurl/copyas' : 'http://www.softwareishard.com/blog/har-12-spec/#request'"
                     />
                     <Select :size="'small'" :options="['cURL','HAR']" v-model="action.current.source"/>
+                    <Button :size="'small'" :loading="aiExplainLoading" @click="aiExplainRequest()">✨ {{ $t('main_httpSnippet_ai_explain') }}</Button>
                 </Align>
             </template>
         </Display>
@@ -30,6 +31,9 @@
             </template>
         </Display>
     </HeightResize>
+    <Modal v-model="showAiExplain" :title="$t('main_httpSnippet_ai_explain_result')" width="70%">
+        <Textarea :model-value="aiExplainText" :height="240" readonly />
+    </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -37,16 +41,65 @@ import {generate, targets, getTarget} from "./util";
 import {initialize, useAction} from "@/store/action";
 import {range} from 'lodash';
 import {watch} from "vue";
+import Button from "@/components/ui/Button.vue";
+import Modal from "@/components/Modal.vue";
+import Textarea from "@/components/ui/Textarea.vue";
+import useSetting from "@/store/setting";
+import {type AiConfig, chat} from "@/helper/llm";
+import Message from "@/helper/message";
 
 const action = useAction(await initialize({
     input: "",
     source: "cURL",
     target: "javascript-|-axios",
 }, {paste: false}))
+const storeSetting = useSetting()
 
 const targetInfo = $computed(() => getTarget(action.current.target))
 
 let selected = $ref(0);
+let showAiExplain = $ref(false)
+let aiExplainText = $ref("")
+let aiExplainLoading = $ref(false)
+
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+})
+
+const aiExplainRequest = async () => {
+    const input = action.current.input.trim()
+    if (!input) {
+        Message.error($t("main_httpSnippet_ai_explain_empty"))
+        return
+    }
+    const config = getAiConfig()
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"))
+        return
+    }
+    aiExplainLoading = true
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: "你是一个 HTTP 请求分析助手。用户会提供 cURL 或 HAR 内容，请用简洁中文说明请求在做什么，并尽量覆盖请求方法、目标接口、关键请求头、鉴权方式、主要参数/请求体，以及明显的敏感信息或调试风险。",
+            },
+            {
+                role: "user",
+                content: `Source: ${action.current.source}\nTarget: ${action.current.target}\nInput:\n${input}`,
+            },
+        ], config)
+        aiExplainText = result.content
+        showAiExplain = true
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]))
+    } finally {
+        aiExplainLoading = false
+    }
+}
 
 const output = $computed(() => {
     if (action.current.input === "") {

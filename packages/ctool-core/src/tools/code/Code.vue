@@ -12,9 +12,14 @@
                 <Button type="primary" v-if="isEnableBeautify" size="small" @click="handle('beautify')">{{ $t(`code_beautify`) }}</Button>
                 <span v-if="isEnableCompress">|</span>
                 <Button type="primary" v-if="isEnableCompress" size="small" @click="handle('compress')">{{ $t(`code_compress`) }}</Button>
+                <span>|</span>
+                <Button size="small" :loading="aiExplainLoading" @click="aiExplainCode()">✨ {{ $t('main_code_ai_explain') }}</Button>
             </Align>
         </Editor>
     </HeightResize>
+    <Modal v-model="showAiExplain" :title="$t('main_code_ai_explain_result')" width="70%">
+        <Textarea :model-value="aiExplainText" :height="260" readonly />
+    </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -29,12 +34,18 @@ import {
     Languages as FormatterLanguages,
     sqlLanguages
 } from "./formatter/types";
+import Modal from "@/components/Modal.vue";
+import Textarea from "@/components/ui/Textarea.vue";
+import useSetting from "@/store/setting";
+import {type AiConfig, chat} from "@/helper/llm";
+import Message from "@/helper/message";
 
 // 过滤json 有单独json工具
 type Languages = Exclude<FormatterLanguages, "json">
 const languageLists = formatter.allLanguageType.filter((item) => {
     return !['json'].includes(item)
 }) as Languages[]
+const storeSetting = useSetting()
 
 const action = useAction(await initialize<{ option: { [k in Languages]: OptionMap[k] }, input: string, language: Languages }>({
     input: "",
@@ -86,6 +97,48 @@ const handle = async (type: "beautify" | "compress") => {
 }
 
 const editorReload = ref(0)
+let showAiExplain = $ref(false)
+let aiExplainText = $ref("")
+let aiExplainLoading = $ref(false)
+
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+})
+
+const aiExplainCode = async () => {
+    const input = action.current.input.trim()
+    if (!input) {
+        Message.error($t("main_code_ai_explain_empty"))
+        return
+    }
+    const config = getAiConfig()
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"))
+        return
+    }
+    aiExplainLoading = true
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: "你是一个代码讲解助手。请用简洁中文说明这段代码的主要目的、关键逻辑、潜在风险，并补充 2-3 个值得验证的测试点。避免逐行翻译，优先帮助开发者快速理解。",
+            },
+            {
+                role: "user",
+                content: `Language: ${action.current.language}\nCode:\n${input}`,
+            },
+        ], config)
+        aiExplainText = result.content
+        showAiExplain = true
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]))
+    } finally {
+        aiExplainLoading = false
+    }
+}
 
 const editorLanguage = () => {
     if (action.current.language === "sql") {

@@ -4,6 +4,7 @@
             <Select v-model="action.current.sourceFormat" :options="formatOptions" :label="$t('configConvert_source')" />
             <Button text="⇄" @click="swap" />
             <Select v-model="action.current.targetFormat" :options="formatOptions" :label="$t('configConvert_target')" />
+            <Button :loading="aiDetectLoading" @click="aiDetectSourceFormat()">✨ {{ $t('main_configConvert_ai_detect_source') }}</Button>
         </Align>
         <HeightResize v-slot="{ height }" :reduce="5" :append="['.ctool-page-option']">
             <div v-row="'1-1'" :style="{ height: `${height}px` }">
@@ -21,6 +22,10 @@ import Serialize from "@/helper/serialize";
 import { getDisplayName } from "@/helper/code";
 import formatter from "@/tools/code/formatter";
 import useTransfer from "@/store/transfer";
+import useSetting from "@/store/setting";
+import {type AiConfig, chat, extractCode} from "@/helper/llm";
+import Message from "@/helper/message";
+import { normalizeDetectedFormat } from "./ai";
 
 // 支持的全部格式（Serialize 体系中可双向转换的格式）
 const formats = [
@@ -43,6 +48,7 @@ const editorLang = (fmt: string) => {
 };
 
 const transfer = useTransfer();
+const storeSetting = useSetting();
 
 const action = useAction(await initialize({
     input: "",
@@ -99,6 +105,48 @@ const stringify = (data: Serialize, fmt: Format): string => {
 };
 
 let output = $ref("");
+let aiDetectLoading = $ref(false);
+
+const getAiConfig = (): AiConfig => ({
+    provider: storeSetting.items.ai_provider,
+    baseUrl: storeSetting.items.ai_base_url,
+    apiKey: storeSetting.items.ai_api_key,
+    model: storeSetting.items.ai_model,
+});
+
+const aiDetectSourceFormat = async () => {
+    const input = action.current.input.trim();
+    if (!input) {
+        Message.error($t("main_configConvert_ai_detect_empty"));
+        return;
+    }
+    const config = getAiConfig();
+    if (!config.baseUrl || !config.model) {
+        Message.error($t("main_ai_not_configured"));
+        return;
+    }
+    aiDetectLoading = true;
+    try {
+        const result = await chat([
+            {
+                role: "system",
+                content: `你是一个配置格式识别助手。请从以下候选中识别用户输入最可能的来源格式，只输出一个格式 ID，不要解释：${formats.join(", ")}。`,
+            },
+            { role: "user", content: input },
+        ], config);
+        const detected = normalizeDetectedFormat(extractCode(result.content), formats);
+        if (!detected) {
+            Message.error($t("main_configConvert_ai_detect_invalid"));
+            return;
+        }
+        action.current.sourceFormat = detected;
+        Message.success($t("main_configConvert_ai_detect_success", [getDisplayName(detected)]));
+    } catch (e: any) {
+        Message.error($t("main_ai_request_error", [e?.message || String(e)]));
+    } finally {
+        aiDetectLoading = false;
+    }
+};
 
 // 交换源格式和目标格式，同时把输出结果作为新的输入
 const swap = () => {

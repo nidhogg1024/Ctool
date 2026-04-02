@@ -6,7 +6,12 @@
         </Transition>
         <!-- 抽屉面板 -->
         <Transition name="ctool-drawer">
-            <div class="ctool-drawer" :style="drawerStyle" v-if="show" v-bind="$attrs">
+            <div class="ctool-drawer" :class="{'ctool-drawer-resizable': props.resizable}" :style="drawerStyle" v-if="show" v-bind="$attrs">
+                <div
+                    v-if="props.resizable"
+                    class="ctool-drawer-resize-handle"
+                    @pointerdown="startResize"
+                ></div>
                 <div class="ctool-drawer-body">
                     <slot></slot>
                 </div>
@@ -45,6 +50,22 @@ const props = defineProps({
     width: {
         type: String,
         default: '500px'
+    },
+    resizable: {
+        type: Boolean,
+        default: false
+    },
+    resizeKey: {
+        type: String,
+        default: ''
+    },
+    minWidth: {
+        type: Number,
+        default: 420
+    },
+    maxWidth: {
+        type: Number,
+        default: 1200
     }
 })
 
@@ -61,8 +82,79 @@ let show = $computed({
     set: (value) => emit('update:modelValue', value)
 })
 
+const STORAGE_PREFIX = "ctool_extend_page_width_"
+
 let top = $ref(document.querySelector<HTMLElement>('.ctool-header')?.offsetHeight || 33)
 let bottom = $ref(document.querySelector<HTMLElement>('.ctool-bottom')?.offsetHeight || 33)
+let drawerWidth = $ref(500)
+let resizing = $ref(false)
+let hasCustomWidth = $ref(false)
+let dragStartX = $ref(0)
+let dragStartWidth = $ref(0)
+let prevBodyCursor = $ref("")
+let prevBodyUserSelect = $ref("")
+
+const parseWidth = (width: string): number => {
+    const value = width.trim()
+    if (value.endsWith("%")) {
+        const percent = parseFloat(value)
+        return Number.isFinite(percent) ? (window.innerWidth * percent / 100) : 500
+    }
+    const size = parseFloat(value)
+    return Number.isFinite(size) ? size : 500
+}
+
+const getMaxDrawerWidth = () => {
+    return Math.min(props.maxWidth, Math.floor(window.innerWidth * 0.9))
+}
+
+const clampDrawerWidth = (width: number) => {
+    const maxWidth = Math.max(320, getMaxDrawerWidth())
+    const minWidth = Math.min(props.minWidth, maxWidth)
+    return Math.max(minWidth, Math.min(width, maxWidth))
+}
+
+const getSavedWidth = () => {
+    if (!props.resizeKey) {
+        return null
+    }
+    try {
+        const width = localStorage.getItem(`${STORAGE_PREFIX}${props.resizeKey}`)
+        if (!width) {
+            return null
+        }
+        const value = parseFloat(width)
+        return Number.isFinite(value) ? value : null
+    } catch {
+        return null
+    }
+}
+
+const saveWidth = (width: number) => {
+    if (!props.resizeKey) {
+        return
+    }
+    try {
+        localStorage.setItem(`${STORAGE_PREFIX}${props.resizeKey}`, String(Math.round(width)))
+    } catch {
+        // ignore storage failures
+    }
+}
+
+const syncDrawerWidth = () => {
+    const fallbackWidth = clampDrawerWidth(parseWidth(props.width))
+    const savedWidth = getSavedWidth()
+    if (savedWidth !== null) {
+        drawerWidth = clampDrawerWidth(savedWidth)
+        hasCustomWidth = true
+        return
+    }
+    if (!hasCustomWidth) {
+        drawerWidth = fallbackWidth
+        return
+    }
+    drawerWidth = clampDrawerWidth(drawerWidth || fallbackWidth)
+}
 
 const backdropStyle = $computed(() => {
     const css: StyleValue = {
@@ -76,7 +168,7 @@ const drawerStyle = $computed(() => {
     const css: StyleValue = {
         "top": `${top + props.offset}px`,
         "height": `calc(100vh - ${top + bottom + props.offset}px)`,
-        "width": `min(${props.width}, 90vw)`,
+        "width": props.resizable ? `${drawerWidth}px` : `min(${props.width}, 90vw)`,
     }
     return css
 })
@@ -89,11 +181,19 @@ watch(() => show, (is) => {
         event.dispatch('extend_page_close')
     }
     if (is) {
+        syncDrawerWidth()
         setTimeout(() => {
             componentResizeDispatch()
         }, 600)
     }
 }, {immediate: true})
+
+watch(() => props.width, () => {
+    if (!props.resizable) {
+        return
+    }
+    syncDrawerWidth()
+})
 
 const close = () => show = false
 
@@ -108,13 +208,58 @@ const closeExtendPageListener = () => {
 const resize = () => {
     top = document.querySelector<HTMLElement>('.ctool-header')?.offsetHeight || 33
     bottom = document.querySelector<HTMLElement>('.ctool-bottom')?.offsetHeight || 33
+    if (props.resizable) {
+        drawerWidth = clampDrawerWidth(drawerWidth || parseWidth(props.width))
+    }
+}
+
+const stopResize = () => {
+    if (!resizing) {
+        return
+    }
+    resizing = false
+    window.removeEventListener("pointermove", handleResize)
+    window.removeEventListener("pointerup", stopResize)
+    window.removeEventListener("pointercancel", stopResize)
+    document.body.style.cursor = prevBodyCursor
+    document.body.style.userSelect = prevBodyUserSelect
+    saveWidth(drawerWidth)
+    componentResizeDispatch()
+}
+
+const handleResize = (event: PointerEvent) => {
+    if (!resizing) {
+        return
+    }
+    drawerWidth = clampDrawerWidth(dragStartWidth + (dragStartX - event.clientX))
+    hasCustomWidth = true
+    componentResizeDispatch()
+}
+
+const startResize = (event: PointerEvent) => {
+    if (!props.resizable) {
+        return
+    }
+    resizing = true
+    dragStartX = event.clientX
+    dragStartWidth = drawerWidth || clampDrawerWidth(parseWidth(props.width))
+    prevBodyCursor = document.body.style.cursor
+    prevBodyUserSelect = document.body.style.userSelect
+    document.body.style.cursor = "col-resize"
+    document.body.style.userSelect = "none"
+    window.addEventListener("pointermove", handleResize)
+    window.addEventListener("pointerup", stopResize)
+    window.addEventListener("pointercancel", stopResize)
+    event.preventDefault()
 }
 
 onMounted(() => {
+    syncDrawerWidth()
     event.addListener('extend_page_close', closeExtendPageListener)
     event.addListener("window_height_resize", resize)
 })
 onUnmounted(() => {
+    stopResize()
     event.removeListener('extend_page_close', closeExtendPageListener)
     event.removeListener("window_height_resize", resize)
 })
@@ -141,6 +286,33 @@ onUnmounted(() => {
     overflow: hidden;
     z-index: 999;
     box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1);
+}
+
+.ctool-drawer-resize-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    cursor: col-resize;
+    touch-action: none;
+    z-index: 2;
+}
+
+.ctool-drawer-resize-handle::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: transparent;
+    transition: background-color 0.15s ease;
+}
+
+.ctool-drawer-resizable:hover .ctool-drawer-resize-handle::before,
+.ctool-drawer-resize-handle:hover::before {
+    background-color: var(--ctool-primary);
 }
 
 /* 内容区域 */

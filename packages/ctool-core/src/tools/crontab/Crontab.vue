@@ -5,7 +5,7 @@
                 <Align>
                     <HelpTip link="https://www.npmjs.com/package/cron-parser"/>
                     <Button size="small" type="primary" :text="$t(`crontab_generate`)" @click="isGenerate = !isGenerate"/>
-                    <Button size="small" :loading="aiLoading" @click="showAiGenerate = true">✨ {{ $t('crontab_ai_generate') }}</Button>
+                    <Button size="small" :loading="aiLoading" @click="showAiGenerate = true">✨ {{ $t('main_crontab_ai_generate') }}</Button>
                 </Align>
             </template>
         </Input>
@@ -39,8 +39,8 @@
         </HeightResize>
     </Align>
     <!-- AI 生成 Cron 弹窗 -->
-    <Modal v-model="showAiGenerate" :title="$t('crontab_ai_generate')" footer-type="normal" :loading="aiLoading" @ok="aiGenerateCron()">
-        <Textarea v-model="aiPromptText" :height="100" :placeholder="$t('crontab_ai_generate_placeholder')" />
+    <Modal v-model="showAiGenerate" :title="$t('main_crontab_ai_generate')" footer-type="normal" :loading="aiLoading" @ok="aiGenerateCron()">
+        <Textarea v-model="aiPromptText" :height="100" :placeholder="$t('main_crontab_ai_generate_placeholder')" />
     </Modal>
 </template>
 
@@ -90,7 +90,7 @@ const getAiConfig = (): AiConfig => ({
 
 const aiGenerateCron = async () => {
     if (!aiPromptText.trim()) {
-        Message.error($t("crontab_ai_generate_empty"))
+        Message.error($t("main_crontab_ai_generate_empty"))
         return
     }
     const config = getAiConfig()

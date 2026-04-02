@@ -30,7 +30,10 @@
             >
                 <Icon v-if="storeOperate.items.tool === name" :size="14" color="var(--primary)" name="checked"/>
                 <Icon v-else :size="14" color="var(--ctool-border-color)" name="unchecked"/>
-                <span>{{ $t(`tool_${name}`) }}</span>
+                <span class="ctool-header-tool-label">
+                    <span>{{ $t(`tool_${name}`) }}</span>
+                    <AiBadge v-if="toolSupportsAi(name)" variant="inline" />
+                </span>
             </div>
         </div>
         <div class="ctool-header-bottom" v-if="features.length > 1">
@@ -58,6 +61,8 @@ import Search from "../../Search.vue";
 import Tools from "../../Tools.vue";
 import {nextTick, watch} from "vue";
 import Github from "../../Github.vue";
+import AiBadge from "@/components/AiBadge.vue";
+import {toolSupportsAi} from "@/helper/ai";
 
 const storeOperate = useOperate()
 const storeSetting = useSetting()
@@ -184,8 +189,14 @@ watch(() => {
     font-size: 14px;
     display: inline-flex;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
     white-space: nowrap;
+}
+
+.ctool-header-tool-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .ctool-header-category-current {

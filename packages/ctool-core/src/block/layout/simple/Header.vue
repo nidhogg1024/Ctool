@@ -3,6 +3,7 @@
         <Align>
             <Github/>
             <span>{{ $t(`tool_${storeOperate.items.tool}`) }}</span>
+            <AiBadge v-if="toolSupportsAi(storeOperate.items.tool)" variant="inline" />
         </Align>
         <div class="ctool-header-middle" :class="features.length > 1 ? `ctool-header-middle-center` : ''">
             <template v-if="features.length < 1">
@@ -54,6 +55,8 @@ import History from "../../History.vue"
 import platform from "@/helper/platform"
 import Notice from "../../Notice.vue"
 import Tools from "../../Tools.vue";
+import AiBadge from "@/components/AiBadge.vue";
+import {toolSupportsAi} from "@/helper/ai";
 
 const storeOperate = useOperate()
 const storeSetting = useSetting()

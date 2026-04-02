@@ -11,7 +11,7 @@
                     />
                     <template #extra>
                         <Align>
-                            <Button :size="'small'" :loading="aiExplainLoading" @click="aiExplainSql()">✨ {{ $t('sqlFillParameter_ai_explain') }}</Button>
+                            <Button :size="'small'" :loading="aiExplainLoading" @click="aiExplainSql()">✨ {{ $t('main_sqlFillParameter_ai_explain') }}</Button>
                         </Align>
                     </template>
                 </Display>
@@ -31,7 +31,7 @@
         </Align>
     </HeightResize>
     <!-- AI 解释结果弹窗 -->
-    <Modal v-model="showAiExplain" :title="$t('sqlFillParameter_ai_explain_result')" width="70%">
+    <Modal v-model="showAiExplain" :title="$t('main_sqlFillParameter_ai_explain_result')" width="70%">
         <Textarea :model-value="aiExplainText" :height="250" />
     </Modal>
 </template>
@@ -67,7 +67,7 @@ const getAiConfig = (): AiConfig => ({
 const aiExplainSql = async () => {
     const sql = action.current.input.trim()
     if (!sql) {
-        Message.error($t("sqlFillParameter_ai_explain_empty"))
+        Message.error($t("main_sqlFillParameter_ai_explain_empty"))
         return
     }
     const config = getAiConfig()

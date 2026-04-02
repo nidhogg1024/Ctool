@@ -8,7 +8,8 @@
                 :class="storeOperate.items.tool === tool.name ? `ctool-bottom-tools-item-current` : ``"
                 @click="redirectTool(tool.name)"
             >
-                {{ $t(`tool_${tool.name}`) }}
+                <span>{{ $t(`tool_${tool.name}`) }}</span>
+                <AiBadge v-if="toolSupportsAi(tool.name)" variant="inline" />
             </div>
         </div>
     </div>
@@ -22,6 +23,8 @@ import useSetting from "@/store/setting";
 import Tools from "../../Tools.vue";
 import {getTool} from "@/config";
 import useOperate from "@/store/operate";
+import AiBadge from "@/components/AiBadge.vue";
+import {toolSupportsAi} from "@/helper/ai";
 
 const storeSetting = useSetting()
 const storeOperate = useOperate()
@@ -58,7 +61,9 @@ const redirectTool = (tool: string) => storeOperate.redirectTool(tool)
     line-height: 33px;
     height: 33px;
     font-size: 13px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 0 5px;
     cursor: pointer;
     border-left: 1px var(--ctool-border-color) solid;

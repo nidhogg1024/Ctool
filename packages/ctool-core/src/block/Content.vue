@@ -6,7 +6,14 @@
             </Transition>
         </div>
     </div>
-    <ExtendPage v-model="openSetting">
+    <ExtendPage
+        v-model="openSetting"
+        width="720px"
+        resizable
+        resize-key="setting"
+        :min-width="540"
+        :max-width="1200"
+    >
         <Setting/>
     </ExtendPage>
     <Modal :title="$t('main_ui_prompt')" v-model="pwaUpdate" width="500">

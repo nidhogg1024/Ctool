@@ -68,7 +68,7 @@ const props = defineProps({
         default: "",
     },
     type: {
-        type: String as PropType<"text" | "number">,
+        type: String as PropType<"text" | "number" | "password">,
         default: "text",
     },
     disabled: {

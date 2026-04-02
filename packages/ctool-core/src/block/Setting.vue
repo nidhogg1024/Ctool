@@ -1,5 +1,5 @@
 <template>
-    <Card :title="$t('main_ui_setting')" height="100%" padding="20px 10px 10px 30px">
+    <Card :title="$t('main_ui_setting')" height="100%" padding="18px 18px 12px">
         <template #extra>
             Ctool v{{ version }} {{ $t(`main_last_updated`) }}{{ lastUpdate }}
         </template>
@@ -121,52 +121,82 @@
                     @change="(value)=>storeSetting.save('history_icon_badge_hidden',value)"
                 />
             </div>
-            <!-- AI 设置 -->
-            <span style="grid-column: 1 / -1; font-weight: bold; justify-content: left; border-top: 1px solid var(--ctool-border-color); padding-top: 15px;">
-                {{ $t('main_ai_setting') }}
-            </span>
-            <span>{{ $t('main_ai_provider') }}</span>
-            <div>
-                <Select
-                    :model-value="storeSetting.items.ai_provider"
-                    @change="(value) => onProviderChange(value)"
-                    :options="aiProviderOptions"
-                />
-            </div>
-            <span>{{ $t('main_ai_base_url') }}</span>
-            <div>
-                <Input
-                    :model-value="storeSetting.items.ai_base_url"
-                    :width="400"
-                    :placeholder="storeSetting.items.ai_provider === 'ollama' ? 'http://localhost:11434' : 'https://api.example.com'"
-                    @change="(value) => storeSetting.save('ai_base_url', value)"
-                />
-            </div>
-            <template v-if="storeSetting.items.ai_provider === 'openai_compatible'">
-                <span>{{ $t('main_ai_api_key') }}</span>
-                <div>
-                    <Align>
-                        <Input
-                            :model-value="storeSetting.items.ai_api_key"
-                            :width="400"
-                            placeholder="sk-..."
-                            @change="(value) => storeSetting.save('ai_api_key', value)"
-                        />
-                        <span style="font-size: 12px; color: var(--ctool-info-color);">{{ $t('main_ai_privacy_note') }}</span>
-                    </Align>
+            <div class="ctool-setting-section ctool-setting-section-ai">
+                <div class="ctool-setting-section-title">{{ $t('main_ai_setting') }}</div>
+                <div class="ctool-ai-panel">
+                    <div class="ctool-ai-panel-header">
+                        <div class="ctool-ai-panel-summary">{{ aiProviderHint }}</div>
+                    </div>
+                    <div class="ctool-ai-grid">
+                        <div class="ctool-ai-field">
+                            <label>{{ $t('main_ai_provider') }}</label>
+                            <Select
+                                :model-value="storeSetting.items.ai_provider"
+                                @change="(value) => onProviderChange(value)"
+                                :options="aiProviderOptions"
+                            />
+                        </div>
+
+                        <div class="ctool-ai-field">
+                            <label>{{ $t('main_ai_model') }}</label>
+                            <Input
+                                :model-value="storeSetting.items.ai_model"
+                                :placeholder="storeSetting.items.ai_provider === 'ollama' ? 'qwen2.5:7b' : 'gpt-4o-mini'"
+                                @change="(value) => storeSetting.save('ai_model', value)"
+                            />
+                            <div class="ctool-ai-field-hint">{{ $t('main_ai_example', [aiGuideModel]) }}</div>
+                        </div>
+
+                        <div class="ctool-ai-field ctool-ai-field-full">
+                            <label>{{ $t('main_ai_base_url') }}</label>
+                            <Input
+                                :model-value="storeSetting.items.ai_base_url"
+                                :placeholder="storeSetting.items.ai_provider === 'ollama' ? 'http://localhost:11434' : 'https://api.example.com'"
+                                @change="(value) => storeSetting.save('ai_base_url', value)"
+                            />
+                            <div class="ctool-ai-field-hint">
+                                {{ $t('main_ai_example', [aiGuideBaseUrl]) }}
+                                <template v-if="storeSetting.items.ai_provider === 'openai_compatible'">
+                                    {{ $t('main_ai_openai_compatible_tip') }}
+                                </template>
+                            </div>
+                        </div>
+
+                        <template v-if="storeSetting.items.ai_provider === 'openai_compatible'">
+                            <div class="ctool-ai-field ctool-ai-field-full">
+                                <label>{{ $t('main_ai_api_key') }}</label>
+                                <Input
+                                    :model-value="storeSetting.items.ai_api_key"
+                                    :type="showApiKey ? 'text' : 'password'"
+                                    placeholder="sk-..."
+                                    autocomplete="off"
+                                    @change="(value) => storeSetting.save('ai_api_key', value)"
+                                >
+                                    <template #append>
+                                        <Button
+                                            :size="'small'"
+                                            :text="$t(showApiKey ? 'main_ai_hide_api_key' : 'main_ai_show_api_key')"
+                                            @click="showApiKey = !showApiKey"
+                                        />
+                                    </template>
+                                </Input>
+                                <div class="ctool-ai-field-hint">
+                                    <span class="ctool-ai-field-note-primary">{{ $t('main_ai_privacy_note_primary') }}</span>
+                                    <span>{{ $t('main_ai_privacy_note_secondary') }}</span>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="ctool-ai-actions ctool-ai-field-full">
+                            <Button
+                                :loading="aiTesting"
+                                :disabled="!storeSetting.items.ai_base_url || !storeSetting.items.ai_model"
+                                :text="$t('main_ai_test_connection')"
+                                @click="testAiConnection"
+                            />
+                        </div>
+                    </div>
                 </div>
-            </template>
-            <span>{{ $t('main_ai_model') }}</span>
-            <div>
-                <Align>
-                    <Input
-                        :model-value="storeSetting.items.ai_model"
-                        :width="250"
-                        :placeholder="storeSetting.items.ai_provider === 'ollama' ? 'qwen2.5:7b' : 'gpt-4o-mini'"
-                        @change="(value) => storeSetting.save('ai_model', value)"
-                    />
-                    <Button :size="'small'" :loading="aiTesting" :text="$t('main_ai_test_connection')" @click="testAiConnection"/>
-                </Align>
             </div>
         </div>
     </Card>
@@ -235,6 +265,7 @@ const onProviderChange = (value: AiProvider) => {
 }
 
 let aiTesting = $ref(false)
+let showApiKey = $ref(false)
 
 // 获取当前 AI 配置快照
 const getAiConfig = (): AiConfig => ({
@@ -242,6 +273,27 @@ const getAiConfig = (): AiConfig => ({
     baseUrl: storeSetting.items.ai_base_url,
     apiKey: storeSetting.items.ai_api_key,
     model: storeSetting.items.ai_model,
+})
+
+const aiProviderHint = $computed(() => {
+    if (storeSetting.items.ai_provider === "ollama") {
+        return $t("main_ai_provider_hint_ollama")
+    }
+    return $t("main_ai_provider_hint_openai_compatible")
+})
+
+const aiGuideBaseUrl = $computed(() => {
+    if (storeSetting.items.ai_provider === "ollama") {
+        return "http://localhost:11434"
+    }
+    return "https://api.example.com/v1"
+})
+
+const aiGuideModel = $computed(() => {
+    if (storeSetting.items.ai_provider === "ollama") {
+        return "qwen2.5:7b"
+    }
+    return "gpt-4o-mini / ep-xxxxxx"
 })
 
 // 测试 AI 连接
@@ -264,7 +316,7 @@ const testAiConnection = async () => {
 <style>
 .ctool-setting {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 112px minmax(0, 1fr);
     gap: 15px 20px;
 }
 
@@ -272,5 +324,100 @@ const testAiConnection = async () => {
     display: flex;
     align-items: center;
     justify-content: right;
+    min-width: 0;
+}
+
+.ctool-setting-section {
+    grid-column: 1 / -1;
+}
+
+.ctool-setting-section-title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    padding-top: 14px;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--ctool-border-color);
+}
+
+.ctool-ai-panel {
+    border: 1px solid var(--ctool-border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--ctool-block-title-bg-color);
+    padding: 16px;
+}
+
+.ctool-ai-panel-header {
+    margin-bottom: 14px;
+}
+
+.ctool-ai-panel-summary {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ctool-info-color);
+}
+
+.ctool-ai-grid {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+    gap: 14px 16px;
+    align-items: start;
+}
+
+.ctool-ai-field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ctool-ai-field-full {
+    grid-column: 1 / -1;
+}
+
+.ctool-ai-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color);
+}
+
+.ctool-ai-field-hint {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ctool-info-color);
+    overflow-wrap: anywhere;
+}
+
+.ctool-ai-field-note-primary {
+    color: var(--color);
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.ctool-ai-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 2px;
+    margin-top: 2px;
+    border-top: 1px solid var(--ctool-border-color);
+}
+
+@media (max-width: 900px) {
+    .ctool-setting {
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 12px 14px;
+    }
+}
+
+@media (max-width: 720px) {
+    .ctool-ai-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ctool-ai-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
 }
 </style>

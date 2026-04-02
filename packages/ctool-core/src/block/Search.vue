@@ -23,7 +23,8 @@
                 :key="`${item.tool}-${item.feature}`"
                 @mouseover="selectIndex = index"
             >
-{{ item.label }}
+                <span class="ctool-search-item-label">{{ item.label }}</span>
+                <AiBadge v-if="item.isAi" variant="inline" />
             </li>
         </ul>
     </div>
@@ -34,6 +35,8 @@ import {getTool, FeatureInterface} from "@/config";
 import useOperate from "@/store/operate";
 import useSetting from "@/store/setting";
 import {watch, onUnmounted} from "vue";
+import AiBadge from "@/components/AiBadge.vue";
+import {featureSupportsAi} from "@/helper/ai";
 
 const setting = useSetting()
 const operate = useOperate()
@@ -71,14 +74,15 @@ const items = $computed(() => {
         })
     }
     if (lists.length === 0) {
-        return [{label: $t(`main_ui_null`), tool: "", feature: ""}]
+        return [{label: $t(`main_ui_null`), tool: "", feature: "", isAi: false}]
     }
     return lists.slice(0, 15).map(feature => {
         const tool = feature.tool
         return {
             label: `${$t(`tool_${tool.name}`)}${tool.isSimple() ? `` : ` - ${$t(`tool_${tool.name}_${feature.name}`)}`}`,
             tool: tool.name,
-            feature: feature.name
+            feature: feature.name,
+            isAi: featureSupportsAi(tool.name, feature.name)
         }
     })
 })
@@ -164,10 +168,20 @@ watch(() => input, () => selectIndex = 0, {immediate: true})
     cursor: pointer;
     list-style: none;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
     color: var(--dropdown-color);
-    padding-left: 10px;
+    padding: 0 10px;
     line-height: 1.9rem;
     margin-bottom: 0;
+}
+
+.ctool-search-item-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ctool-search-block li.ctool-search-active {

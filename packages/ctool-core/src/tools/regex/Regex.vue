@@ -17,8 +17,8 @@
                         :text="$t(`main_ui_reference`)"
                     />
                     <span>|</span>
-                    <Button :size="'small'" :loading="aiLoading" @click="showAiGenerate = true">✨ {{ $t('regex_ai_generate') }}</Button>
-                    <Button :size="'small'" :loading="aiExplainLoading" @click="aiExplainRegex()">✨ {{ $t('regex_ai_explain') }}</Button>
+                    <Button :size="'small'" :loading="aiLoading" @click="showAiGenerate = true">✨ {{ $t('main_regex_ai_generate') }}</Button>
+                    <Button :size="'small'" :loading="aiExplainLoading" @click="aiExplainRegex()">✨ {{ $t('main_regex_ai_explain') }}</Button>
                 </Align>
             </template>
         </Display>
@@ -27,10 +27,13 @@
                 :disabled="action.current.is_delete"
                 :height="80"
                 v-model="action.current.replace"
-                :placeholder="$t('regex_replace_content')"
+                :placeholder="$t('regex_replace_content_hint')"
             />
             <template #extra>
-                <Bool border :size="'small'" v-model="action.current.is_delete" :label="$t('regex_delete')" />
+                <Align>
+                    <Bool border :size="'small'" v-model="action.current.is_delete" :label="$t('regex_delete')" />
+                    <span style="font-size: 12px; color: var(--ctool-info-color);">{{ $t('regex_replace_mode_tip') }}</span>
+                </Align>
             </template>
         </Display>
     </div>
@@ -57,11 +60,11 @@
         <Reference />
     </ExtendPage>
     <!-- AI 生成正则弹窗 -->
-    <Modal v-model="showAiGenerate" :title="$t('regex_ai_generate')" footer-type="normal" :loading="aiLoading" @ok="aiGenerateRegex()">
-        <Textarea v-model="aiPromptText" :height="100" :placeholder="$t('regex_ai_generate_placeholder')" />
+    <Modal v-model="showAiGenerate" :title="$t('main_regex_ai_generate')" footer-type="normal" :loading="aiLoading" @ok="aiGenerateRegex()">
+        <Textarea v-model="aiPromptText" :height="100" :placeholder="$t('main_regex_ai_generate_placeholder')" />
     </Modal>
     <!-- AI 解释结果弹窗 -->
-    <Modal v-model="showAiExplain" :title="$t('regex_ai_explain_result')" width="70%">
+    <Modal v-model="showAiExplain" :title="$t('main_regex_ai_explain_result')" width="70%">
         <Textarea :model-value="aiExplainText" :height="200" />
     </Modal>
 </template>
@@ -114,7 +117,7 @@ const getAiConfig = (): AiConfig => ({
 
 const aiGenerateRegex = async () => {
     if (!aiPromptText.trim()) {
-        Message.error($t("regex_ai_generate_empty"));
+        Message.error($t("main_regex_ai_generate_empty"));
         return;
     }
     const config = getAiConfig();
@@ -143,7 +146,7 @@ const aiGenerateRegex = async () => {
 
 const aiExplainRegex = async () => {
     if (!action.current.input.trim()) {
-        Message.error($t("regex_ai_explain_empty"));
+        Message.error($t("main_regex_ai_explain_empty"));
         return;
     }
     const config = getAiConfig();
