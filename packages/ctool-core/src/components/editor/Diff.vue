@@ -108,6 +108,7 @@ const updateEditorConfig = async () => {
     
     editorView.value.updateOptions({
         renderSideBySide: !inline.value,
+        useInlineViewWhenSpaceIsLimited: false,
         hideUnchangedRegions: {
             enabled: collapse.value,
         },
@@ -135,6 +136,7 @@ const create = async (element: HTMLElement) => {
             originalEditable: true,
             scrollBeyondLastLine: false,
             renderSideBySide: !inline.value,
+            useInlineViewWhenSpaceIsLimited: false,
             enableSplitViewResizing: false,
             hideUnchangedRegions: {
                 enabled: collapse.value,
