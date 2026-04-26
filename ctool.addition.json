@@ -404,6 +404,46 @@
 			]
 		},
 		{
+			"name": "base32",
+			"feature": "encoder",
+			"keyword": [
+				"base32",
+				"encoder",
+				"Base32",
+				"编码",
+				"Encoder",
+				"encode"
+			],
+			"search": [
+				"base32",
+				"encoder",
+				"编码",
+				"bianma",
+				"bm",
+				"encode"
+			]
+		},
+		{
+			"name": "base32",
+			"feature": "decoder",
+			"keyword": [
+				"base32",
+				"decoder",
+				"Base32",
+				"解码",
+				"Decoder",
+				"decode"
+			],
+			"search": [
+				"base32",
+				"decoder",
+				"解码",
+				"jiema",
+				"jm",
+				"decode"
+			]
+		},
+		{
 			"name": "msgpack",
 			"feature": "encoder",
 			"keyword": [
@@ -2503,6 +2543,21 @@
 				"tool_base64_decoder": {
 					"message": "解码"
 				},
+				"tool_base32": {
+					"message": "Base32"
+				},
+				"tool_base32_encoder": {
+					"message": "编码"
+				},
+				"tool_base32_decoder": {
+					"message": "解码"
+				},
+				"tool_base32_encoder_keywords": {
+					"message": "base32,编码"
+				},
+				"tool_base32_decoder_keywords": {
+					"message": "base32,解码"
+				},
 				"tool_msgpack": {
 					"message": "MsgPack"
 				},
@@ -3264,6 +3319,21 @@
 				},
 				"json_jmes_path": {
 					"message": "JMESPath"
+				},
+				"json_jmes_path_placeholder": {
+					"message": "输入 JMESPath 表达式"
+				},
+				"json_copy_path": {
+					"message": "复制 JSONPath"
+				},
+				"json_copy_value": {
+					"message": "复制 JSON 值"
+				},
+				"json_copy_unavailable": {
+					"message": "未识别到可复制的 JSON 字段"
+				},
+				"json_line_wrapping": {
+					"message": "换行"
 				},
 				"json_line_info": {
 					"message": "长度"
@@ -6232,6 +6302,21 @@
 				"tool_base64_decoder": {
 					"message": "Decoder"
 				},
+				"tool_base32": {
+					"message": "Base32"
+				},
+				"tool_base32_encoder": {
+					"message": "Encoder"
+				},
+				"tool_base32_decoder": {
+					"message": "Decoder"
+				},
+				"tool_base32_encoder_keywords": {
+					"message": "base32,encode"
+				},
+				"tool_base32_decoder_keywords": {
+					"message": "base32,decode"
+				},
 				"tool_msgpack": {
 					"message": "MsgPack"
 				},
@@ -6993,6 +7078,21 @@
 				},
 				"json_jmes_path": {
 					"message": "JMESPath"
+				},
+				"json_jmes_path_placeholder": {
+					"message": "Input JMESPath expression"
+				},
+				"json_copy_path": {
+					"message": "Copy JSONPath"
+				},
+				"json_copy_value": {
+					"message": "Copy JSON Value"
+				},
+				"json_copy_unavailable": {
+					"message": "No JSON field found to copy"
+				},
+				"json_line_wrapping": {
+					"message": "Wrap"
 				},
 				"json_line_info": {
 					"message": "Length"
