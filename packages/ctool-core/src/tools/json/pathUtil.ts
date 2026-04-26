@@ -133,7 +133,7 @@ class JsonLocationParser {
 
     private parseNumber(path: JsonPathSegment[]): JsonLocationNode {
         const start = this.index;
-        const match = this.source.slice(this.index).match(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/);
+        const match = this.source.slice(this.index).match(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:e[+-]?\d+)?/i);
         if (!match) {
             throw new Error("Invalid JSON number");
         }
@@ -214,7 +214,7 @@ export const formatJsonPath = (path: JsonPathSegment[]): string => {
         if (typeof segment === "number") {
             return `${result}[${segment}]`;
         }
-        if (/^[A-Za-z_][A-Za-z0-9_]*$/.test(segment)) {
+        if (/^[a-z_]\w*$/i.test(segment)) {
             return `${result}.${segment}`;
         }
         return `${result}["${quotePathKey(segment)}"]`;
@@ -235,7 +235,7 @@ export const formatJsonNodeValue = (value: any): string => {
 };
 
 const quoteJmesIdentifier = (key: string) => {
-    if (/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) {
+    if (/^[a-z_]\w*$/i.test(key)) {
         return key;
     }
     return `"${quotePathKey(key)}"`;
