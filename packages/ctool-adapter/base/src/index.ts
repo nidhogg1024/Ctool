@@ -1,5 +1,6 @@
 import {join} from "path";
 import {copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync} from "fs";
+import {execSync} from "child_process";
 
 export const getPath = (path = "") => {
     return join(__dirname, '../../../../', path)
@@ -60,6 +61,19 @@ export const getAdditionData = (): Record<string, any> => {
     return JSON.parse(readFileSync(getPath('packages/ctool-core/dist/ctool.addition.json')).toString())
 }
 
+const getGitVersion = (): string => {
+    const refName = process.env.GITHUB_REF_NAME || "";
+    if (/^v?\d+\.\d+\.\d+(?:[-+].*)?$/.test(refName)) {
+        return refName.replace(/^v/, "");
+    }
+    try {
+        const tag = execSync("git describe --tags --abbrev=0", {cwd: getPath(), encoding: "utf-8"}).trim();
+        return tag.replace(/^v/, "");
+    } catch {
+        return "";
+    }
+}
+
 export const version = (): string => {
-    return getRootPackageJson()['version'] || ""
+    return getGitVersion() || getRootPackageJson()['version'] || ""
 }
