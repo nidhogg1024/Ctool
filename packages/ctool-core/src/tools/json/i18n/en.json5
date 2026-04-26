@@ -24,6 +24,11 @@
     "try_repair": "Try Repair",
     "json_path": "JSONPath",
     "jmes_path": "JMESPath",
+    "jmes_path_placeholder": "Input JMESPath expression",
+    "copy_path": "Copy JSONPath",
+    "copy_value": "Copy JSON Value",
+    "copy_unavailable": "No JSON field found to copy",
+    "line_wrapping": "Wrap",
     "line_info": "Length",
     // Transform (JS expression)
     "transform": "Transform",

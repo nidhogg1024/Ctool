@@ -23,8 +23,25 @@ import { useTheme } from "@/store/setting";
 import { sizeConvert } from "../util";
 import event from "@/event";
 
+type EditorContextMenuAction = {
+    id: string;
+    label: string;
+    contextMenuGroupId?: string;
+    contextMenuOrder?: number;
+    run: (editor: monacoEditor.editor.IStandaloneCodeEditor) => void | Promise<void>;
+};
+
+type CompletionProvider = (payload: {
+    model: monacoEditor.editor.ITextModel;
+    position: monacoEditor.Position;
+    monaco: typeof monacoEditor;
+}) => monacoEditor.languages.ProviderResult<monacoEditor.languages.CompletionList>;
+
 const modelValue = defineModel<string>({
     default: "",
+});
+const lineWrappingModel = defineModel<boolean | undefined>("lineWrapping", {
+    default: undefined,
 });
 
 const props = defineProps({
@@ -76,13 +93,34 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    contextMenuActions: {
+        type: Array as PropType<EditorContextMenuAction[]>,
+        default: () => [],
+    },
+    completionProvider: {
+        type: [Function, Boolean] as PropType<CompletionProvider | false>,
+        default: false,
+    },
+    completionTriggerCharacters: {
+        type: Array as PropType<string[]>,
+        default: () => [],
+    },
 });
 
 const storeTheme = useTheme();
 const container = ref<HTMLElement | null>(null);
 const editorView = shallowRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
-const lineWrapping = ref(!props.disableLineWrapping);
+const lineWrapping = ref(lineWrappingModel.value ?? !props.disableLineWrapping);
 const lineNumbers = ref(!props.disableLineNumbers);
+let completionProviderDisposable: monacoEditor.IDisposable | null = null;
+
+const setLineWrapping = (value: boolean) => {
+    lineWrapping.value = value;
+    editorView.value?.updateOptions({ wordWrap: value ? "on" : "off" });
+    if (lineWrappingModel.value !== undefined && lineWrappingModel.value !== value) {
+        lineWrappingModel.value = value;
+    }
+};
 
 const getLanguage = (selectLang: string) => {
     let name: string = selectLang;
@@ -106,6 +144,10 @@ const updateEditorConfig = async () => {
     
     // 主题
     monacoInstance()?.editor.setTheme(storeTheme.theme.raw === "dark" ? "vs-dark" : "vs");
+    editorView.value.updateOptions({
+        wordWrap: lineWrapping.value ? "on" : "off",
+        lineNumbers: lineNumbers.value ? "on" : "off",
+    });
     
     editorView.value.render(true);
 };
@@ -114,6 +156,7 @@ const create = async (element: HTMLElement) => {
     if (editorView.value) {
         editorView.value.dispose();
     }
+    completionProviderDisposable?.dispose();
     monacoInit({
         "vs/nls": { availableLanguages: { "*": $t("main_locale") === "zh_CN" ? "zh-cn" : "en" } },
     }).then(monaco => {
@@ -143,14 +186,40 @@ const create = async (element: HTMLElement) => {
         
         // 右键菜单
         const contextMenu = new ContextMenu(editor);
+        props.contextMenuActions.forEach((item, index) => {
+            editor.addAction({
+                id: item.id,
+                label: item.label,
+                contextMenuGroupId: item.contextMenuGroupId || "ctool",
+                contextMenuOrder: item.contextMenuOrder ?? 2000 + index,
+                run: item.run,
+            });
+        });
         
         // 行信息展示
         lineInfo(editor).status(props.lineInfo);
         
-        contextMenu.setHandle("ctool_line_wrapping", (_ed, _id, result) => (lineWrapping.value = result));
+        contextMenu.setHandle("ctool_line_wrapping", (_ed, _id, result) => setLineWrapping(result));
         contextMenu.setHandle("ctool_line_number", (_ed, _id, result) => (lineNumbers.value = result));
         
         editorView.value = editor;
+        if (props.completionProvider) {
+            const model = editor.getModel();
+            const languageId = model?.getLanguageId() || getLanguage(props.lang).id;
+            completionProviderDisposable = monaco.languages.registerCompletionItemProvider(languageId, {
+                triggerCharacters: props.completionTriggerCharacters,
+                provideCompletionItems: (currentModel, position) => {
+                    if (currentModel !== editor.getModel() || props.completionProvider === false) {
+                        return { suggestions: [] };
+                    }
+                    return props.completionProvider({
+                        model: currentModel,
+                        position,
+                        monaco: monacoEditor,
+                    });
+                },
+            });
+        }
         
         // 编辑器配置
         updateEditorConfig();
@@ -162,7 +231,10 @@ onMounted(async () => {
     await create(<HTMLElement>container.value);
 });
 
-onUnmounted(() => editorView.value?.dispose());
+onUnmounted(() => {
+    completionProviderDisposable?.dispose();
+    editorView.value?.dispose();
+});
 
 const updateEditor = (text = "") => {
     if (!editorView.value) {
@@ -192,6 +264,15 @@ watch(
             }
             updateEditor(value);
         }, 50);
+    },
+);
+
+watch(
+    () => lineWrappingModel.value,
+    value => {
+        if (value !== undefined && value !== lineWrapping.value) {
+            setLineWrapping(value);
+        }
     },
 );
 

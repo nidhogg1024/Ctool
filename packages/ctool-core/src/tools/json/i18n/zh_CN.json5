@@ -24,6 +24,11 @@
     "try_repair": "尝试修复",
     "json_path": "JSONPath",
     "jmes_path": "JMESPath",
+    "jmes_path_placeholder": "输入 JMESPath 表达式",
+    "copy_path": "复制 JSONPath",
+    "copy_value": "复制 JSON 值",
+    "copy_unavailable": "未识别到可复制的 JSON 字段",
+    "line_wrapping": "换行",
     "line_info": "长度",
     // Transform（JS 表达式转换）
     "transform": "转换",

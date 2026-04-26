@@ -36,6 +36,7 @@ export type actionType = {
     expand_type: string;
     option: {
         info: {
+            wrap: boolean;
             line: boolean;
         };
         tab: TabsType;

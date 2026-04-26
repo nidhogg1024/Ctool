@@ -6,11 +6,23 @@
                     <HelpTip link="https://www.npmjs.com/package/jsonpath-plus" />
                 </template>
             </Input>
-            <Input v-model="option.jmes_path" v-if="option.type === 'jmes_path'" :label="$t(`json_jmes_path`)">
-                <template #append>
+            <div v-if="option.type === 'jmes_path'" class="ctool-json-jmespath">
+                <Align>
+                    <span>{{ $t(`json_jmes_path`) }}</span>
                     <HelpTip link="https://www.npmjs.com/package/jmespath" />
-                </template>
-            </Input>
+                </Align>
+                <Editor
+                    v-model="option.jmes_path"
+                    :height="72"
+                    lang="Text"
+                    disable-line-numbers
+                    disable-line-wrapping
+                    disable-clear
+                    :placeholder="$t('json_jmes_path_placeholder')"
+                    :completion-provider="jmesPathCompletionProvider"
+                    :completion-trigger-characters="['.', '(']"
+                />
+            </div>
         </Align>
         <HeightResize @resize="resize" :father-height="height" :append="['.ctool-json-path']">
             <Editor :model-value="output" :placeholder="`${$t(`json_${option.type}`)} ${$t('main_ui_output')}`" lang="json" :height="`${editorHeight}px`" />
@@ -26,6 +38,8 @@ import {isObject} from "lodash";
 import {PathOptionType} from "./define";
 import formatter from "../code/formatter";
 import Serialize from "@/helper/serialize";
+import Editor from "@/components/editor/Editor.vue";
+import { getJmesPathSuggestions } from "./pathUtil";
 
 const props = defineProps({
     modelValue: {
@@ -57,6 +71,42 @@ const option: PathOptionType = $computed({
 })
 
 let output = $ref("")
+
+const jmesPathCompletionProvider = ({model, position, monaco}: any) => {
+    if (props.json.isError() || props.json.isEmpty()) {
+        return {suggestions: []};
+    }
+    const textBeforeCursor = model.getValueInRange({
+        startLineNumber: 1,
+        startColumn: 1,
+        endLineNumber: position.lineNumber,
+        endColumn: position.column,
+    });
+    const word = model.getWordUntilPosition(position);
+    const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn,
+    };
+    const kindMap = {
+        field: monaco.languages.CompletionItemKind.Field,
+        function: monaco.languages.CompletionItemKind.Function,
+    };
+    return {
+        suggestions: getJmesPathSuggestions(props.json.content(), textBeforeCursor).map((item, index) => ({
+            label: item.label,
+            kind: kindMap[item.type],
+            insertText: item.insertText,
+            insertTextRules: item.type === "function"
+                ? monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+                : undefined,
+            detail: item.detail,
+            sortText: `${item.type === "field" ? "0" : "1"}${String(index).padStart(4, "0")}`,
+            range,
+        })),
+    };
+};
 
 watch(() => {
     return {
@@ -108,6 +158,14 @@ const resize = (height) => {
 }
 </script>
 
+<style>
+.ctool-json-jmespath {
+    width: 100%;
+}
 
-
-
+.ctool-json-jmespath > .ctool-align {
+    color: var(--ctool-info-color);
+    font-size: var(--ctool-form-font-size);
+    margin-bottom: 4px;
+}
+</style>

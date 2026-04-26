@@ -4,6 +4,8 @@
             <div :style="layoutStyle">
                 <Editor
                     v-model="action.current.input"
+                    v-model:line-wrapping="action.current.option.info.wrap"
+                    :context-menu-actions="jsonContextMenuActions"
                     :line-info="action.current.option.info.line"
                     :placeholder="`Json ${$t('main_ui_input')}`"
                     lang="json"
@@ -42,6 +44,7 @@
         <Display position="top-right" class="ctool-page-option" style="margin-top: 5px">
             <template #extra>
                 <Align>
+                    <Bool size="small" border v-model="action.current.option.info.wrap" :label="$t('json_line_wrapping')" />
                     <Bool size="small" border v-model="action.current.option.info.line" :label="$t('json_line_info')" />
                     <Button @click="general.repair()" type="primary" size="small" :text="$t('json_repair')" />
                     <HelpTip link="https://www.npmjs.com/package/jsonrepair" />
@@ -161,6 +164,8 @@ import useSetting from "@/store/setting";
 import { chat, extractJSON} from "@/helper/llm";
 import type {AiConfig} from "@/helper/llm";
 import Message from "@/helper/message";
+import { copy } from "@/helper/clipboard";
+import { findJsonNodeAtOffset, formatJsonNodeValue, formatJsonPath } from "./pathUtil";
 
 const operate = useOperate();
 const transfer = useTransfer();
@@ -174,6 +179,7 @@ const action = useAction(
             expand_type: "",
             option: {
                 info: {
+                    wrap: true,
                     line: true,
                 },
                 schema: {
@@ -214,6 +220,46 @@ const moreLangOptions = moreLangs.map(item => ({
     label: getDisplayName(item),
     value: item,
 }));
+
+const copyJsonEditorValue = (value: string) => {
+    if (value === "") {
+        Message.error($t("json_copy_unavailable"));
+        return;
+    }
+    copy(value, () => Message.success($t("main_ui_copy_text_ok")));
+};
+
+const getEditorJsonNode = (editor: any) => {
+    const model = editor.getModel();
+    const position = editor.getPosition();
+    if (!model || !position) {
+        return null;
+    }
+    return findJsonNodeAtOffset(action.current.input, model.getOffsetAt(position));
+};
+
+const jsonContextMenuActions = [
+    {
+        id: "ctool_json_copy_path",
+        label: $t("json_copy_path"),
+        contextMenuGroupId: "ctool-json",
+        contextMenuOrder: 1,
+        run: (editor: any) => {
+            const node = getEditorJsonNode(editor);
+            copyJsonEditorValue(node ? formatJsonPath(node.path) : "");
+        },
+    },
+    {
+        id: "ctool_json_copy_value",
+        label: $t("json_copy_value"),
+        contextMenuGroupId: "ctool-json",
+        contextMenuOrder: 2,
+        run: (editor: any) => {
+            const node = getEditorJsonNode(editor);
+            copyJsonEditorValue(node ? formatJsonNodeValue(node.value) : "");
+        },
+    },
+];
 
 // 布局
 const layoutStyle = $computed(() => {
