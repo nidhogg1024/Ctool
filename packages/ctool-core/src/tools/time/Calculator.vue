@@ -29,6 +29,22 @@
                 <span>{{ $t('time_after') }}, {{ $t('time_is') }} <Button @click="$copy(operation)" :type="'dotted'" :text="operation"/></span>
             </Align>
         </Card>
+        <Card :title="$t(`time_workday`)">
+            <Align>
+                <Input center v-model="action.current.workday.input1" :width="170"/>
+                <span>{{ $t('time_and') }}</span>
+                <Input center v-model="action.current.workday.input2" :width="170"/>
+                <span>{{ $t('time_is') }}</span>
+                <Button @click="$copy(workdayPoor)" :type="'dotted'" :text="workdayPoor"/>
+            </Align>
+            <Align>
+                <Input center v-model="action.current.workday.input" :width="170"/>
+                <span>{{ $t('time_add') }}</span>
+                <InputNumber center v-model="action.current.workday.length" :width="120" :step="1"/>
+                <span>{{ $t('time_workday_after') }}</span>
+                <Button @click="$copy(workdayOperation)" :type="'dotted'" :text="workdayOperation"/>
+            </Align>
+        </Card>
         <Card :title="$t(`time_analyze`)">
             <Align>
                 <Input center v-model="action.current.analyze.input" :width="170"/>
@@ -51,6 +67,7 @@ import quarterOfYear from "dayjs/plugin/quarterOfYear";
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import isoWeek from "dayjs/plugin/isoWeek";
 import {watch} from "vue";
+import {addWorkdays, countWorkdays} from "./util/workday";
 
 dayjs.extend(quarterOfYear)
 dayjs.extend(dayOfYear)
@@ -67,6 +84,12 @@ const action = useAction(await initialize({
         input: current.format('YYYY-MM-DD HH:mm:ss'),
         unit: 'days',
         type: '+',
+        length: 1,
+    },
+    workday: {
+        input1: current.format('YYYY-MM-DD'),
+        input2: current.add(7, 'd').format('YYYY-MM-DD'),
+        input: current.format('YYYY-MM-DD'),
         length: 1,
     },
     analyze: {
@@ -115,6 +138,19 @@ const operation = $computed(() => {
         dayjs(action.current.operation.input).valueOf()
         + (rate * action.current.operation.length) * (action.current.operation.type === '+' ? 1 : -1)
     ).format('YYYY-MM-DD HH:mm:ss');
+})
+
+const workdayPoor = $computed(() => {
+    const count = countWorkdays(action.current.workday.input1, action.current.workday.input2)
+    if (count === null) {
+        return $t('time_error_format')
+    }
+    return $t('time_workday_count_output', {count})
+})
+
+const workdayOperation = $computed(() => {
+    const result = addWorkdays(action.current.workday.input, action.current.workday.length)
+    return result || $t('time_error_format')
 })
 
 const analyze = $computed(() => {

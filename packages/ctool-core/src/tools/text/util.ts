@@ -6,6 +6,16 @@ import { setupEnhance } from "chinese-simple2traditional/enhance";
 
 setupEnhance();
 
+const simplifiedOverrides: Record<string, string> = {
+    退: "退",
+};
+
+const toSimplifiedWithOverrides = (text: string) => {
+    const sourceChars = Array.from(text);
+    const convertedChars = Array.from(toSimplified(text));
+    return convertedChars.map((char, index) => simplifiedOverrides[sourceChars[index]] || char).join("");
+};
+
 const regExpQuote = function(str: string) {
     return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
 };
@@ -125,7 +135,7 @@ export default class {
         if (type === "simplified") {
             return toTraditional(this.text);
         }
-        return toSimplified(this.text);
+        return toSimplifiedWithOverrides(this.text);
     }
 
     // 替换
