@@ -4547,6 +4547,18 @@
 				"time_error_duration_length": {
 					"message": "年/月间隔只能是整数"
 				},
+				"time_workday": {
+					"message": "工作日计算"
+				},
+				"time_workday_after": {
+					"message": "个工作日后，为"
+				},
+				"time_workday_count_output": {
+					"message": "{count} 个工作日",
+					"placeholders": [
+						"count"
+					]
+				},
 				"time_year": {
 					"message": "年"
 				},
@@ -8305,6 +8317,18 @@
 				},
 				"time_error_duration_length": {
 					"message": "The year/month interval can only be an integer"
+				},
+				"time_workday": {
+					"message": "Business Day Calculator"
+				},
+				"time_workday_after": {
+					"message": "Business Days Later, Is"
+				},
+				"time_workday_count_output": {
+					"message": "{count} Business Days",
+					"placeholders": [
+						"count"
+					]
 				},
 				"time_year": {
 					"message": "Year"
