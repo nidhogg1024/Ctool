@@ -10,14 +10,13 @@
             :filterable="true"
             @change="value => (action.current.timezone = value)"
         />
-        <Display position="right-center">
-            <Input
-                size="large"
-                v-model="action.current.input"
-                :label="$t('main_ui_input')"
-                :placeholder="$t('time_timestamp_input_placeholder')"
-            />
-            <template #extra>
+        <Input
+            size="large"
+            v-model="action.current.input"
+            :label="$t('main_ui_input')"
+            :placeholder="$t('time_timestamp_input_placeholder')"
+        >
+            <template #append>
                 <Align>
                     <Select
                         v-if="output.type === InputType.unix"
@@ -41,7 +40,7 @@
                     />
                 </Align>
             </template>
-        </Display>
+        </Input>
         <Display
             position="right-center"
             :text="output.isValid ? $t(`main_ui_copy`) : ''"
