@@ -94,6 +94,10 @@
     "content_clear": "清空输入",
     "setting_zoom": "界面缩放",
     "history_save_too_large": "数据过大，未保存到历史记录",
+    "utools_keyword_tip": "默认仅启用 Ctool 主入口，不自动识别输入内容。保存下方关键词可增加工具入口；启用全部会同时开启全部入口和内容识别。",
+    "utools_keyword_restore_default": "恢复精简默认",
+    "utools_keyword_enable_all": "启用全部（含内容识别）",
+    "utools_keyword_save_failed": "uTools 入口配置失败：{0}",
     // AI 设置
     "ai_setting": "AI 设置",
     "ai_provider": "服务类型",

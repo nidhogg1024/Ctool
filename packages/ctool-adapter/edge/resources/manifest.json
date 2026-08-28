@@ -10,7 +10,7 @@
     "action": {
         "default_icon": "icon/icon_chrome.png",
         "default_title": "__MSG_main_manifest_default_title__",
-        "default_popup": "index.html"
+        "default_popup": "popup.html"
     },
     "background": {
         "service_worker": "background.js"

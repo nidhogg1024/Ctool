@@ -40,7 +40,7 @@
             <Align>
                 <Input center v-model="action.current.workday.input" :width="170"/>
                 <span>{{ $t('time_add') }}</span>
-                <InputNumber center v-model="action.current.workday.length" :width="120" :step="1"/>
+                <InputNumber center v-model="action.current.workday.length" :width="120" :min="false" :step="1"/>
                 <span>{{ $t('time_workday_after') }}</span>
                 <Button @click="$copy(workdayOperation)" :type="'dotted'" :text="workdayOperation"/>
             </Align>
@@ -67,7 +67,13 @@ import quarterOfYear from "dayjs/plugin/quarterOfYear";
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import isoWeek from "dayjs/plugin/isoWeek";
 import {watch} from "vue";
-import {addWorkdays, countWorkdays} from "./util/workday";
+import type {WorkdayErrorCode} from "./util/workday";
+import {
+    addWorkdays,
+    countWorkdays,
+    WORKDAY_MAX_YEAR,
+    WORKDAY_MIN_YEAR,
+} from "./util/workday";
 
 dayjs.extend(quarterOfYear)
 dayjs.extend(dayOfYear)
@@ -141,17 +147,34 @@ const operation = $computed(() => {
 })
 
 const workdayPoor = $computed(() => {
-    const count = countWorkdays(action.current.workday.input1, action.current.workday.input2)
-    if (count === null) {
-        return $t('time_error_format')
+    const result = countWorkdays(action.current.workday.input1, action.current.workday.input2)
+    if (!result.ok) {
+        return getWorkdayErrorMessage(result.error)
     }
-    return $t('time_workday_count_output', {count})
+    return $t('time_workday_count_output', {count: result.value})
 })
 
 const workdayOperation = $computed(() => {
     const result = addWorkdays(action.current.workday.input, action.current.workday.length)
-    return result || $t('time_error_format')
+    if (!result.ok) {
+        return getWorkdayErrorMessage(result.error)
+    }
+    return result.value
 })
+
+const getWorkdayErrorMessage = (error: WorkdayErrorCode) => {
+    switch (error) {
+        case 'invalid-date':
+            return $t('time_workday_error_date')
+        case 'invalid-count':
+            return $t('time_workday_error_count')
+        case 'unsupported-year':
+            return $t('time_workday_error_year', {
+                minYear: WORKDAY_MIN_YEAR,
+                maxYear: WORKDAY_MAX_YEAR,
+            })
+    }
+}
 
 const analyze = $computed(() => {
     const input = dayjs(action.current.analyze.input)

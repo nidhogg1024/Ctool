@@ -89,7 +89,7 @@
                                 <Icon hover name="refresh" @click="storeSetting.save('proxy_url',proxy.defaultProxyUrl)" :tooltip="$t('main_ui_reset')"/>
                             </template>
                         </Input>
-                        <Link type="primary" style="font-size: 12px" href="https://ctool.dev/privacy">{{ $t('main_privacy_policy') }}</Link>
+                        <Link type="primary" style="font-size: 12px" href="https://github.com/nidhogg1024/Ctool/blob/master/PRIVACY">{{ $t('main_privacy_policy') }}</Link>
                     </template>
                 </Align>
             </template>

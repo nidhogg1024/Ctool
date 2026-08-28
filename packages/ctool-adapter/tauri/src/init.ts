@@ -1,9 +1,10 @@
 // 同步文件
 import {join} from "path";
-import {copyCoreDist, version, getRootPackageJson} from "ctool-adapter-base";
+import {buildVersion, copyCoreDist, getRootPackageJson} from "ctool-adapter-base";
 import {mkdirSync, readFileSync, rmSync, writeFileSync} from "fs";
 
 const tempPath = join(__dirname, 'web')
+const currentVersion = buildVersion()
 rmSync(tempPath, {recursive: true, force: true});
 mkdirSync(tempPath);
 
@@ -11,7 +12,10 @@ mkdirSync(tempPath);
 copyCoreDist(tempPath)
 
 // 重写首页跳转文件
-writeFileSync(join(tempPath, 'index.html'), readFileSync(join(__dirname, '../index.html')).toString())
+writeFileSync(
+    join(tempPath, 'index.html'),
+    readFileSync(join(__dirname, '../index.html')).toString().replace(/##version##/g, currentVersion),
+)
 
 // 清理文件
 const configFilePath = join(__dirname, '../src-tauri/tauri.conf.json5')
@@ -23,6 +27,6 @@ rmSync(targetPath, {recursive: true, force: true});
 
 // 生成`tauri`配置文件
 const config = readFileSync(join(__dirname, '../src-tauri/tauri.conf.template.json5')).toString()
-    .replace(new RegExp("##version##", 'g'), version())
+    .replace(new RegExp("##version##", 'g'), currentVersion)
     .replace(new RegExp("##description##", 'g'), getRootPackageJson()['description']);
 writeFileSync(configFilePath, `// 程序自动生成 => ./tauri.conf.template.json5\n${config}`)

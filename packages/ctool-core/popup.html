@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!-- Chromium popup autosizing reads the root box before the app mounts, so keep these dimensions inline. -->
+<html lang="en" style="width: 800px;height: 580px;margin: 0;padding: 0;overflow: hidden;">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ctool</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="./favicon.ico" type="image/x-ico">
+    <meta name="X-UA-Compatible" content="IE=edge, chrome=1">
+</head>
+<body id="root" style="width: 800px;height: 580px;margin: 0;padding: 0;overflow: hidden;">
+<div id="ctool" style="width: 800px;height: 580px;margin: 0 auto;overflow:hidden;">
+    <div id="app"></div>
+    <div id="ctool-append"></div>
+</div>
+<script type="module" src="/src/tool.ts"></script>
+</body>
+</html>

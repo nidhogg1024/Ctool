@@ -1,6 +1,15 @@
 {
-    "collapse":"Collapse Identical",
+    "collapse": "Collapse Identical",
+    "auto_language": "Auto Detect",
+    "auto_language_detected": "Auto ({0})",
+    "auto_language_conflict": "Auto (format mismatch)",
+    "auto_language_description": "Only changes syntax highlighting; never modifies the original text",
+    "beautify_both": "Format Both",
+    "beautify_left_error": "Failed to format the left side: {0}",
+    "beautify_right_error": "Failed to format the right side: {0}",
+    "beautify_content_changed": "The content or format changed during formatting. Please try again",
+    "beautify_invalid_xml": "The XML structure is invalid",
     "revert_direction": "Revert Direction",
-    "left_to_right":"Left => Right",
-    "right_to_left":"Left <= Right",
+    "left_to_right": "Left => Right",
+    "right_to_left": "Left <= Right",
 }

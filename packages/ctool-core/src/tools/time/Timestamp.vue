@@ -10,37 +10,34 @@
             :filterable="true"
             @change="value => (action.current.timezone = value)"
         />
-        <Input
-            size="large"
-            v-model="action.current.input"
-            :label="$t('main_ui_input')"
-            :placeholder="$t('time_timestamp_input_placeholder')"
-        >
-            <template #append>
-                <Align>
-                    <Select
-                        v-if="output.type === InputType.unix"
-                        v-model="action.current.format"
-                        size="small"
-                        :options="[
-                            {
-                                value: `auto`,
-                                label: `${$t('time_unix_auto')}:${$t(`time_unix_${output.autoFormat}`)}`,
-                            },
-                            { value: Format.second, label: $t('time_unix_second') },
-                            { value: Format.millisecond, label: $t('time_unix_millisecond') },
-                            { value: Format.nanosecond, label: $t('time_unix_nanosecond') },
-                        ]"
-                    />
-                    <Button
-                        v-if="action.current.input !== ''"
-                        :text="$t(`main_ui_clear`)"
-                        @click="action.current.input = ''"
-                        size="small"
-                    />
-                </Align>
-            </template>
-        </Input>
+        <div class="timestamp-input-row">
+            <div class="timestamp-input">
+                <Input
+                    size="large"
+                    v-model="action.current.input"
+                    :label="$t('main_ui_input')"
+                    :placeholder="$t('time_timestamp_input_placeholder')"
+                />
+            </div>
+            <div v-if="action.current.input !== ''" class="timestamp-input-actions">
+                <Select
+                    v-if="output.type === InputType.unix"
+                    class="timestamp-format-select"
+                    v-model="action.current.format"
+                    size="small"
+                    :options="[
+                        {
+                            value: `auto`,
+                            label: `${$t('time_unix_auto')}:${$t(`time_unix_${output.autoFormat}`)}`,
+                        },
+                        { value: Format.second, label: $t('time_unix_second') },
+                        { value: Format.millisecond, label: $t('time_unix_millisecond') },
+                        { value: Format.nanosecond, label: $t('time_unix_nanosecond') },
+                    ]"
+                />
+                <Button :text="$t(`main_ui_clear`)" @click="action.current.input = ''" size="small" />
+            </div>
+        </div>
         <Display
             position="right-center"
             :text="output.isValid ? $t(`main_ui_copy`) : ''"
@@ -167,3 +164,53 @@ const example = $computed(() => {
     ];
 });
 </script>
+
+<style scoped>
+.timestamp-input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+    width: 100%;
+}
+
+.timestamp-input {
+    flex: 1 1 20rem;
+    min-width: min(100%, 12rem);
+}
+
+.timestamp-input-actions {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: flex-end;
+    max-width: min(100%, 24rem);
+    margin-left: auto;
+}
+
+.timestamp-format-select {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.timestamp-format-select :deep(.ctool-select-summary) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.timestamp-format-select :deep(ul[role="listbox"]) {
+    box-sizing: border-box;
+    right: max(0.5rem, calc(var(--ctool-select-menu-right) - 3rem));
+    min-width: min(var(--ctool-select-menu-width), calc(100vw - 1rem));
+    max-width: calc(100vw - 1rem);
+}
+
+.timestamp-format-select :deep(ul[role="listbox"] li a) {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap;
+}
+</style>
