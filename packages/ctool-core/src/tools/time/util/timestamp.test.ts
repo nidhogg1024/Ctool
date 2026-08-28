@@ -8,11 +8,13 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 describe("time/util/timestamp", () => {
-    it("accepts pasted unix second timestamps", () => {
+    it("converts unix seconds in the selected timezone", () => {
         const output = transform("1767196800", "Asia/Shanghai");
         expect(output.isValid).toBe(true);
         expect(output.type).toBe(InputType.unix);
         expect(output.format).toBe(Format.second);
-        expect(output.second).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+        expect(output.second).toBe("2026-01-01 00:00:00");
+        expect(output.millisecond).toBe("2026-01-01 00:00:00.000");
+        expect(output.nanosecond).toBe("2026-01-01 00:00:00.000000000");
     });
 });

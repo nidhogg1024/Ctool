@@ -47,7 +47,7 @@ catalog:
   bignumber.js: ^9.1.1
   bs58: ^6.0.0
   chardet: ^2.0.0
-  chinese-simple2traditional: ^2.2.0
+  chinese-simple2traditional: ^2.3.2
   colord: ^2.9.3
   composerize-ts: ^0.6.2
   crc: ^4.2.0

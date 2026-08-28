@@ -1,5 +1,8 @@
 <template>
     <Card :title="`uTools - ${$t(`main_ui_keyword`)}${$t(`main_ui_config`)}`" height="100%">
+        <div class="ctool-utools-keyword-tip">
+            {{ $t('main_utools_keyword_tip') }}
+        </div>
         <div v-row="`1-1-1-1`">
             <Textarea
                 :height="180"
@@ -13,8 +16,8 @@
         <template #extra>
             <Align>
                 <Button :size="'small'" @click="save" :text="$t('main_ui_save')" type="primary"/>
-                <Button :size="'small'" @click="reset" :text="$t('main_ui_reset')"/>
-                <Button :size="'small'" @click="clear" :text="$t('main_ui_clear')" type="danger"/>
+                <Button :size="'small'" @click="enableAll" :text="$t('main_utools_keyword_enable_all')"/>
+                <Button :size="'small'" @click="restoreDefaults" :text="$t('main_utools_keyword_restore_default')" type="danger"/>
             </Align>
         </template>
     </Card>
@@ -47,6 +50,22 @@ let items = $ref(getFeatures())
 
 const itemsKey = Object.keys(items)
 
+const runFeatureAction = (action: () => void) => {
+    try {
+        action()
+        items = getFeatures()
+        Message.success($t('main_ui_success'))
+    } catch (error) {
+        try {
+            items = getFeatures()
+        } catch {
+        }
+        Message.error($t('main_utools_keyword_save_failed', [
+            error instanceof Error ? error.message : String(error),
+        ]))
+    }
+}
+
 const save = () => {
     const features: { feature: FeatureInterface, cmds: string[] }[] = []
     itemsKey.forEach(key => {
@@ -58,20 +77,21 @@ const save = () => {
             })
         }
     })
-    runtime.setFeatures(features)
-    items = getFeatures()
-    Message.success($t('main_ui_success'))
+    runFeatureAction(() => runtime.setFeatures(features))
 }
-const reset = () => {
-    runtime.resetFeatures()
-    items = getFeatures()
-    Message.success($t('main_ui_success'))
+const restoreDefaults = () => {
+    runFeatureAction(() => runtime.resetFeatures())
 }
 
-const clear = () => {
-    runtime.setFeatures([])
-    items = getFeatures()
-    Message.success($t('main_ui_success'))
+const enableAll = () => {
+    runFeatureAction(() => runtime.enableAllFeatures())
 }
 </script>
 
+<style scoped>
+.ctool-utools-keyword-tip {
+    margin-bottom: 12px;
+    color: var(--muted-color);
+    font-size: 13px;
+}
+</style>

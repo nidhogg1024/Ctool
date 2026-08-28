@@ -94,6 +94,10 @@
     "content_clear": "Clear Input",
     "setting_zoom": "UI Zoom",
     "history_save_too_large": "Data too large, not saved to history",
+    "utools_keyword_tip": "Only the main Ctool entry is enabled by default, without automatic content detection. Saving keywords adds tool entries; Enable All also turns on content detection.",
+    "utools_keyword_restore_default": "Restore Minimal Default",
+    "utools_keyword_enable_all": "Enable All (incl. detection)",
+    "utools_keyword_save_failed": "Failed to configure uTools entries: {0}",
     // AI settings
     "ai_setting": "AI Settings",
     "ai_provider": "Provider",

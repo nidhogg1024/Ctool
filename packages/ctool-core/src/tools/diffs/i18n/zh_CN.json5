@@ -1,5 +1,14 @@
 {
     "collapse": "折叠相同",
+    "auto_language": "自动识别",
+    "auto_language_detected": "自动（{0}）",
+    "auto_language_conflict": "自动（格式不一致）",
+    "auto_language_description": "仅自动切换语法高亮，不会修改原文",
+    "beautify_both": "格式化两侧",
+    "beautify_left_error": "左侧格式化失败：{0}",
+    "beautify_right_error": "右侧格式化失败：{0}",
+    "beautify_content_changed": "格式化期间内容或格式已发生变化，请重试",
+    "beautify_invalid_xml": "XML 结构不合法",
     "revert_direction": "覆盖方向",
     "left_to_right": "左 => 右",
     "right_to_left": "左 <= 右"

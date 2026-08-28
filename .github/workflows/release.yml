@@ -5,12 +5,14 @@ on:
     push:
         tags:
             - "v*.*.*"
-    workflow_dispatch:
 
 # 同一个 tag 只允许一个 release 流程运行，后触发的会自动取消前一个
 concurrency:
     group: release-${{ github.ref }}
     cancel-in-progress: true
+
+permissions:
+    contents: write
 
 jobs:
     # 先创建 draft release，后续 job 往这个 release 上传 assets
@@ -73,20 +75,13 @@ jobs:
                   pnpm --filter ctool-adapter-web run platform-release
                   pnpm --filter ctool-adapter-utools run platform-release
                   ls -lh ./_release/
-                  node release.cjs get
-
-            - name: Get Release Files
-              uses: edwardgeorge/file-outputs-action@main
-              id: get_release_files
-              with:
-                  files: files=_release_files
 
             - name: Upload Assets
               uses: softprops/action-gh-release@v2
               with:
                   draft: true
-                  files: |
-                      ${{ steps.get_release_files.outputs.files }}
+                  fail_on_unmatched_files: true
+                  files: _release/*
 
     # 构建 Tauri 桌面端（macOS + Windows + Linux）
     tauri-desktop:
@@ -95,9 +90,9 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - platform: macos-latest
+                    - platform: macos-15
                       target: aarch64-apple-darwin
-                    - platform: macos-latest
+                    - platform: macos-15-intel
                       target: x86_64-apple-darwin
                     - platform: windows-latest
                       target: x86_64-pc-windows-msvc
@@ -142,6 +137,11 @@ jobs:
               with:
                   targets: ${{ matrix.target }}
 
+            - name: Verify native build target
+              shell: bash
+              run: |
+                  rustc -vV | grep -F "host: ${{ matrix.target }}"
+
             - name: Rust cache
               uses: Swatinem/rust-cache@v2
               with:
@@ -159,19 +159,12 @@ jobs:
                   node release.cjs init
                   pnpm --filter ctool-adapter-tauri run platform-release
                   ls ./_release/
-                  node release.cjs get
               env:
                   TAURI_TARGET: ${{ matrix.target }}
-
-            - name: Get Release Files
-              uses: edwardgeorge/file-outputs-action@main
-              id: get_release_files
-              with:
-                  files: files=_release_files
 
             - name: Upload Assets
               uses: softprops/action-gh-release@v2
               with:
                   draft: true
-                  files: |
-                      ${{ steps.get_release_files.outputs.files }}
+                  fail_on_unmatched_files: true
+                  files: _release/*

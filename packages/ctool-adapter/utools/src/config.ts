@@ -7,6 +7,7 @@ export type CustomCmd = {
     match?: string
     label?: string
 }
+
 export const customCmds = new Map<FeatureInterface, CustomCmd[]>()
 
 customCmds.set(
@@ -35,8 +36,8 @@ customCmds.set(
     getTool('ip').firstFeature(),
     [
         {
-            "type": "over",
-            "match": "/\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}/i",
+            "type": "regex",
+            "match": "/^(?:(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)$/",
             "minLength": 7,
             "maxLength": 15
         }
@@ -53,4 +54,3 @@ customCmds.set(
         }
     ]
 )
-

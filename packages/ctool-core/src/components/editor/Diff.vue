@@ -6,31 +6,33 @@
         :style="{ height: `${sizeConvert(props.height)}`, width: `100%` }"
         toggle
     >
-        <div ref="container" style="height: 100%; width: 100%"></div>
+        <div ref="container" :style="editorStyle"></div>
         <template #extra>
-            <Align>
-                <Input
-                    size="small"
-                    center
-                    :disabled="changes === 0"
-                    :model-value="`${changes ? currentChange : 0} / ${changes}`"
-                    :width="110"
-                >
-                    <template #prepend>
-                        <Button :disabled="changes === 0 || currentChange === 1" text="<" @click="location('prev')" />
-                    </template>
-                    <template #append>
-                        <Button
-                            :disabled="changes === 0 || currentChange === changes"
-                            text=">"
-                            @click="location('next')"
-                        />
-                    </template>
-                </Input>
-                <Bool v-model="collapse" :label="$t(`diffs_collapse`)" size="small" border />
-                <Bool v-model="inline" :label="$t(`component_editor_inline`)" size="small" border />
-                <slot></slot>
-            </Align>
+            <div ref="toolbarContainer" class="ctool-code-diff-toolbar">
+                <Align>
+                    <Input
+                        size="small"
+                        center
+                        :disabled="changes === 0"
+                        :model-value="`${changes ? currentChange : 0} / ${changes}`"
+                        :width="110"
+                    >
+                        <template #prepend>
+                            <Button :disabled="changes === 0 || currentChange === 1" text="<" @click="location('prev')" />
+                        </template>
+                        <template #append>
+                            <Button
+                                :disabled="changes === 0 || currentChange === changes"
+                                text=">"
+                                @click="location('next')"
+                            />
+                        </template>
+                    </Input>
+                    <Bool v-model="collapse" :label="$t(`diffs_collapse`)" size="small" border />
+                    <Bool v-model="inline" :label="$t(`component_editor_inline`)" size="small" border />
+                    <slot></slot>
+                </Align>
+            </div>
         </template>
     </Display>
 </template>
@@ -38,12 +40,14 @@
 // 代码编辑器
 import { monacoInit, ContextMenu, monacoInstance, monacoEditor } from "./monaco";
 import PlaceholderContentWidget from "./placeholderContentWidget";
-import { onUnmounted, onMounted, watch, PropType, ref, shallowRef } from "vue";
+import { computed, onUnmounted, onMounted, watch, PropType, ref, shallowRef } from "vue";
+import type { StyleValue } from "vue";
 import { getEditorLanguage } from "@/helper/code";
 import { DisplayPosition } from "@/types";
 import { useTheme } from "@/store/setting";
 import { sizeConvert } from "../util";
 import event from "@/event";
+import {contentSensitiveDiffOptions} from "./diffOptions";
 
 const original = defineModel<string>("original", {
     default: "",
@@ -85,7 +89,33 @@ const props = defineProps({
 
 const storeTheme = useTheme();
 const container = ref<HTMLElement | null>(null);
+const toolbarContainer = ref<HTMLElement | null>(null);
+const toolbarHeight = ref(0);
 const editorView = shallowRef<monacoEditor.editor.IDiffEditor | null>(null);
+let toolbarResizeObserver: ResizeObserver | null = null;
+
+const editorStyle = computed<StyleValue>(() => {
+    const toolbarAtEdge = props.toolbar.startsWith("top-") || props.toolbar.startsWith("bottom-");
+    const reservedHeight = toolbarAtEdge && toolbarHeight.value > 0 ? toolbarHeight.value + 10 : 0;
+    return {
+        height: reservedHeight > 0 ? `calc(100% - ${reservedHeight}px)` : "100%",
+        marginTop: props.toolbar.startsWith("top-") && reservedHeight > 0 ? `${reservedHeight}px` : undefined,
+        width: "100%",
+    };
+});
+
+const observeToolbar = (element: HTMLElement | null) => {
+    toolbarResizeObserver?.disconnect();
+    toolbarResizeObserver = null;
+    toolbarHeight.value = element?.offsetHeight ?? 0;
+    if (!element || typeof ResizeObserver === "undefined") {
+        return;
+    }
+    toolbarResizeObserver = new ResizeObserver(() => {
+        toolbarHeight.value = element.offsetHeight;
+    });
+    toolbarResizeObserver.observe(element);
+};
 
 const lineWrapping = ref(!props.disableLineWrapping);
 const lineNumbers = ref(!props.disableLineNumbers);
@@ -129,6 +159,7 @@ const create = async (element: HTMLElement) => {
         const modifiedModel = monaco.editor.createModel(modified.value);
         
         const diffEditor = monaco.editor.createDiffEditor(element, {
+            ...contentSensitiveDiffOptions,
             lineNumbers: lineNumbers.value ? "on" : "off",
             wordWrap: lineWrapping.value ? "on" : "off",
             minimap: { enabled: false },
@@ -196,27 +227,15 @@ const location = (type: "prev" | "next") => {
     currentChange.value = current;
 };
 
-// 暴露格式化方法供父组件调用
-const beautifyBoth = async (formatter: (lang: string, code: string) => Promise<string>) => {
-    if (!editorView.value) return;
-    const origText = editorView.value.getOriginalEditor().getValue();
-    const modText = editorView.value.getModifiedEditor().getValue();
-    const [newOrig, newMod] = await Promise.all([
-        origText ? formatter(props.lang, origText) : Promise.resolve(origText),
-        modText ? formatter(props.lang, modText) : Promise.resolve(modText),
-    ]);
-    original.value = newOrig;
-    modified.value = newMod;
-};
-
-defineExpose({ beautifyBoth });
-
 onMounted(async () => {
     !props.disableClear && event.addListener("content_clear", () => updateEditor());
     await create(<HTMLElement>container.value);
 });
 
-onUnmounted(() => editorView.value?.dispose());
+onUnmounted(() => {
+    toolbarResizeObserver?.disconnect();
+    editorView.value?.dispose();
+});
 
 const updateEditor = (original = "", modified = "") => {
     if (!editorView.value) {
@@ -265,6 +284,8 @@ watch(
     },
     () => updateEditorConfig(),
 );
+
+watch(toolbarContainer, element => observeToolbar(element), { flush: "post" });
 </script>
 <style>
 .ctool-code-diff {
@@ -273,5 +294,9 @@ watch(
     border-width: 1px;
     border-radius: 3px;
     overflow: hidden;
+}
+
+.ctool-code-diff-toolbar {
+    display: inline-flex;
 }
 </style>
