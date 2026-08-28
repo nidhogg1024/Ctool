@@ -2201,6 +2201,21 @@
 				"main_history_save_too_large": {
 					"message": "数据过大，未保存到历史记录"
 				},
+				"main_utools_keyword_tip": {
+					"message": "默认仅启用 Ctool 主入口，不自动识别输入内容。保存下方关键词可增加工具入口；启用全部会同时开启全部入口和内容识别。"
+				},
+				"main_utools_keyword_restore_default": {
+					"message": "恢复精简默认"
+				},
+				"main_utools_keyword_enable_all": {
+					"message": "启用全部（含内容识别）"
+				},
+				"main_utools_keyword_save_failed": {
+					"message": "uTools 入口配置失败：{0}",
+					"placeholders": [
+						"0"
+					]
+				},
 				"main_ai_setting": {
 					"message": "AI 设置"
 				},
@@ -3742,6 +3757,42 @@
 				"diffs_collapse": {
 					"message": "折叠相同"
 				},
+				"diffs_auto_language": {
+					"message": "自动识别"
+				},
+				"diffs_auto_language_detected": {
+					"message": "自动（{0}）",
+					"placeholders": [
+						"0"
+					]
+				},
+				"diffs_auto_language_conflict": {
+					"message": "自动（格式不一致）"
+				},
+				"diffs_auto_language_description": {
+					"message": "仅自动切换语法高亮，不会修改原文"
+				},
+				"diffs_beautify_both": {
+					"message": "格式化两侧"
+				},
+				"diffs_beautify_left_error": {
+					"message": "左侧格式化失败：{0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"diffs_beautify_right_error": {
+					"message": "右侧格式化失败：{0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"diffs_beautify_content_changed": {
+					"message": "格式化期间内容或格式已发生变化，请重试"
+				},
+				"diffs_beautify_invalid_xml": {
+					"message": "XML 结构不合法"
+				},
 				"diffs_revert_direction": {
 					"message": "覆盖方向"
 				},
@@ -4548,7 +4599,7 @@
 					"message": "年/月间隔只能是整数"
 				},
 				"time_workday": {
-					"message": "工作日计算"
+					"message": "中国法定工作日计算"
 				},
 				"time_workday_after": {
 					"message": "个工作日后，为"
@@ -4557,6 +4608,19 @@
 					"message": "{count} 个工作日",
 					"placeholders": [
 						"count"
+					]
+				},
+				"time_workday_error_date": {
+					"message": "日期格式错误，请输入有效的 YYYY-MM-DD 日期"
+				},
+				"time_workday_error_count": {
+					"message": "工作日数量必须为有效整数"
+				},
+				"time_workday_error_year": {
+					"message": "仅支持 {minYear}–{maxYear} 年的中国法定工作日",
+					"placeholders": [
+						"minYear",
+						"maxYear"
 					]
 				},
 				"time_year": {
@@ -5971,6 +6035,21 @@
 				},
 				"main_history_save_too_large": {
 					"message": "Data too large, not saved to history"
+				},
+				"main_utools_keyword_tip": {
+					"message": "Only the main Ctool entry is enabled by default, without automatic content detection. Saving keywords adds tool entries; Enable All also turns on content detection."
+				},
+				"main_utools_keyword_restore_default": {
+					"message": "Restore Minimal Default"
+				},
+				"main_utools_keyword_enable_all": {
+					"message": "Enable All (incl. detection)"
+				},
+				"main_utools_keyword_save_failed": {
+					"message": "Failed to configure uTools entries: {0}",
+					"placeholders": [
+						"0"
+					]
 				},
 				"main_ai_setting": {
 					"message": "AI Settings"
@@ -7513,6 +7592,42 @@
 				"diffs_collapse": {
 					"message": "Collapse Identical"
 				},
+				"diffs_auto_language": {
+					"message": "Auto Detect"
+				},
+				"diffs_auto_language_detected": {
+					"message": "Auto ({0})",
+					"placeholders": [
+						"0"
+					]
+				},
+				"diffs_auto_language_conflict": {
+					"message": "Auto (format mismatch)"
+				},
+				"diffs_auto_language_description": {
+					"message": "Only changes syntax highlighting; never modifies the original text"
+				},
+				"diffs_beautify_both": {
+					"message": "Format Both"
+				},
+				"diffs_beautify_left_error": {
+					"message": "Failed to format the left side: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"diffs_beautify_right_error": {
+					"message": "Failed to format the right side: {0}",
+					"placeholders": [
+						"0"
+					]
+				},
+				"diffs_beautify_content_changed": {
+					"message": "The content or format changed during formatting. Please try again"
+				},
+				"diffs_beautify_invalid_xml": {
+					"message": "The XML structure is invalid"
+				},
 				"diffs_revert_direction": {
 					"message": "Revert Direction"
 				},
@@ -8319,7 +8434,7 @@
 					"message": "The year/month interval can only be an integer"
 				},
 				"time_workday": {
-					"message": "Business Day Calculator"
+					"message": "Mainland China Business Day Calculator"
 				},
 				"time_workday_after": {
 					"message": "Business Days Later, Is"
@@ -8328,6 +8443,19 @@
 					"message": "{count} Business Days",
 					"placeholders": [
 						"count"
+					]
+				},
+				"time_workday_error_date": {
+					"message": "Invalid date. Enter a valid date in YYYY-MM-DD format"
+				},
+				"time_workday_error_count": {
+					"message": "The number of business days must be a valid integer"
+				},
+				"time_workday_error_year": {
+					"message": "Only Mainland China business days from {minYear} through {maxYear} are supported",
+					"placeholders": [
+						"minYear",
+						"maxYear"
 					]
 				},
 				"time_year": {

@@ -1,0 +1,1 @@
+import{f as t}from"./vendor-prettier-BXZwVK2D.js";import{p as r}from"./standalone-CA_oa0Nr.js";import{B as o}from"./base-C4lZah3o.js";import"./vendor-mathjs-ncRJk93B.js";import"./vendor-monaco-DapIXF3t.js";const m=new class extends o{async beautify(){return t.format(this.code,{plugins:[r],parser:"php",tabWidth:this.getOptionValue("tab",4)})}};export{m as formatter};

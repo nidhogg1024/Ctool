@@ -1,0 +1,1 @@
+import{f as t}from"./vendor-prettier-BXZwVK2D.js";import{f as r}from"./graphql-dgGuVG7S.js";import{B as a}from"./base-C4lZah3o.js";const f=new class extends a{async beautify(){return t.format(this.code,{plugins:[r],parser:"graphql",tabWidth:this.getOptionValue("tab",4)})}};export{f as formatter};

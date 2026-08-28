@@ -81,6 +81,10 @@ https://nidhogg1024.github.io/Ctool/
 
 > 增强版浏览器扩展可从 [Releases](https://github.com/nidhogg1024/Ctool/releases) 下载 zip 文件手动加载
 
+### uTools
+
+从当前 fork 的 [GitHub Releases](https://github.com/nidhogg1024/Ctool/releases) 下载 `ctool_utools.zip`，解压后在 uTools 开发者工具中导入其中的 `plugin.json`，安装为本地插件。
+
 ## 开发
 
 ```bash

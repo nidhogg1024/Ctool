@@ -1,0 +1,1 @@
+import{f as t}from"./vendor-prettier-BXZwVK2D.js";import{$ as r}from"./estree-CLBc-Atu.js";import{K as s}from"./typescript-DMWDFtjO.js";import{B as a}from"./base-C4lZah3o.js";const p=new class extends a{async beautify(){return t.format(this.code,{plugins:[s,r],parser:"typescript",tabWidth:this.getOptionValue("tab",4)})}};export{p as formatter};
