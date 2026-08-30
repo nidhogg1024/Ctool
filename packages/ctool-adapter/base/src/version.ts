@@ -1,7 +1,6 @@
 import {execFileSync} from "child_process";
 
 const STABLE_VERSION = /^v?((?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*))$/;
-const SHA_RELEASE_TAG = /^v((?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*))-[0-9a-f]{7}$/;
 
 export interface VersionInputs {
     ctoolVersion?: string;
@@ -15,21 +14,16 @@ const stableVersion = (value = ""): string => {
     return matched && matched.split(".").every(part => Number(part) <= 65535) ? matched : "";
 }
 
-const releaseTagVersion = (value = ""): string => {
-    const matched = value.trim().match(SHA_RELEASE_TAG)?.[1] || "";
-    return stableVersion(value) || (matched && matched.split(".").every(part => Number(part) <= 65535) ? matched : "");
-}
-
 const resolvedStableVersion = (inputs: VersionInputs): string => {
     if (inputs.ctoolVersion !== undefined && !stableVersion(inputs.ctoolVersion)) {
         throw new Error(`invalid CTOOL_VERSION: ${inputs.ctoolVersion || "<empty>"}`);
     }
-    const explicit = stableVersion(inputs.ctoolVersion) || releaseTagVersion(inputs.githubRefName);
+    const explicit = stableVersion(inputs.ctoolVersion) || stableVersion(inputs.githubRefName);
     if (explicit) {
         return explicit;
     }
     if (inputs.cleanHead) {
-        const tagVersion = releaseTagVersion(inputs.exactTag);
+        const tagVersion = stableVersion(inputs.exactTag);
         if (tagVersion) {
             return tagVersion;
         }
