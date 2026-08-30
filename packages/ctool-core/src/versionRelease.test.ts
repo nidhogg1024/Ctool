@@ -36,11 +36,6 @@ describe("release version resolution", () => {
         expect(resolveReleaseVersion({githubRefName: "v3.1.4", exactTag: "", cleanHead: false})).toBe("3.1.4");
     });
 
-    it("derives a stable artifact version from a SHA-suffixed release tag", () => {
-        expect(resolveReleaseVersion({githubRefName: "v3.1.4-a1b2c3d", exactTag: "", cleanHead: false})).toBe("3.1.4");
-        expect(resolveReleaseVersion({exactTag: "v3.1.4-a1b2c3d", cleanHead: true})).toBe("3.1.4");
-    });
-
     it("uses only a stable exact tag on a clean HEAD", () => {
         expect(resolveReleaseVersion({exactTag: "v2.9.1", cleanHead: true})).toBe("2.9.1");
         expect(() => resolveReleaseVersion({exactTag: "v2.9.1", cleanHead: false})).toThrow("release version requires");
@@ -49,17 +44,14 @@ describe("release version resolution", () => {
     it("does not publish prerelease, branch, or ancestor-tag values", () => {
         expect(() => resolveReleaseVersion({ctoolVersion: "2.10.0-beta.1", githubRefName: "main", exactTag: "", cleanHead: true})).toThrow("invalid CTOOL_VERSION");
         expect(() => resolveReleaseVersion({githubRefName: "v2.10.0-beta.1", exactTag: "", cleanHead: true})).toThrow("release version requires");
-        expect(() => resolveReleaseVersion({githubRefName: "v2.10.0-A1B2C3D", exactTag: "", cleanHead: true})).toThrow("release version requires");
-        expect(() => resolveReleaseVersion({githubRefName: "v2.10.0-a1b2c3", exactTag: "", cleanHead: true})).toThrow("release version requires");
+        expect(() => resolveReleaseVersion({githubRefName: "v2.10.0-a1b2c3d", exactTag: "", cleanHead: true})).toThrow("release version requires");
         expect(() => resolveReleaseVersion({githubRefName: "feature/version", exactTag: "", cleanHead: true})).toThrow("release version requires");
         expect(() => resolveReleaseVersion({exactTag: "", cleanHead: true})).toThrow("release version requires");
     });
 
     it("rejects version segments that browser manifests cannot publish", () => {
         expect(resolveReleaseVersion({ctoolVersion: "65535.0.1", cleanHead: false})).toBe("65535.0.1");
-        expect(resolveReleaseVersion({githubRefName: "v65535.0.1-a1b2c3d", cleanHead: false})).toBe("65535.0.1");
         expect(() => resolveReleaseVersion({ctoolVersion: "65536.0.1", cleanHead: false})).toThrow("invalid CTOOL_VERSION");
-        expect(() => resolveReleaseVersion({githubRefName: "v65536.0.1-a1b2c3d", cleanHead: false})).toThrow("release version requires");
         expect(() => resolveReleaseVersion({ctoolVersion: "02.9.1", cleanHead: false})).toThrow("invalid CTOOL_VERSION");
     });
 
