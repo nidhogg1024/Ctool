@@ -1,7 +1,7 @@
 <template>
     <Align class="ctool-github" gap="none">
         <span class="ctool-github-name" @click="openUrl(`https://github.com/nidhogg1024/Ctool`)">
-            <Icon name="github" :size="12"/> <strong>Ctool</strong>
+            <Icon name="github" :size="12"/> <strong>Ctool Plus</strong>
         </span>
         <span class="ctool-github-star" v-if="star > 0" @click="openUrl(`https://github.com/nidhogg1024/Ctool`)">
             {{ `${star}`.replace(/(\d)(?=(\d{3})+$)/g, "$1,") }}

@@ -11,7 +11,9 @@
     },
     "devDependencies": {
         "@types/node": "catalog:",
+        "cf": "1.0.0-beta.12",
         "tsup": "catalog:",
-        "typescript": "catalog:"
+        "typescript": "catalog:",
+        "wrangler": "4.136.0"
     }
 }
