@@ -7,6 +7,6 @@
     "run": "Run",
     "running": "Running",
     "run_used_times": "Today Used Times: {0} ",
-    "run_config_explain": "Click to get configuration, the third-party service({0}) is at your own risk, and has nothing to do with Ctool",
+    "run_config_explain": "Click to get configuration, the third-party service({0}) is at your own risk, and has nothing to do with Ctool Plus",
     "not_support": "Not Support {0} {1}"
 }

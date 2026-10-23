@@ -30,5 +30,7 @@ _temp
 todo_list.md
 
 .vercel
+.cloudflare/
+.wrangler/
 packages/ctool-adapter/tauri/src-tauri/gen/
 .cursor/

@@ -123,7 +123,7 @@
     "ai_test_fail": "AI 连接失败: {0}",
     "ai_not_configured": "请先在设置页面配置 AI 服务",
     "ai_request_error": "AI 请求失败: {0}",
-    "ai_privacy_note_primary": "只保存在当前设备，不会上传到 Ctool 服务。",
+    "ai_privacy_note_primary": "只保存在当前设备，不会上传到 Ctool Plus 服务。",
     "ai_privacy_note_secondary": "默认隐藏；你可以随时查看、替换或清空。",
     "json_ai_extract_empty": "请输入要提取 JSON 的文本",
     "json_ai_extract_json": "AI 提取 JSON",
