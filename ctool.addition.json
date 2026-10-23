@@ -2301,7 +2301,7 @@
 					]
 				},
 				"main_ai_privacy_note_primary": {
-					"message": "只保存在当前设备，不会上传到 Ctool 服务。"
+					"message": "只保存在当前设备，不会上传到 Ctool Plus 服务。"
 				},
 				"main_ai_privacy_note_secondary": {
 					"message": "默认隐藏；你可以随时查看、替换或清空。"
@@ -3585,7 +3585,7 @@
 					]
 				},
 				"code_run_config_explain": {
-					"message": "点击获取配置, 第三方服务({0})风险自担, 与Ctool没有任何关系",
+					"message": "点击获取配置, 第三方服务({0})风险自担, 与Ctool Plus没有任何关系",
 					"placeholders": [
 						"0"
 					]
@@ -6136,7 +6136,7 @@
 					]
 				},
 				"main_ai_privacy_note_primary": {
-					"message": "Stored on this device only and never sent to Ctool services."
+					"message": "Stored on this device only and never sent to Ctool Plus services."
 				},
 				"main_ai_privacy_note_secondary": {
 					"message": "Hidden by default; you can reveal, replace, or clear it at any time."
@@ -7420,7 +7420,7 @@
 					]
 				},
 				"code_run_config_explain": {
-					"message": "Click to get configuration, the third-party service({0}) is at your own risk, and has nothing to do with Ctool",
+					"message": "Click to get configuration, the third-party service({0}) is at your own risk, and has nothing to do with Ctool Plus",
 					"placeholders": [
 						"0"
 					]

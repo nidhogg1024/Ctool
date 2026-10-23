@@ -1,10 +1,10 @@
-# Ctool - 程序开发常用工具（增强版）
+# Ctool Plus - 程序开发常用工具（增强版）
 
 基于 [baiy/Ctool](https://github.com/baiy/Ctool) 的增强维护版本，持续修复社区反馈的问题并添加新功能。
 
 原项目近一年更新极少（2025 年仅 2 次 commit），100+ issue 处于无人处理状态。本仓库积极响应社区需求，保持活跃更新。
 
-**在线体验**：https://nidhogg1024.github.io/Ctool/
+**在线体验**：https://ctool-plus.nidhogglab.top/
 
 使用过程中的任何问题或需要新工具，欢迎提交 [Issue](https://github.com/nidhogg1024/Ctool/issues)
 
@@ -53,7 +53,7 @@
 
 ### 在线版
 
-https://nidhogg1024.github.io/Ctool/
+https://ctool-plus.nidhogglab.top/
 
 ### 桌面客户端（macOS / Windows）
 
@@ -107,6 +107,25 @@ pnpm --filter ctool-adapter-firefox run platform-release
 ```
 
 > 打包文件存放位置: `/_release`
+
+### 部署在线版到 Cloudflare
+
+在线版使用 Workers Static Assets 托管，域名为 `ctool-plus.nidhogglab.top`。
+部署需要 Node.js 22.18 或更高版本，以及拥有目标账号 Workers 和域名管理权限的 Cloudflare 登录。
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter ctool-adapter-web exec cf auth login
+
+# 构建并检查部署产物，不上传
+pnpm run deploy:cloudflare:check
+
+# 构建并部署，同时绑定配置中的自定义域名
+pnpm run deploy:cloudflare
+```
+
+部署配置位于 `packages/ctool-adapter/web/`：`cloudflare.config.ts` 定义目标账号、Worker 和域名，`wrangler.config.ts` 指定现有前端构建目录。
+在线版保留浏览器的跨域限制，需要代理的工具仍使用应用设置中的代理配置。
 
 ## 更新日志
 
